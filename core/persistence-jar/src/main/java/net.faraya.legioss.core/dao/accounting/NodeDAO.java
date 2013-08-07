@@ -68,7 +68,15 @@ public class NodeDAO extends AbstractJPAGenericDAO<Node,Long> implements ICatalo
     }
 
     public Node findByName(String name){
-        return null;
+        Node node = null;
+        Query query = getEntityManager().createQuery(" SELECT n FROM Node n WHERE n.name = :n ", Node.class);
+        try {
+            query.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
+            query.setParameter("n", name);
+            node = (Node) query.getSingleResult();
+        } catch (NoResultException nre) {
+        }
+        return node;
     }
 
     public Node findRoot() {
@@ -82,24 +90,28 @@ public class NodeDAO extends AbstractJPAGenericDAO<Node,Long> implements ICatalo
         return root;
     }
 
-    public Node addNode(Node newNode){
-         return addNode(null,newNode);
+    public Node add(Node newNode){
+         return add(null,newNode);
     }
 
     private int shiftLeft(int inc,int after){
-        String update = " UPDATE Node n set n.left = n.left + :inc WHERE n.left > :l  ";
+        String update = " UPDATE Node n set n.left = n.left + :inc WHERE n.left > :l ";
         Query updateQuery = getEntityManager().createQuery(update);
         updateQuery.setParameter("inc", inc);
         updateQuery.setParameter("l", after);
-        return (updateQuery.executeUpdate());
+        int rows = (updateQuery.executeUpdate());
+        System.out.println("shiftLeft " + rows);
+        return rows;
     }
 
     private int shiftRight(int inc,int after){
-        String update = " UPDATE Node n set n.right = n.right + :inc WHERE n.right > :l ";
+        String update = " UPDATE Node n set n.right = n.right + :inc WHERE n.right > :r ";
         Query updateQuery = getEntityManager().createQuery(update);
         updateQuery.setParameter("inc", inc);
-        updateQuery.setParameter("l", after);
-        return (updateQuery.executeUpdate());
+        updateQuery.setParameter("r", after);
+        int rows = (updateQuery.executeUpdate());
+        System.out.println("shiftRight " + rows);
+        return rows;
     }
 
     /**
@@ -108,8 +120,8 @@ public class NodeDAO extends AbstractJPAGenericDAO<Node,Long> implements ICatalo
      * @param newNode
      * @return
      */
-    @Transactional
-    public Node addNode(Node parent, Node newNode) {
+    @Transactional()
+    public Node add(Node parent, Node newNode) {
         if (parent == null) {
             // insert directly under root
             Node root = findRoot();
@@ -150,6 +162,7 @@ public class NodeDAO extends AbstractJPAGenericDAO<Node,Long> implements ICatalo
                      " AND parent.id = :id ORDER BY node.left";
 
         Query query = getEntityManager().createQuery(ql,Node.class);
+        query.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
         query.setParameter("id",rootId);
         return query.getResultList();
     }
@@ -215,9 +228,21 @@ public class NodeDAO extends AbstractJPAGenericDAO<Node,Long> implements ICatalo
         return lm;
     }
 
-    public boolean deleteNode(Long id){
-
-        return true;
+    @Transactional
+    public boolean delete(Node node){
+        int width = node.getRight() - node.getLeft() + 1;
+        int l = node.getLeft();
+        int r = node.getRight();
+        String delete = "DELETE FROM Node n WHERE n.left BETWEEN :l AND :r";
+        Query deleteQuery = getEntityManager().createQuery(delete);
+        deleteQuery.setParameter("l",l);
+        deleteQuery.setParameter("r",r);
+        int rows = deleteQuery.executeUpdate();
+        flush();
+        int inc = -1 * width;
+        System.out.println(shiftRight(inc,r));
+        System.out.println(shiftLeft(inc,l));
+        return (rows > 0);
     }
 
 }

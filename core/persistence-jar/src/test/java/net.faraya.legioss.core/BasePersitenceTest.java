@@ -19,8 +19,8 @@ import javax.persistence.Persistence;
 @ContextConfiguration(locations={
         "classpath:context.xml"
 })
-@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
-public class BasePersitenceTest extends AbstractTransactionalJUnit4SpringContextTests {
+@TransactionConfiguration(transactionManager = "txManager", defaultRollback = false)
+public abstract class BasePersitenceTest extends AbstractTransactionalJUnit4SpringContextTests {
 
 
 

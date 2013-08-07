@@ -4,6 +4,8 @@ import net.faraya.legioss.core.IIdentifiable;
 import org.hibernate.annotations.Index;
 
 import javax.persistence.*;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 /**
  * User: fabrizzio
@@ -113,5 +115,39 @@ public class Node implements IIdentifiable <Long> {
                 ", left=" + left +
                 ", right=" + right +
                 '}';
+    }
+
+    //TODO Rewrite this method using Scanner
+    public static Node fromString(String input) {
+        //Node{ id=3, name='child-2', left=5, right=6}
+        try {
+            StringTokenizer st = new StringTokenizer(input, "{ },='");
+            if (st.hasMoreTokens()) {
+                Node n = new Node();
+                while (st.hasMoreTokens()) {
+                    String t = st.nextToken();// Node
+                    if ("id".equals(t)) {
+                        n.setId(Long.parseLong(st.nextToken()));
+                        continue;
+                    }
+                    if ("name".equals(t)) {
+                        n.setName(st.nextToken());
+                        continue;
+                    }
+                    if ("left".equals(t)) {
+                        n.setLeft(Integer.parseInt(st.nextToken()));
+                        continue;
+                    }
+                    if ("right".equals(t)) {
+                        n.setRight(Integer.parseInt(st.nextToken()));
+                    }
+
+                }
+                return n;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

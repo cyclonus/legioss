@@ -18,9 +18,11 @@ public interface ICatalogDAO extends IGenericDAO<Node,Long> {
 
     public Node findRoot();
 
-    public Node addNode(Node node);
+    public Node add(Node node);
 
-    public Node addNode(Node parent, Node newNode);
+    public Node add(Node parent, Node newNode);
+
+    public boolean delete(Node node);
 
     public List<Node> getTree(Long rootId);
 
