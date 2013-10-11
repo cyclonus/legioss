@@ -1,7 +1,7 @@
-package net.faraya.legioss.core.dao.accounting;
+package net.faraya.legioss.core.dao.ns;
 
 import net.faraya.legioss.core.dao.IGenericDAO;
-import net.faraya.legioss.core.entity.tree.Node;
+import net.faraya.legioss.core.entity.ns.Node;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * Date: 6/9/13
  * Time: 10:10 PM
  */
-public interface ICatalogDAO extends IGenericDAO<Node,Long> {
+public interface INestedSetDAO extends IGenericDAO<Node,Long> {
 
     public Node findById(Long id);
 

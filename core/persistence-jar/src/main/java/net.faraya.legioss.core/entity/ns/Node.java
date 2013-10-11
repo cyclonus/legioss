@@ -1,10 +1,9 @@
-package net.faraya.legioss.core.entity.tree;
+package net.faraya.legioss.core.entity.ns;
 
 import net.faraya.legioss.core.IIdentifiable;
 import org.hibernate.annotations.Index;
 
 import javax.persistence.*;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 
 /**
@@ -14,7 +13,7 @@ import java.util.StringTokenizer;
  */
 
 @Entity
-@Table(name = "Node")
+@Table(name = "ns_node")
 public class Node implements IIdentifiable <Long> {
 
     @Id

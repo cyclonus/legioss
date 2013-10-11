@@ -1,12 +1,11 @@
-package net.faraya.legioss.core.dao.accounting;
+package net.faraya.legioss.core.dao.ns;
 
 import net.faraya.legioss.core.dao.AbstractJPAGenericDAO;
-import net.faraya.legioss.core.entity.tree.Node;
+import net.faraya.legioss.core.entity.ns.Node;
 import org.hibernate.CacheMode;
 import org.hibernate.ejb.QueryHints;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -35,7 +34,7 @@ import java.util.List;
 
  - The amount of nodes in our hierarchy is the rgt value of our
    Root node divided by 2. In this case 12 / 2 = 6. And as you can
-   see from Figure 1 we have a total of 6 nodes in our tree.
+   see from Figure 1 we have a total of 6 nodes in our ns.
  - A leaf node (a node that doesn't have children) is always a node
    that when you subtract the lft value from the rgt value, the result must be 1.
    Lets look at node B as an example: 3 – 2 = 1
@@ -49,12 +48,12 @@ import java.util.List;
  */
 
 @Repository
-public class NodeDAO extends AbstractJPAGenericDAO<Node,Long> implements ICatalogDAO {
+public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements INestedSetDAO {
 
     @PersistenceContext(unitName = "legioss")
     EntityManager entityManager;
 
-    public NodeDAO() {
+    public NestedSetDAO() {
         super(Node.class);
     }
 
@@ -100,7 +99,7 @@ public class NodeDAO extends AbstractJPAGenericDAO<Node,Long> implements ICatalo
         updateQuery.setParameter("inc", inc);
         updateQuery.setParameter("l", after);
         int rows = (updateQuery.executeUpdate());
-        System.out.println("shiftLeft " + rows);
+        //System.out.println("shiftLeft " + rows);
         return rows;
     }
 
@@ -110,7 +109,7 @@ public class NodeDAO extends AbstractJPAGenericDAO<Node,Long> implements ICatalo
         updateQuery.setParameter("inc", inc);
         updateQuery.setParameter("r", after);
         int rows = (updateQuery.executeUpdate());
-        System.out.println("shiftRight " + rows);
+        //System.out.println("shiftRight " + rows);
         return rows;
     }
 

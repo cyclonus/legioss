@@ -3,8 +3,8 @@ package net.faraya.legioss.core;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-import net.faraya.legioss.core.dao.accounting.ICatalogDAO;
-import net.faraya.legioss.core.entity.tree.Node;
+import net.faraya.legioss.core.dao.ns.INestedSetDAO;
+import net.faraya.legioss.core.entity.ns.Node;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,13 +17,13 @@ import java.util.List;
  * Time: 10:48 PM
  */
 
-public class NestedSetTreeTest extends BasePersitenceTest{
+public class NestedSetSimpleTreeTest extends BasePersitenceTest{
 
     @Autowired
-    ICatalogDAO dao;
+    INestedSetDAO dao;
 
     /**
-     * Commit wont be reflected until test method is executed without exceptions
+     * Commit won't be reflected until test method is executed without exceptions
      */
     @Test
     public void addChildrenAndRootGrandChildTest(){
@@ -54,7 +54,7 @@ public class NestedSetTreeTest extends BasePersitenceTest{
     }
 
     /**
-     * Commit wont be reflected until test method is executed without exceptions
+     * Commit won't be reflected until test method is executed without exceptions
      */
     @Test()
     public void simpleDeleteTest(){
@@ -72,7 +72,7 @@ public class NestedSetTreeTest extends BasePersitenceTest{
     }
 
     /**
-     * Commit wont be reflected until test method is executed without exceptions
+     * Commit won't be reflected until test method is executed without exceptions
      */
     @Test
     public void testDeleteEffect(){
