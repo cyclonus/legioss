@@ -1,8 +1,9 @@
-package net.faraya.legioss.core;
+package net.faraya.legioss.core.ns;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
+import net.faraya.legioss.core.BasePersitenceTest;
 import net.faraya.legioss.core.dao.ns.INestedSetDAO;
 import net.faraya.legioss.core.entity.ns.Node;
 import org.junit.Test;
@@ -17,7 +18,7 @@ import java.util.List;
  * Time: 10:48 PM
  */
 
-public class NestedSetSimpleTreeTest extends BasePersitenceTest{
+public class NestedSetSimpleTreeTest extends BasePersitenceTest {
 
     @Autowired
     INestedSetDAO dao;

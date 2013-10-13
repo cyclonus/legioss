@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.StringTokenizer;
 
 /**
+ * NS stands for Nested Set
  * User: fabrizzio
  * Date: 6/8/13
  * Time: 5:34 PM

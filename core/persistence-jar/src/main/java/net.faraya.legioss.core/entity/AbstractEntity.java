@@ -80,4 +80,13 @@ public abstract class AbstractEntity {
     public void setVersion(Integer version) {
         this.version = version;
     }
+
+    /**
+     * basically this method should verify if the PK has been set
+     * it is very important that this method is correctly implemented
+     * otherwise save operation will not succeed
+     * @return
+     */
+    @Transient
+    public abstract boolean isTransient();
 }
