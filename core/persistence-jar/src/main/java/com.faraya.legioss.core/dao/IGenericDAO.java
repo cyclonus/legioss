@@ -1,6 +1,6 @@
-package net.faraya.legioss.core.dao;
+package com.faraya.legioss.core.dao;
 
-import net.faraya.legioss.core.IIdentifiable;
+import com.faraya.legioss.core.IIdentifiable;
 
 import java.io.Serializable;
 import java.util.List;

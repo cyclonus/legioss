@@ -1,13 +1,13 @@
-package net.faraya.legioss.core.entity.profile;
+package com.faraya.legioss.core.entity.profile;
 
 /**
  * User: fabrizzio
  * Date: 10/10/13
  * Time: 10:46 PM
  */
-import net.faraya.legioss.core.IIdentifiable;
-import net.faraya.legioss.core.entity.AbstractEntity;
-import net.faraya.legioss.core.entity.profile.Profile;
+import com.faraya.legioss.core.IIdentifiable;
+import com.faraya.legioss.core.entity.AbstractEntity;
+import com.faraya.legioss.core.entity.profile.Profile;
 
 import javax.persistence.*;
 import java.io.Serializable;

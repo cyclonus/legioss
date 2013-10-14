@@ -1,7 +1,7 @@
-package net.faraya.legioss.core;
+package com.faraya.legioss.core;
 
-import net.faraya.legioss.core.dao.profile.IEducationDAO;
-import net.faraya.legioss.core.entity.profile.Education;
+import com.faraya.legioss.core.dao.profile.IEducationDAO;
+import com.faraya.legioss.core.entity.profile.Education;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

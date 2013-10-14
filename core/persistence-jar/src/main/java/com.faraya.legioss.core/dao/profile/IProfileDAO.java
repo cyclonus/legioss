@@ -1,7 +1,7 @@
-package net.faraya.legioss.core.dao.profile;
+package com.faraya.legioss.core.dao.profile;
 
-import net.faraya.legioss.core.dao.IGenericDAO;
-import net.faraya.legioss.core.entity.profile.Profile;
+import com.faraya.legioss.core.dao.IGenericDAO;
+import com.faraya.legioss.core.entity.profile.Profile;
 
 /**
  * User: fabrizzio

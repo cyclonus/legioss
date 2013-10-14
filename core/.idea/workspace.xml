@@ -2,28 +2,38 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ff45632a-4322-4f12-b1af-69fb056f0272" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Address.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Contact.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Education.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/EducationDAO.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Experience.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/IEducationDAO.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/IProfileDAO.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Profile.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/ProfileDAO.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/User.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/persistence-jar/src/test/java/net.faraya.legioss.core/UserSimpleTest.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/util/tree/TreeNode.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/test/java/net.faraya.legioss.core/NestedSetSimpleTreeTest.java" afterPath="$PROJECT_DIR$/persistence-jar/src/test/java/net.faraya.legioss.core/ns/NestedSetSimpleTreeTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/AbstractEntity.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/AbstractEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/ns/Node.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/ns/Node.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/persistence-jar/src/test/resources/application.properties" afterPath="$PROJECT_DIR$/persistence-jar/src/test/resources/application.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/graph-jar/src/test/java/org.neo4j.examples.treetraverse/TreeTraverse.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/graph-jar/pom.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/IIdentifiable.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/IIdentifiable.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/AbstractJPAGenericDAO.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/dao/AbstractJPAGenericDAO.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/IGenericDAO.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/dao/IGenericDAO.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/ns/INestedSetDAO.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/dao/ns/INestedSetDAO.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/ns/NestedSetDAO.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/dao/ns/NestedSetDAO.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/EducationDAO.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/dao/profile/EducationDAO.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/IEducationDAO.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/dao/profile/IEducationDAO.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/IProfileDAO.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/dao/profile/IProfileDAO.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/ProfileDAO.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/dao/profile/ProfileDAO.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/AbstractEntity.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/AbstractEntity.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/User.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/User.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/ns/Node.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/ns/Node.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Address.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Address.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Contact.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Contact.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Education.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Education.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Experience.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Experience.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Profile.java" afterPath="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Profile.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/test/java/net.faraya.legioss.core/BasePersitenceTest.java" afterPath="$PROJECT_DIR$/persistence-jar/src/test/java/com.faraya.legioss.core/BasePersitenceTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/test/java/net.faraya.legioss.core/UserSimpleTest.java" afterPath="$PROJECT_DIR$/persistence-jar/src/test/java/com.faraya.legioss.core/UserSimpleTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/persistence-jar/src/test/java/net.faraya.legioss.core/ns/NestedSetSimpleTreeTest.java" afterPath="$PROJECT_DIR$/persistence-jar/src/test/java/com.faraya.legioss.core/ns/NestedSetSimpleTreeTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="legioss-core.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="ff45632a-4322-4f12-b1af-69fb056f0272" time="1381555694569" ignored="false" />
-    <file path="/pom.xml" changelist="ff45632a-4322-4f12-b1af-69fb056f0272" time="1375848168390" ignored="false" />
+    <file path="/Dummy.txt" changelist="ff45632a-4322-4f12-b1af-69fb056f0272" time="1381700733123" ignored="false" />
+    <file path="/pom.xml" changelist="ff45632a-4322-4f12-b1af-69fb056f0272" time="1381708397069" ignored="false" />
     <file path="/NodeDAO.java" changelist="ff45632a-4322-4f12-b1af-69fb056f0272" time="1375851915464" ignored="false" />
     <file path="/NestedSetTreeTest.java" changelist="ff45632a-4322-4f12-b1af-69fb056f0272" time="1375848624319" ignored="false" />
     <file path="/Node.java" changelist="ff45632a-4322-4f12-b1af-69fb056f0272" time="1381466021827" ignored="false" />
@@ -41,6 +51,9 @@
     <file path="/ProfileDAO.java" changelist="ff45632a-4322-4f12-b1af-69fb056f0272" time="1381555956640" ignored="false" />
     <file path="/EducationDAO.java" changelist="ff45632a-4322-4f12-b1af-69fb056f0272" time="1381555805472" ignored="false" />
     <file path="/IEducationDAO.java" changelist="ff45632a-4322-4f12-b1af-69fb056f0272" time="1381555889880" ignored="false" />
+    <file path="/a.dummy" changelist="ff45632a-4322-4f12-b1af-69fb056f0272" time="1381708206870" ignored="false" />
+    <file path="/Treetraverse.java" changelist="ff45632a-4322-4f12-b1af-69fb056f0272" time="1381719029220" ignored="false" />
+    <file path="/TreeTraverse.java" changelist="ff45632a-4322-4f12-b1af-69fb056f0272" time="1381723111839" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +68,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -93,7 +105,7 @@
       </breakpoint>
     </breakpoint_any>
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/persistence-jar/src/test/java/net.faraya.legioss.core/UserSimpleTest.java" line="23" class="net.faraya.legioss.core.UserSimpleTest" package="net.faraya.legioss.core">
+      <breakpoint url="file://$PROJECT_DIR$/persistence-jar/src/test/java/com.faraya.legioss.core/UserSimpleTest.java" line="23" class="net.faraya.legioss.core.UserSimpleTest" package="net.faraya.legioss.core">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -109,6 +121,7 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </line_breakpoints>
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -118,97 +131,97 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Contact.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Contact.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="55" selection-start="599" selection-end="599" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="UserSimpleTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistence-jar/src/test/java/net.faraya.legioss.core/UserSimpleTest.java">
+        <entry file="file://$PROJECT_DIR$/persistence-jar/src/test/java/com.faraya.legioss.core/UserSimpleTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="14" selection-start="558" selection-end="558" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="NestedSetSimpleTreeTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistence-jar/src/test/java/net.faraya.legioss.core/ns/NestedSetSimpleTreeTest.java">
+        <entry file="file://$PROJECT_DIR$/persistence-jar/src/test/java/com.faraya.legioss.core/ns/NestedSetSimpleTreeTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="35" selection-start="744" selection-end="771" vertical-scroll-proportion="0.0">
+            <state line="5" column="0" selection-start="117" selection-end="135" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProfileDAO.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/ProfileDAO.java">
+      <file leaf-file-name="AbstractJPAGenericDAO.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/dao/AbstractJPAGenericDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="0" selection-start="360" selection-end="371" vertical-scroll-proportion="0.0">
+            <state line="8" column="31" selection-start="306" selection-end="306" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NestedSetDAO.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/ns/NestedSetDAO.java">
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/graph-jar/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="91" selection-start="1450" selection-end="1515" vertical-scroll-proportion="0.0">
+            <state line="35" column="22" selection-start="1274" selection-end="1274" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="19" column="16" selection-start="669" selection-end="669" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TreeTraverse.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/graph-jar/src/test/java/org.neo4j.examples.treetraverse/TreeTraverse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="122" column="9" selection-start="3722" selection-end="3722" vertical-scroll-proportion="2.7518797">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="Profile.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Profile.java">
+        <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Profile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="56" selection-start="387" selection-end="387" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IProfileDAO.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/IProfileDAO.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="40" selection-start="208" selection-end="208" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EducationDAO.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/EducationDAO.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="16" selection-start="386" selection-end="398" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="imports" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IEducationDAO.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/IEducationDAO.java">
+      <file leaf-file-name="BasePersitenceTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/persistence-jar/src/test/java/com.faraya.legioss.core/BasePersitenceTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="59" selection-start="274" selection-end="274" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="imports" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Education.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Education.java">
+      <file leaf-file-name="Education.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Education.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="13" selection-start="316" selection-end="316" vertical-scroll-proportion="0.24812031">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Experience.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Experience.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -232,22 +245,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/Profile.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/Contact.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/Address.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/test/resources/application.properties" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Education.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Experience.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Address.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Contact.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/IProfileDAO.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/User.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/test/java/net.faraya.legioss.core.int/UserSimpleTest.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Profile.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/IEducationDAO.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/ProfileDAO.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/EducationDAO.java" />
-        <option value="$PROJECT_DIR$/persistence-jar/src/test/java/net.faraya.legioss.core/UserSimpleTest.java" />
+        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/AbstractEntity.java" />
+        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/User.java" />
+        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/ns/Node.java" />
+        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Address.java" />
+        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Contact.java" />
+        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Education.java" />
+        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Experience.java" />
+        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Profile.java" />
+        <option value="$PROJECT_DIR$/persistence-jar/src/test/java/com.faraya.legioss.core/BasePersitenceTest.java" />
+        <option value="$PROJECT_DIR$/persistence-jar/src/test/java/com.faraya.legioss.core/UserSimpleTest.java" />
+        <option value="$PROJECT_DIR$/persistence-jar/src/test/java/com.faraya.legioss.core/ns/NestedSetSimpleTreeTest.java" />
+        <option value="$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/dao/AbstractJPAGenericDAO.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/graph-jar/src/test/java/org.neo4j.examples.treetraverse/Treetraverse.java" />
+        <option value="$PROJECT_DIR$/graph-jar/pom.xml" />
+        <option value="$PROJECT_DIR$/graph-jar/src/test/java/org.neo4j.examples.treetraverse/TreeTraverse.java" />
       </list>
     </option>
   </component>
@@ -271,7 +284,7 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="1" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
@@ -290,7 +303,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -344,10 +356,6 @@
               <option name="myItemId" value="test" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -375,7 +383,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="net.faraya.legioss.core" />
+              <option name="myItemId" value="com.faraya.legioss.core" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -390,6 +398,72 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="persistence-jar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="legioss-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="persistence-jar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com.faraya.legioss.core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="legioss-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="graph-jar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="legioss-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="graph-jar" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -405,11 +479,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="net.faraya.legioss.core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ns" />
+              <option name="myItemId" value="org.neo4j.examples.treetraverse" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -423,7 +493,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="persistence-jar" />
+              <option name="myItemId" value="graph-jar" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -431,7 +501,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -445,7 +519,25 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="persistence-jar" />
+              <option name="myItemId" value="graph-jar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="legioss-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="graph-jar" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -458,197 +550,12 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="net.faraya.legioss.core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legioss-core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="persistence-jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="net.faraya.legioss.core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="entity" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legioss-core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="persistence-jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="net.faraya.legioss.core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="entity" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="profile" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legioss-core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="persistence-jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="net.faraya.legioss.core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dao" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legioss-core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="persistence-jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="net.faraya.legioss.core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dao" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="profile" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="legioss-core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="persistence-jar" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="net.faraya.legioss.core" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dao" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ns" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -666,9 +573,9 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RunManager" selected="JUnit.UserSimpleTest">
     <configuration default="false" name="NestedSetSimpleTreeTest" type="JUnit" factoryName="JUnit" temporary="true">
@@ -722,7 +629,9 @@
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -737,6 +646,19 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
@@ -764,19 +686,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -856,26 +765,26 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="32" width="1535" height="860" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46488765" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.76544946" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3277311" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3272472" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24949563" sideWeight="0.23455057" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24949563" sideWeight="0.6727528" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.58848315" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46488765" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -945,127 +854,125 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/AbstractEntity.java">
+    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/dao/profile/ProfileDAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="22" selection-start="403" selection-end="403" vertical-scroll-proportion="0.42857143">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/AbstractEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/ns/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Address.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Address.java">
+    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Contact.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="55" selection-start="719" selection-end="719" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Experience.java">
+    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Education.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="55" selection-start="665" selection-end="665" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Experience.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/entity/profile/Profile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/IGenericDAO.java">
+    <entry file="file://$PROJECT_DIR$/persistence-jar/src/test/java/com.faraya.legioss.core/BasePersitenceTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="17" selection-start="216" selection-end="216" vertical-scroll-proportion="0.20300752">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/ns/INestedSetDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="61" selection-start="261" selection-end="283" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="28" selection-start="909" selection-end="909" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Contact.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="55" selection-start="599" selection-end="599" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Profile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="56" selection-start="387" selection-end="387" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/ns/NestedSetDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="91" selection-start="1450" selection-end="1515" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/ProfileDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="360" selection-end="371" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/IProfileDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="40" selection-start="208" selection-end="208" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/IEducationDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="59" selection-start="274" selection-end="274" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/dao/profile/EducationDAO.java">
+    <entry file="file://$PROJECT_DIR$/persistence-jar/src/test/java/com.faraya.legioss.core/UserSimpleTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="16" selection-start="386" selection-end="398" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/test/java/net.faraya.legioss.core/ns/NestedSetSimpleTreeTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="35" selection-start="744" selection-end="771" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/test/java/net.faraya.legioss.core/UserSimpleTest.java">
+    <entry file="file://$PROJECT_DIR$/persistence-jar/src/test/java/com.faraya.legioss.core/ns/NestedSetSimpleTreeTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="14" selection-start="558" selection-end="558" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="5" column="0" selection-start="117" selection-end="135" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/net.faraya.legioss.core/entity/profile/Education.java">
+    <entry file="file://$PROJECT_DIR$/persistence-jar/src/main/java/com.faraya.legioss.core/dao/AbstractJPAGenericDAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="13" selection-start="316" selection-end="316" vertical-scroll-proportion="0.24812031">
+        <state line="8" column="31" selection-start="306" selection-end="306" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="16" selection-start="669" selection-end="669" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graph-jar/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="22" selection-start="1274" selection-end="1274" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graph-jar/src/test/java/org.neo4j.examples.treetraverse/TreeTraverse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="122" column="9" selection-start="3722" selection-end="3722" vertical-scroll-proportion="2.7518797">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

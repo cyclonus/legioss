@@ -1,7 +1,7 @@
-package net.faraya.legioss.core.dao.profile;
+package com.faraya.legioss.core.dao.profile;
 
-import net.faraya.legioss.core.dao.AbstractJPAGenericDAO;
-import net.faraya.legioss.core.entity.profile.Profile;
+import com.faraya.legioss.core.dao.AbstractJPAGenericDAO;
+import com.faraya.legioss.core.entity.profile.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

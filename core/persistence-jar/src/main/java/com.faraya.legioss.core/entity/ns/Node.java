@@ -1,6 +1,6 @@
-package net.faraya.legioss.core.entity.ns;
+package com.faraya.legioss.core.entity.ns;
 
-import net.faraya.legioss.core.IIdentifiable;
+import com.faraya.legioss.core.IIdentifiable;
 import org.hibernate.annotations.Index;
 
 import javax.persistence.*;

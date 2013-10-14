@@ -1,7 +1,7 @@
-package net.faraya.legioss.core.dao.ns;
+package com.faraya.legioss.core.dao.ns;
 
-import net.faraya.legioss.core.dao.AbstractJPAGenericDAO;
-import net.faraya.legioss.core.entity.ns.Node;
+import com.faraya.legioss.core.dao.AbstractJPAGenericDAO;
+import com.faraya.legioss.core.entity.ns.Node;
 import org.hibernate.CacheMode;
 import org.hibernate.ejb.QueryHints;
 import org.springframework.stereotype.Repository;

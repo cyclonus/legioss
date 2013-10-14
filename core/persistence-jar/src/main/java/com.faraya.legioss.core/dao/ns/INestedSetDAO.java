@@ -1,7 +1,7 @@
-package net.faraya.legioss.core.dao.ns;
+package com.faraya.legioss.core.dao.ns;
 
-import net.faraya.legioss.core.dao.IGenericDAO;
-import net.faraya.legioss.core.entity.ns.Node;
+import com.faraya.legioss.core.dao.IGenericDAO;
+import com.faraya.legioss.core.entity.ns.Node;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package net.faraya.legioss.core.entity;
+package com.faraya.legioss.core.entity;
 
 
-import net.faraya.legioss.core.IIdentifiable;
+import com.faraya.legioss.core.IIdentifiable;
 
 import java.util.Date;
 import javax.persistence.Column;

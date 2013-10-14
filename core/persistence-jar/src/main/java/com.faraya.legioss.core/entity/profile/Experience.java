@@ -1,7 +1,7 @@
-package net.faraya.legioss.core.entity.profile;
+package com.faraya.legioss.core.entity.profile;
 
-import net.faraya.legioss.core.IIdentifiable;
-import net.faraya.legioss.core.entity.AbstractEntity;
+import com.faraya.legioss.core.IIdentifiable;
+import com.faraya.legioss.core.entity.AbstractEntity;
 
 import javax.persistence.*;
 import java.util.Date;

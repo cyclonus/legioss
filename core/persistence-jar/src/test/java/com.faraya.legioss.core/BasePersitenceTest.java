@@ -1,4 +1,4 @@
-package net.faraya.legioss.core;
+package com.faraya.legioss.core;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -1,6 +1,6 @@
-package net.faraya.legioss.core.dao;
+package com.faraya.legioss.core.dao;
 
-import net.faraya.legioss.core.IIdentifiable;
+import com.faraya.legioss.core.IIdentifiable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.transaction.annotation.Transactional;

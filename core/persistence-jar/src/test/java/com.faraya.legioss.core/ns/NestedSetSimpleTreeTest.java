@@ -1,11 +1,11 @@
-package net.faraya.legioss.core.ns;
+package com.faraya.legioss.core.ns;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-import net.faraya.legioss.core.BasePersitenceTest;
-import net.faraya.legioss.core.dao.ns.INestedSetDAO;
-import net.faraya.legioss.core.entity.ns.Node;
+import com.faraya.legioss.core.BasePersitenceTest;
+import com.faraya.legioss.core.dao.ns.INestedSetDAO;
+import com.faraya.legioss.core.entity.ns.Node;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

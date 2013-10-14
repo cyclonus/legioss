@@ -1,6 +1,6 @@
-package net.faraya.legioss.core.entity.profile;
+package com.faraya.legioss.core.entity.profile;
 
-import net.faraya.legioss.core.entity.User;
+import com.faraya.legioss.core.entity.User;
 
 import javax.persistence.*;
 import java.util.HashSet;
