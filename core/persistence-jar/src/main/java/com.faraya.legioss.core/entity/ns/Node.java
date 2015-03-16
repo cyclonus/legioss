@@ -4,6 +4,7 @@ import com.faraya.legioss.core.IIdentifiable;
 import org.hibernate.annotations.Index;
 
 import javax.persistence.*;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 /**
@@ -15,11 +16,11 @@ import java.util.StringTokenizer;
 
 @Entity
 @Table(name = "ns_node")
-public class Node implements IIdentifiable <Long> {
+public class Node implements IIdentifiable<Long> {
 
     @Id
     @Column(name = "Id", nullable = false)
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Override
@@ -32,7 +33,7 @@ public class Node implements IIdentifiable <Long> {
         this.id = id;
     }
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 
     public String getName() {
@@ -44,7 +45,7 @@ public class Node implements IIdentifiable <Long> {
     }
 
     @Column(name = "lft", nullable = false)
-    @Index(name="left_index")
+    @Index(name = "left_index")
     private Integer left;
 
     public Integer getLeft() {
@@ -56,8 +57,8 @@ public class Node implements IIdentifiable <Long> {
     }
 
     @Column(name = "rgt", nullable = false)
-    @Index(name="right_index")
-    private  Integer right;
+    @Index(name = "right_index")
+    private Integer right;
 
     public Integer getRight() {
         return right;
@@ -67,7 +68,7 @@ public class Node implements IIdentifiable <Long> {
         this.right = right;
     }
 
-    public boolean isRoot(){
+    public boolean isRoot() {
         return (getLeft() == 1);
     }
 
@@ -81,13 +82,13 @@ public class Node implements IIdentifiable <Long> {
         this.parent = parent;
     }
 
-    public boolean isLeaf(){
+    public boolean isLeaf() {
         // lft value from the rgt value, the result must be 1.
         return ((getRight() - getLeft()) == 1);
     }
 
-    public int countChildren(){
-        return (((getRight()-1) - getLeft()) / 2);
+    public int countChildren() {
+        return (((getRight() - 1) - getLeft()) / 2);
     }
 
     @Override
@@ -104,7 +105,9 @@ public class Node implements IIdentifiable <Long> {
 
     @Override
     public int hashCode() {
-        return id.hashCode() * 11;
+        int result = 17;
+        result = 31 *  result * id.hashCode();
+        return result;
     }
 
     @Override
@@ -148,6 +151,15 @@ public class Node implements IIdentifiable <Long> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    //TODO Rewrite this method using Scanner
+    public static Node fromString2(String input) {
+
+        //Node{ id=3, name='child-2', left=5, right=6}
+        Scanner scanner = new Scanner(input);
+        scanner.useDelimiter("^\\s*Node\\s+\\{\\s+(id|name|left|right)=$\\}");
         return null;
     }
 }

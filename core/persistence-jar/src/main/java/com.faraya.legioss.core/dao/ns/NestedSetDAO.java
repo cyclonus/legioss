@@ -2,9 +2,13 @@ package com.faraya.legioss.core.dao.ns;
 
 import com.faraya.legioss.core.dao.AbstractJPAGenericDAO;
 import com.faraya.legioss.core.entity.ns.Node;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.CacheMode;
 import org.hibernate.ejb.QueryHints;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -50,6 +54,8 @@ import java.util.List;
 @Repository
 public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements INestedSetDAO {
 
+    Logger logger = LoggerFactory.getLogger(NestedSetDAO.class);
+
     @PersistenceContext(unitName = "legioss")
     EntityManager entityManager;
 
@@ -70,10 +76,12 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
         Node node = null;
         Query query = getEntityManager().createQuery(" SELECT n FROM Node n WHERE n.name = :n ", Node.class);
         try {
-            query.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
+            //query.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
             query.setParameter("n", name);
             node = (Node) query.getSingleResult();
         } catch (NoResultException nre) {
+            //String q = query.unwrap(org.hibernate.Query.class).getQueryString();
+            logger.warn(" Node not found under name :"+name);
         }
         return node;
     }
@@ -82,15 +90,17 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
         Node root = null;
         Query query = getEntityManager().createQuery(" SELECT n FROM Node n WHERE n.left = 1 ", Node.class);
         try {
-            query.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
+            //query.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
             root = (Node) query.getSingleResult();
         } catch (NoResultException nre) {
+            //String q = query.unwrap(org.hibernate.Query.class).getQueryString();
+            logger.warn(" No root tree was found ");
         }
         return root;
     }
 
     public Node add(Node newNode){
-         return add(null,newNode);
+         return add(null, newNode);
     }
 
     private int shiftLeft(int inc,int after){
@@ -99,7 +109,7 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
         updateQuery.setParameter("inc", inc);
         updateQuery.setParameter("l", after);
         int rows = (updateQuery.executeUpdate());
-        //System.out.println("shiftLeft " + rows);
+        logger.debug("shiftLeft " + rows);
         return rows;
     }
 
@@ -109,7 +119,7 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
         updateQuery.setParameter("inc", inc);
         updateQuery.setParameter("r", after);
         int rows = (updateQuery.executeUpdate());
-        //System.out.println("shiftRight " + rows);
+        logger.debug("shiftRight " + rows);
         return rows;
     }
 
@@ -119,7 +129,7 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
      * @param newNode
      * @return
      */
-    @Transactional()
+    @Transactional
     public Node add(Node parent, Node newNode) {
         if (parent == null) {
             // insert directly under root
@@ -129,9 +139,9 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
                 newNode.setParent(null);
                 newNode.setLeft(1);
                 newNode.setRight(2);
+                logger.debug(" Creating NEW a root node ");
             }
         } else {
-
             int newLeft = parent.getLeft() + 1;
             Node rm = getRightMostNode(parent);
             if (rm != null) {
@@ -150,7 +160,8 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
         if(parent != null && parent.getId() != null){
            getEntityManager().refresh(parent);
         }
-        // clear();
+        // forces a commit, do not remove!
+        getEntityManager().flush();
         return newNode;
     }
 
@@ -161,7 +172,7 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
                      " AND parent.id = :id ORDER BY node.left";
 
         Query query = getEntityManager().createQuery(ql,Node.class);
-        query.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
+        //query.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
         query.setParameter("id",rootId);
         return query.getResultList();
     }
@@ -187,17 +198,17 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
         String q2 = " SELECT n FROM Node n WHERE n.right = :max ";
         Query query2 = getEntityManager().createQuery(q2,Node.class);
         try{
-            query1.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
+           // query1.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
             query1.setParameter("lft",parent.getLeft());
             query1.setParameter("rgt",parent.getRight());
             max = (Number)query1.getSingleResult();
             if(max != null){
-               query2.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
+             //  query2.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
                query2.setParameter("max",max);
                rm  = (Node)query2.getSingleResult();
             }
-        }catch (NoResultException nre){
-
+        }catch (NoResultException nre) {
+            logger.warn("Handled exception ", nre);
         }
 
         return rm;
@@ -211,17 +222,17 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
         String q2 = " SELECT n FROM Node n WHERE n.left = :min ";
         Query query2 = getEntityManager().createQuery(q2,Node.class);
         try{
-            query1.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
+           // query1.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
             query1.setParameter("lft",parent.getLeft());
             query1.setParameter("rgt",parent.getRight());
             min = (Number)query1.getSingleResult();
             if(min != null){
-                query2.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
+               // query2.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
                 query2.setParameter("min",min);
                 lm  = (Node)query2.getSingleResult();
             }
-        }catch (NoResultException nre){
-
+        }catch (NoResultException nre) {
+            logger.warn(" No Left Most Node was found for parent "+parent);
         }
 
         return lm;
@@ -239,8 +250,12 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
         int rows = deleteQuery.executeUpdate();
         flush();
         int inc = -1 * width;
-        System.out.println(shiftRight(inc,r));
-        System.out.println(shiftLeft(inc,l));
+
+        int sr = shiftRight(inc, r);
+        int sl = shiftLeft(inc, l);
+
+        logger.debug(" shift right " + sr);
+        logger.debug(" shift left " + sl);
         return (rows > 0);
     }
 

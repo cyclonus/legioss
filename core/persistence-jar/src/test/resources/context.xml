@@ -47,7 +47,7 @@
     <bean id="legiossEntityManager" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="legiossDataSource"/>
         <property name="persistenceUnitName" value="legioss"/>
-        <property name="packagesToScan" value="net.faraya.legioss.core" />
+        <property name="packagesToScan" value="com.faraya.legioss.core" />
         <property name="jpaPropertyMap" ref="jpaMap" />
         <property name="jpaDialect">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
@@ -64,7 +64,7 @@
     </bean>
 
     <context:annotation-config/>
-    <context:component-scan base-package="net.faraya.legioss.core"/>
+    <context:component-scan base-package="com.faraya.legioss.core"/>
 
 
 </beans>

@@ -2,6 +2,8 @@ package com.faraya.legioss.core.ns;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.faraya.legioss.core.BasePersitenceTest;
 import com.faraya.legioss.core.dao.ns.INestedSetDAO;
@@ -19,6 +21,8 @@ import java.util.List;
  */
 
 public class NestedSetSimpleTreeTest extends BasePersitenceTest {
+
+    Logger logger = LoggerFactory.getLogger(NestedSetSimpleTreeTest.class);
 
     @Autowired
     INestedSetDAO dao;
@@ -51,17 +55,17 @@ public class NestedSetSimpleTreeTest extends BasePersitenceTest {
         Node child3 = new Node();
         child3.setName("child-3");
         dao.add(child1,child3); // Here we add the grand child
-
+        printTree();
     }
 
     /**
      * Commit won't be reflected until test method is executed without exceptions
      */
-    @Test()
+    @Test
     public void simpleDeleteTest(){
-        printTree();
+        //printTree();
         Node root = dao.findRoot();
-        assertNotNull(root);
+        assertNotNull(" Root was not found! ",root);
         Node child1 = dao.findByName("child-1");
         assertNotNull(child1);
 
@@ -69,7 +73,7 @@ public class NestedSetSimpleTreeTest extends BasePersitenceTest {
         assertNotNull(child3);
         assertRootFirstGrandChildState(child1,child3);
         dao.delete(child3);
-
+        printTree();
     }
 
     /**
@@ -77,6 +81,7 @@ public class NestedSetSimpleTreeTest extends BasePersitenceTest {
      */
     @Test
     public void testDeleteEffect(){
+        //printTree();
         Node root = dao.findRoot();
         assertRootHasTwoChildrenState(root);
         printTree();
@@ -166,9 +171,10 @@ public class NestedSetSimpleTreeTest extends BasePersitenceTest {
 
     private void printTree(){
         Node root = dao.findRoot();
+        assertNotNull("root was not expected to be null",root);
         List<Node> subTree = dao.getTree(root.getId());
         subTree.add(0,root);
-        System.out.println(subTree);
+        logger.info(subTree.toString());
     }
 
     private void assertTree(String expected,List<Node> actual){
