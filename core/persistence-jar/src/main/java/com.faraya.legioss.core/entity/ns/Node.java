@@ -2,10 +2,7 @@ package com.faraya.legioss.core.entity.ns;
 
 import com.faraya.legioss.core.IIdentifiable;
 import org.hibernate.annotations.Index;
-
 import javax.persistence.*;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 
 /**
  * NS stands for Nested Set
@@ -17,6 +14,18 @@ import java.util.StringTokenizer;
 @Entity
 @Table(name = "ns_node")
 public class Node implements IIdentifiable<Long> {
+
+    public Node() {
+    }
+
+    public Node(String name) {
+        this.name = name;
+    }
+
+    public Node(String name, Long parent) {
+        this.name = name;
+        this.parent = parent;
+    }
 
     @Id
     @Column(name = "Id", nullable = false)
@@ -69,7 +78,7 @@ public class Node implements IIdentifiable<Long> {
     }
 
     public boolean isRoot() {
-        return (getLeft() == 1);
+        return (  getLeft() == 1);
     }
 
     private Long parent;
@@ -88,7 +97,8 @@ public class Node implements IIdentifiable<Long> {
     }
 
     public int countChildren() {
-        return (((getRight() - 1) - getLeft()) / 2);
+        // ((11 – 1) – 4) / 2 = 3 nodes
+        return (getRight() - 1) - getLeft() / 2;
     }
 
     @Override
@@ -112,54 +122,18 @@ public class Node implements IIdentifiable<Long> {
 
     @Override
     public String toString() {
+        int childrenCount = 0;
+        if(getLeft() != null && getRight() != null)
+           childrenCount = countChildren();
+
         return "Node{" +
                 " id=" + id +
                 ", name='" + name + '\'' +
                 ", left=" + left +
                 ", right=" + right +
+                ", parent=" + parent +
+                ", children=" + childrenCount +
                 '}';
     }
 
-    //TODO Rewrite this method using Scanner
-    public static Node fromString(String input) {
-        //Node{ id=3, name='child-2', left=5, right=6}
-        try {
-            StringTokenizer st = new StringTokenizer(input, "{ },='");
-            if (st.hasMoreTokens()) {
-                Node n = new Node();
-                while (st.hasMoreTokens()) {
-                    String t = st.nextToken();// Node
-                    if ("id".equals(t)) {
-                        n.setId(Long.parseLong(st.nextToken()));
-                        continue;
-                    }
-                    if ("name".equals(t)) {
-                        n.setName(st.nextToken());
-                        continue;
-                    }
-                    if ("left".equals(t)) {
-                        n.setLeft(Integer.parseInt(st.nextToken()));
-                        continue;
-                    }
-                    if ("right".equals(t)) {
-                        n.setRight(Integer.parseInt(st.nextToken()));
-                    }
-
-                }
-                return n;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    //TODO Rewrite this method using Scanner
-    public static Node fromString2(String input) {
-
-        //Node{ id=3, name='child-2', left=5, right=6}
-        Scanner scanner = new Scanner(input);
-        scanner.useDelimiter("^\\s*Node\\s+\\{\\s+(id|name|left|right)=$\\}");
-        return null;
-    }
 }

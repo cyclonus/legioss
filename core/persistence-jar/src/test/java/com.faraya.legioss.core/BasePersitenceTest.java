@@ -15,7 +15,6 @@ import javax.persistence.Persistence;
  * Date: 6/8/13
  * Time: 5:22 PM
  */
-@SuppressWarnings(value = "true")
 @ContextConfiguration(locations={
         "classpath:context.xml"
 })

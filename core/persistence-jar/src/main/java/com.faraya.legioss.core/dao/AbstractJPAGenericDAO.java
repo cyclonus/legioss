@@ -5,6 +5,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.Serializable;
@@ -81,6 +83,16 @@ public abstract class AbstractJPAGenericDAO<T extends IIdentifiable, PK extends 
     @Override
     public T findByPK(PK id) {
         return getEntityManager().find(getPersistentClass(),id);
+    }
+
+
+    public List<T> listAll() {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(persistentClass);
+        Root<T> rootEntry = cq.from(persistentClass);
+        CriteriaQuery<T> all = cq.select(rootEntry);
+        TypedQuery<T> allQuery = getEntityManager().createQuery(all);
+        return allQuery.getResultList();
     }
 
     public abstract EntityManager getEntityManager();

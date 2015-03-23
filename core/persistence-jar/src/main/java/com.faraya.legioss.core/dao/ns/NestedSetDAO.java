@@ -10,6 +10,7 @@ import org.hibernate.ejb.QueryHints;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -44,8 +45,7 @@ import java.util.List;
    Lets look at node B as an example: 3 – 2 = 1
    Now lets look at another leaf node, node E: 8 – 7 = 1
 
- - If we wanted to know how many child nodes are under a specif-
-   ic parent node we can use the following formula.
+ - If we wanted to know how many child nodes are under a specific parent node we can use the following formula.
    ((parent.rgt – 1) – parent.lft) / 2
    Lets use node C as an example: ((11 – 1) – 4) / 2 = 3 nodes
  *
@@ -100,7 +100,7 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
     }
 
     public Node add(Node newNode){
-         return add(null, newNode);
+         return add(newNode,null);
     }
 
     private int shiftLeft(int inc,int after){
@@ -129,17 +129,19 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
      * @param newNode
      * @return
      */
-    @Transactional
-    public Node add(Node parent, Node newNode) {
+    @Transactional(noRollbackFor = NoResultException.class)
+    public Node add(Node newNode, Node parent) {
         if (parent == null) {
             // insert directly under root
             Node root = findRoot();
             if (root == null) {
-                // no root was found, we are inserting root
+                // no root was found, we are inserting root now!!
                 newNode.setParent(null);
                 newNode.setLeft(1);
                 newNode.setRight(2);
                 logger.debug(" Creating NEW a root node ");
+            } else {
+                throw new IllegalStateException("No parent was specified and Root node already exists");
             }
         } else {
             int newLeft = parent.getLeft() + 1;
@@ -161,7 +163,7 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
            getEntityManager().refresh(parent);
         }
         // forces a commit, do not remove!
-        getEntityManager().flush();
+        flush();
         return newNode;
     }
 

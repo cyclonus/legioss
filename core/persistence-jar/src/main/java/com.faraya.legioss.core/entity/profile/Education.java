@@ -17,9 +17,9 @@ public class Education extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id
     @Column(name = "education_id", nullable = false)
-    @SequenceGenerator(name="education_gen", sequenceName="education_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="education_gen")
-    //@GeneratedValue(strategy=GenerationType.IDENTITY)
+    //@SequenceGenerator(name="education_gen", sequenceName="education_seq")
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="education_gen")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     private String major;

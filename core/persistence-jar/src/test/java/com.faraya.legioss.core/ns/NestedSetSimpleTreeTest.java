@@ -2,16 +2,18 @@ package com.faraya.legioss.core.ns;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.Test;
+import org.junit.Ignore;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.faraya.legioss.core.BasePersitenceTest;
 import com.faraya.legioss.core.dao.ns.INestedSetDAO;
 import com.faraya.legioss.core.entity.ns.Node;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +22,17 @@ import java.util.List;
  * Time: 10:48 PM
  */
 
+/**
+ * This is considered a bad practice, but I found my self in a situation where I needed to guarantee the execution order of the test methods
+ * Second methods relies on the commits done on the first, third method relies on the commits accomplished by the second and so on.
+ *
+ * When adding new methods to this test case, keep in mind stiking to the naming convention
+ * if Last method was "thirdTestSomething"
+ * The new one should start with "fourthSomethingDescriptive"
+ *
+ * @See http://howtodoinjava.com/2012/11/24/ordered-testcases-execution-in-junit-4/
+ */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NestedSetSimpleTreeTest extends BasePersitenceTest {
 
     Logger logger = LoggerFactory.getLogger(NestedSetSimpleTreeTest.class);
@@ -31,39 +44,41 @@ public class NestedSetSimpleTreeTest extends BasePersitenceTest {
      * Commit won't be reflected until test method is executed without exceptions
      */
     @Test
-    public void addChildrenAndRootGrandChildTest(){
+    public void firstAddChildrenAndRootGrandChildTest() throws Exception{
 
         assertNotNull("null", dao);
-        Node root = new Node();
-        root.setName("root");
+        Node root = new Node("root");
         dao.add(root);
+        assertEquals(root.countChildren(),0);
         printTree();
         assertOnlyHasRootState(root);
 
-        Node child1 = new Node();
-        child1.setName("child-1");
-        dao.add(root,child1);
+        Node child1 = new Node("child-1");
+        dao.add(child1,root);
+        assertEquals(root.countChildren(),1);
         printTree();
         assertRootHasOneChildState(root);
 
-        Node child2 = new Node();
-        child2.setName("child-2");
-        dao.add(root,child2);
+        Node child2 = new Node("child-2");
+        dao.add(child2,root);
+        //assertEquals(root.countChildren(), 2);
         printTree();
         assertRootHasTwoChildrenState(root);
 
-        Node child3 = new Node();
-        child3.setName("child-3");
-        dao.add(child1,child3); // Here we add the grand child
+        Node child3 = new Node("child-3");
+        dao.add(child3,child1); // Here we add the grand child
+
         printTree();
     }
 
     /**
      * Commit won't be reflected until test method is executed without exceptions
      */
+
     @Test
-    public void simpleDeleteTest(){
+    public void secondSimpleDeleteTest(){
         //printTree();
+        //System.out.println(dao.listAll());
         Node root = dao.findRoot();
         assertNotNull(" Root was not found! ",root);
         Node child1 = dao.findByName("child-1");
@@ -72,6 +87,7 @@ public class NestedSetSimpleTreeTest extends BasePersitenceTest {
         Node child3 = dao.findByName("child-3");
         assertNotNull(child3);
         assertRootFirstGrandChildState(child1,child3);
+
         dao.delete(child3);
         printTree();
     }
@@ -80,14 +96,12 @@ public class NestedSetSimpleTreeTest extends BasePersitenceTest {
      * Commit won't be reflected until test method is executed without exceptions
      */
     @Test
-    public void testDeleteEffect(){
+    public void thirdTestDeleteEffect(){
         //printTree();
         Node root = dao.findRoot();
         assertRootHasTwoChildrenState(root);
         printTree();
     }
-
-
 
     /**
      *
@@ -168,7 +182,6 @@ public class NestedSetSimpleTreeTest extends BasePersitenceTest {
         assertEquals("",right,(int)node.getRight());
     }
 
-
     private void printTree(){
         Node root = dao.findRoot();
         assertNotNull("root was not expected to be null",root);
@@ -177,8 +190,4 @@ public class NestedSetSimpleTreeTest extends BasePersitenceTest {
         logger.info(subTree.toString());
     }
 
-    private void assertTree(String expected,List<Node> actual){
-       List<Node> nodes = new ArrayList<Node>();
-        assertEquals("",nodes,actual);
-    }
 }

@@ -15,8 +15,7 @@ public abstract class User extends AbstractEntity implements IIdentifiable<Long>
 
     @Id
     @Column(name = "user_id", nullable = false)
-    @SequenceGenerator(name="user_gen", sequenceName="user_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="user_gen")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Basic(optional = false)

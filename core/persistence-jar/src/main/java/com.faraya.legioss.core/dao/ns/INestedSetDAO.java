@@ -20,7 +20,7 @@ public interface INestedSetDAO extends IGenericDAO<Node,Long> {
 
     public Node add(Node node);
 
-    public Node add(Node parent, Node newNode);
+    public Node add(Node newNode,Node parent);
 
     public boolean delete(Node node);
 

@@ -14,6 +14,8 @@ public interface IGenericDAO <T extends IIdentifiable, PK extends Serializable>{
 
     List<T> find(int from, int max);
 
+    List<T> listAll();
+
     T findByPK(PK id);
 
     T save(T o);

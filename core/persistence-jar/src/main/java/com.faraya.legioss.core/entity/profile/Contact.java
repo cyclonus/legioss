@@ -20,9 +20,9 @@ public class Contact extends AbstractEntity {
 
     @Id
     @Column(name = "contact_id", nullable = false)
-    @SequenceGenerator(name="contact_gen", sequenceName="contact_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="contact_gen")
-    //@GeneratedValue(strategy=GenerationType.IDENTITY)
+    //@SequenceGenerator(name="contact_gen", sequenceName="contact_seq")
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="contact_gen")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)

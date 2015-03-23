@@ -18,9 +18,9 @@ public class Address extends AbstractEntity implements IIdentifiable<Long>, Seri
 
     @Id
     @Column(name = "address_id", nullable = false)
-    @SequenceGenerator(name="address_gen", sequenceName="address_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="address_gen")
-    //@GeneratedValue(strategy=GenerationType.IDENTITY)
+    //@SequenceGenerator(name="address_gen", sequenceName="address_seq")
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="address_gen")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     private String country;
