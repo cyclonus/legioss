@@ -61,7 +61,7 @@ public class NestedSetSimpleTreeTest extends BasePersitenceTest {
 
         Node child2 = new Node("child-2");
         dao.add(child2,root);
-        //assertEquals(root.countChildren(), 2);
+        assertEquals(root.countChildren(), 2);
         printTree();
         assertRootHasTwoChildrenState(root);
 

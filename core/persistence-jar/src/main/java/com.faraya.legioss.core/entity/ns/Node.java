@@ -98,7 +98,7 @@ public class Node implements IIdentifiable<Long> {
 
     public int countChildren() {
         // ((11 – 1) – 4) / 2 = 3 nodes
-        return (getRight() - 1) - getLeft() / 2;
+        return ((getRight() - 1) - getLeft()) / 2;
     }
 
     @Override
