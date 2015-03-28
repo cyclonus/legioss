@@ -26,8 +26,8 @@ public interface INestedSetDAO extends IGenericDAO<Node,Long> {
 
     public List<Node> getTree(Long rootId);
 
-    public Node getRightMostNode(Node parent);
+    public Node getRightMostNodeFor(Node parent);
 
-    public Node getLeftMostNode(Node parent);
+    public Node getLeftMostNodeFor(Node parent);
 
 }

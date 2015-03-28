@@ -13,8 +13,8 @@ import java.util.Set;
  * Time: 11:28 PM
  */
 
-@Entity
-@Table(name = "ph_profile")
+//@Entity
+//@Table(name = "ph_profile")
 @Inheritance( strategy = InheritanceType.SINGLE_TABLE )
 public class Profile extends User {
 

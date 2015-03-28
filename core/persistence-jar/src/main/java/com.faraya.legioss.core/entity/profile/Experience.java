@@ -11,14 +11,12 @@ import java.util.Date;
  * Date: 10/10/13
  * Time: 11:38 PM
  */
-@Entity
-@Table(name = "ph_experience")
+//@Entity
+//@Table(name = "ph_experience")
 public class Experience extends AbstractEntity implements IIdentifiable <Long>  {
 
     @Id
     @Column(name = "experience_id", nullable = false)
-    //@SequenceGenerator(name="experience_gen", sequenceName="experience_seq")
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="experience_gen")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 

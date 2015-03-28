@@ -25,7 +25,7 @@
         <entry key="hibernate.cache.use_second_level_cache" value="false"/>
         <entry key="hibernate.cache.use_query_cache" value="false"/>
         <entry key="hibernate.show_sql" value="${hibernate.show_sql}" />
-        <entry key="hibernate.hbm2ddl.auto" value="create-drop" />
+        <entry key="hibernate.hbm2ddl.auto" value="update" />
     </bean:map>
 
     <bean id="legiossDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -37,13 +37,13 @@
 
     <!-- setup transaction manager  -->
     <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="legiossEntityManager"/>
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
         <property name="dataSource" ref="legiossDataSource"/>
     </bean>
 
     <tx:annotation-driven transaction-manager="txManager"/>
 
-    <bean id="legiossEntityManager" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="legiossDataSource"/>
         <property name="persistenceUnitName" value="legioss"/>
         <property name="packagesToScan" value="com.faraya.legioss.core" />
@@ -61,6 +61,9 @@
         </property>
 
     </bean>
+
+
+    <tx:annotation-driven transaction-manager="txManager" />
 
     <context:annotation-config/>
     <context:component-scan base-package="com.faraya.legioss.core"/>

@@ -12,8 +12,8 @@ import com.faraya.legioss.core.entity.profile.Profile;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "ph_address")
+//@Entity
+//@Table(name = "ph_address")
 public class Address extends AbstractEntity implements IIdentifiable<Long>, Serializable{
 
     @Id

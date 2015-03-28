@@ -15,7 +15,7 @@ import static org.junit.Assert.assertNotNull;
  */
 
 @Ignore
-public class UserSimpleTest extends BasePersitenceTest {
+public class UserSimpleIT extends BasePersitenceTest {
 
     @Autowired
     IEducationDAO educationDAO;

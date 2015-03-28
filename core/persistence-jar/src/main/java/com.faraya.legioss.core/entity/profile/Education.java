@@ -11,14 +11,12 @@ import java.util.Date;
  * Date: 10/10/13
  * Time: 11:27 PM
  */
-@Entity
-@Table(name = "ph_education")
+//@Entity
+//@Table(name = "ph_education")
 public class Education extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id
     @Column(name = "education_id", nullable = false)
-    //@SequenceGenerator(name="education_gen", sequenceName="education_seq")
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="education_gen")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
