@@ -1,7 +1,7 @@
 package com.faraya.legioss.core.dao.ns;
 
 import com.faraya.legioss.core.dao.AbstractJPAGenericDAO;
-import com.faraya.legioss.core.entity.ns.Node;
+import com.faraya.legioss.core.entity.ns.NestedSetNode;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +51,7 @@ check against : http://www.developer.com/db/article.php/3517366/Using-the-Nested
  */
 
 @Repository
-public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements INestedSetDAO {
+public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> implements INestedSetDAO {
 
     Logger logger = LoggerFactory.getLogger(NestedSetDAO.class);
 
@@ -59,7 +59,7 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
     EntityManager entityManager;
 
     public NestedSetDAO() {
-        super(Node.class);
+        super(NestedSetNode.class);
     }
 
     @Override
@@ -67,43 +67,39 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
         return entityManager;
     }
 
-    public Node findById(Long id){
-      return getEntityManager().find(Node.class,id);
+    public NestedSetNode findById(Long id){
+      return getEntityManager().find(NestedSetNode.class,id);
     }
 
-    public Node findByName(String name){
-        Node node = null;
-        Query query = getEntityManager().createQuery(" SELECT n FROM Node n WHERE n.name = :n ", Node.class);
+    public NestedSetNode findByName(String name){
+        NestedSetNode node = null;
+        Query query = getEntityManager().createQuery(" SELECT n FROM NestedSetNode n WHERE n.name = :n ", NestedSetNode.class);
         try {
-            //query.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
             query.setParameter("n", name);
-            node = (Node) query.getSingleResult();
+            node = (NestedSetNode) query.getSingleResult();
         } catch (NoResultException nre) {
-            //String q = query.unwrap(org.hibernate.Query.class).getQueryString();
             logger.warn(" Node not found under name :"+name);
         }
         return node;
     }
 
-    public Node findRoot() {
-        Node root = null;
-        Query query = getEntityManager().createQuery(" SELECT n FROM Node n WHERE n.left = 1 ", Node.class);
+    public NestedSetNode findRoot() {
+        NestedSetNode root = null;
+        Query query = getEntityManager().createQuery(" SELECT n FROM NestedSetNode n WHERE n.left = 1 ", NestedSetNode.class);
         try {
-            //query.setHint(QueryHints.HINT_CACHE_MODE, CacheMode.IGNORE);
-            root = (Node) query.getSingleResult();
+            root = (NestedSetNode) query.getSingleResult();
         } catch (NoResultException nre) {
-            //String q = query.unwrap(org.hibernate.Query.class).getQueryString();
             logger.warn(" No root tree was found ");
         }
         return root;
     }
 
-    public Node add(Node newNode){
+    public NestedSetNode add(NestedSetNode newNode){
          return add(newNode,null);
     }
 
     private int shiftLeft(int inc, int after){
-        String update = " UPDATE Node n set n.left = n.left + :inc WHERE n.left > :l ";
+        String update = " UPDATE NestedSetNode n set n.left = n.left + :inc WHERE n.left > :l ";
         Query updateQuery = getEntityManager().createQuery(update);
         updateQuery.setParameter("inc", inc);
         updateQuery.setParameter("l", after);
@@ -113,7 +109,7 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
     }
 
     private int shiftRight(int inc, int after){
-        String update = " UPDATE Node n set n.right = n.right + :inc WHERE n.right > :r ";
+        String update = " UPDATE NestedSetNode n set n.right = n.right + :inc WHERE n.right > :r ";
         Query updateQuery = getEntityManager().createQuery(update);
         updateQuery.setParameter("inc", inc);
         updateQuery.setParameter("r", after);
@@ -123,7 +119,8 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
     }
 
     /**
-     * Needs to force commit
+     * Shifts all nodes in the Nested set - Tree
+     * New Transaction is needed to force commits
      * @param shiftAfter
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -140,10 +137,10 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = NoResultException.class)
-    public Node add(Node newNode, Node parent) {
+    public NestedSetNode add(NestedSetNode newNode, NestedSetNode parent) {
         if (parent == null) {
             // insert directly under root
-            Node root = findRoot();
+            NestedSetNode root = findRoot();
             if (root == null) {
                 // no root was found, we are inserting root now!!
                 newNode.setParent(null);
@@ -156,7 +153,7 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
         } else {
             // We always need to know the parent before adding a node
             int newLeft = parent.getLeft() + 1;
-            Node rm = getRightMostNodeFor(parent);
+            NestedSetNode rm = getRightMostNodeFor(parent);
             if (rm != null) {
                 // This should only happen when adding nodes under a parent that already has children
                 // So we need to calculate the right most one to add next to it
@@ -182,27 +179,27 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
         return newNode;
     }
 
-    public List<Node> getTree(Long rootId){
+    public List<NestedSetNode> getTree(Long rootId){
         String ql =
-                " SELECT node FROM Node node, Node parent " +
+                " SELECT node FROM NestedSetNode node, NestedSetNode parent " +
                      " WHERE node.left > parent.left AND  node.left < parent.right " +
                      " AND parent.id = :id ORDER BY node.left";
 
-        Query query = getEntityManager().createQuery(ql,Node.class);
+        Query query = getEntityManager().createQuery(ql,NestedSetNode.class);
         query.setParameter("id",rootId);
         return query.getResultList();
     }
 
 
-    public List<Node> getLeafNodes(){
+    public List<NestedSetNode> getLeafNodes(){
        /*
         *  SELECT * FROM NestedTest WHERE lft = (rgt - 1);
         *  (rgt – lft) = 1
         */
         String ql =
-                " SELECT node FROM Node node " +
+                " SELECT node FROM NestedSetNode node " +
                 " WHERE  ( node.right = node.left ) = 1 ";
-        Query query = getEntityManager().createQuery(ql,Node.class);
+        Query query = getEntityManager().createQuery(ql,NestedSetNode.class);
         return query.getResultList();
     }
 
@@ -211,10 +208,10 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
      * @param parent
      * @return
      */
-    public Node getRightMostNodeFor(Node parent){
+    public NestedSetNode getRightMostNodeFor(NestedSetNode parent){
         logger.debug(" getting the right-most node under: "+parent);
-        Node rm = null;
-        String q1 = " SELECT max(n.right) FROM Node n WHERE n.left > :lft AND n.right < :rgt ";
+        NestedSetNode rm = null;
+        String q1 = " SELECT max(n.right) FROM NestedSetNode n WHERE n.left > :lft AND n.right < :rgt ";
         Query query1 = getEntityManager().createQuery(q1,Number.class);
 
         try{
@@ -222,10 +219,10 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
             query1.setParameter("rgt",parent.getRight());
             Number max = (Number)query1.getSingleResult();
             if(max != null){
-                String q2 = " SELECT n FROM Node n WHERE n.right = :max ";
-                Query query2 = getEntityManager().createQuery(q2,Node.class);
+                String q2 = " SELECT n FROM NestedSetNode n WHERE n.right = :max ";
+                Query query2 = getEntityManager().createQuery(q2,NestedSetNode.class);
                 query2.setParameter("max",max);
-                rm  = (Node)query2.getSingleResult();
+                rm  = (NestedSetNode)query2.getSingleResult();
             }
         }catch (NoResultException nre) {
             logger.warn(" No Left Most Node was found for parent "+parent);
@@ -234,19 +231,19 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
         return rm;
     }
 
-    public Node getLeftMostNodeFor(Node parent){
-        Node lm = null;
-        String q1 = " SELECT min(n.right) FROM Node n WHERE n.left > :lft AND n.right < :rgt ";
+    public NestedSetNode getLeftMostNodeFor(NestedSetNode parent){
+        NestedSetNode lm = null;
+        String q1 = " SELECT min(n.right) FROM NestedSetNode n WHERE n.left > :lft AND n.right < :rgt ";
         Query query1 = getEntityManager().createQuery(q1,Number.class);
         try{
             query1.setParameter("lft",parent.getLeft());
             query1.setParameter("rgt",parent.getRight());
             Number min = (Number)query1.getSingleResult();
             if(min != null){
-                String q2 = " SELECT n FROM Node n WHERE n.left = :min ";
-                Query query2 = getEntityManager().createQuery(q2,Node.class);
+                String q2 = " SELECT n FROM NestedSetNode n WHERE n.left = :min ";
+                Query query2 = getEntityManager().createQuery(q2,NestedSetNode.class);
                 query2.setParameter("min",min);
-                lm  = (Node)query2.getSingleResult();
+                lm  = (NestedSetNode)query2.getSingleResult();
             }
         }catch (NoResultException nre) {
             logger.warn(" No Left Most Node was found for parent "+parent);
@@ -256,11 +253,11 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<Node,Long> implements IN
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(Node node){
+    public boolean delete(NestedSetNode node){
         int width = node.getRight() - node.getLeft() + 1;
         int l = node.getLeft();
         int r = node.getRight();
-        String delete = "DELETE FROM Node n WHERE n.left BETWEEN :l AND :r";
+        String delete = "DELETE FROM NestedSetNode n WHERE n.left BETWEEN :l AND :r";
         Query deleteQuery = getEntityManager().createQuery(delete);
         deleteQuery.setParameter("l",l);
         deleteQuery.setParameter("r",r);

@@ -13,16 +13,16 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "ns_node")
-public class Node implements IIdentifiable<Long> {
+public class NestedSetNode implements IIdentifiable<Long> {
 
-    public Node() {
+    public NestedSetNode() {
     }
 
-    public Node(String name) {
+    public NestedSetNode(String name) {
         this.name = name;
     }
 
-    public Node(String name, Long parent) {
+    public NestedSetNode(String name, Long parent) {
         this.name = name;
         this.parent = parent;
     }
@@ -106,7 +106,7 @@ public class Node implements IIdentifiable<Long> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Node node = (Node) o;
+        NestedSetNode node = (NestedSetNode) o;
 
         if (!id.equals(node.id)) return false;
 

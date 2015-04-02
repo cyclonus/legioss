@@ -1,9 +1,8 @@
 package com.faraya.legioss.core.ns;
 
-import com.faraya.legioss.core.BasePersitenceTest;
+import com.faraya.legioss.BasePersitenceTest;
 import com.faraya.legioss.core.dao.ns.INestedSetDAO;
-import com.faraya.legioss.core.entity.ns.Node;
-import org.junit.Ignore;
+import com.faraya.legioss.core.entity.ns.NestedSetNode;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -44,7 +43,7 @@ public class TreeHierarchyIT extends BasePersitenceTest {
     public void firstAddInDepth() throws Exception{
 
         assertNotNull("null", dao);
-        Node root = new Node("root");
+        NestedSetNode root = new NestedSetNode("root");
         dao.add(root);
         assertEquals(root.countChildren(),0);
 
@@ -54,9 +53,9 @@ public class TreeHierarchyIT extends BasePersitenceTest {
         assertEquals(root.countChildren(),1);
     }
 
-    private void addChildrenInDepth(int depth, int depthCount, int id ,Node parent){
+    private void addChildrenInDepth(int depth, int depthCount, int id ,NestedSetNode parent){
        if(depthCount <= depth) {
-           Node child = new Node(String.format("child-depth:%d-id:%d",depthCount,id));
+           NestedSetNode child = new NestedSetNode(String.format("child-depth:%d-id:%d",depthCount,id));
            child = dao.add(child, parent);
            assertNotNull(child.getId());
            addChildrenInDepth(depth, ++depthCount, id, child);

@@ -1,4 +1,4 @@
-package com.faraya.legioss.core;
+package com.faraya.legioss;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

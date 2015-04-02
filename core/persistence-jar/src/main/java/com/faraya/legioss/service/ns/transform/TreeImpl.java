@@ -2,14 +2,16 @@ package com.faraya.legioss.service.ns.transform;
 
 /**
  * Created by fabrizzio on 3/17/15.
+ * Entry point for a hierarchical structure returned from a NestedSetNodesTransformer
+ * Default implementation
  */
 public class TreeImpl implements ITree <Long> {
 
     private Long id;
 
-    private IChild<Long> root;
+    private INode<Long> root;
 
-    public TreeImpl(Long id, IChild<Long> root) {
+    public TreeImpl(Long id, INode<Long> root) {
         this.id = id;
         this.root = root;
     }
@@ -20,7 +22,7 @@ public class TreeImpl implements ITree <Long> {
     }
 
     @Override
-    public IChild <Long> getRoot() {
+    public INode<Long> getRoot() {
         return root;
     }
 }

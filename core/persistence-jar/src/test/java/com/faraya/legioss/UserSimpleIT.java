@@ -1,4 +1,4 @@
-package com.faraya.legioss.core;
+package com.faraya.legioss;
 
 import com.faraya.legioss.core.dao.profile.IEducationDAO;
 import com.faraya.legioss.core.entity.profile.Education;
