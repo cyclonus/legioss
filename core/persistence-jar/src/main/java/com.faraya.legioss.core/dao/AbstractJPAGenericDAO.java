@@ -95,5 +95,9 @@ public abstract class AbstractJPAGenericDAO<T extends IIdentifiable, PK extends 
         return allQuery.getResultList();
     }
 
+    public void invalidateCache(){
+        getEntityManager().getEntityManagerFactory().getCache().evictAll();
+    }
+
     public abstract EntityManager getEntityManager();
 }

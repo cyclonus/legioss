@@ -131,7 +131,11 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
     }
 
     /**
-     *
+     * Takes a fresh node instance and a parent node (previously persisted)
+     * If you want to see the changes on any other nodes inside a transaction user refresh method
+     * This method inerts the new node under the parent and shifts all nodes in the respective tree.
+     * If a no parent is specified (passing null), this method will attempt to create a root node
+     * If the root node already exists InvalidStateException will raised
      * @param parent
      * @param newNode
      * @return
@@ -171,9 +175,6 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
         }
         save(newNode);
         // update depth if required
-        if(parent != null && parent.getId() != null){
-           getEntityManager().refresh(parent);
-        }
         // forces a commit, do not remove!
         flush();
         return newNode;

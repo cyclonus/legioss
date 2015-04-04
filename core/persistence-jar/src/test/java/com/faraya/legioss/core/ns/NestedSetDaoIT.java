@@ -50,12 +50,14 @@ public class NestedSetDaoIT extends BasePersitenceTest {
 
         NestedSetNode child1 = new NestedSetNode("child-1");
         dao.add(child1,root);
-        assertEquals(root.countChildren(),1);
+        dao.refresh(root); // Require for the Test to work
+        assertEquals(root.countChildren(), 1);
         assertEquals(child1.getParent(),root.getId());
         assertRootHasOneChild(root);
 
         NestedSetNode child2 = new NestedSetNode("child-2");
         dao.add(child2,root);
+        dao.refresh(root); // Require for the Test to work
         assertEquals(root.countChildren(), 2);
         assertEquals(child2.getParent(),root.getId());
 

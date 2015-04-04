@@ -25,4 +25,6 @@ public interface IGenericDAO <T extends IIdentifiable, PK extends Serializable>{
     void remove(T o);
 
     void refresh(T o);
+
+    void invalidateCache();
 }

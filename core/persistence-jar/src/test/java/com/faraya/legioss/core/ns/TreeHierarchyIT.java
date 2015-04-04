@@ -40,27 +40,57 @@ public class TreeHierarchyIT extends BasePersitenceTest {
 
     @Test
     @Rollback(false)
-    public void firstAddInDepth() throws Exception{
+    public void firstInDepthTest() throws Exception{
+
 
         assertNotNull("null", dao);
         NestedSetNode root = new NestedSetNode("root");
         dao.add(root);
-        assertEquals(root.countChildren(),0);
+        assertEquals("root insertion, root.getLeft ", 1, (int) root.getLeft());
+        assertEquals("root insertion, root.getRight ",2,(int)root.getRight());
 
-        for(int i=1; i<=1; i++) {
-           addChildrenInDepth(4,1,i,root);
-        }
-        assertEquals(root.countChildren(),1);
+        NestedSetNode depth1 = new NestedSetNode("depth1");
+        dao.add(depth1,root);
+        dao.refresh(root);
+
+        assertEquals("depth 1 insertion, root.getLeft ",1,(int)root.getLeft());
+        assertEquals("depth 1 insertion, root.getRight",4,(int)root.getRight());
+        assertEquals("",2,(int)depth1.getLeft());
+        assertEquals("",3,(int)depth1.getRight());
+
+        NestedSetNode depth2 = new NestedSetNode("depth2");
+        dao.add(depth2,depth1);
+
+        dao.refresh(depth1);
+        dao.refresh(root);
+
+        assertEquals("depth 2 insertion, root.getLeft ",1,(int)root.getLeft());
+        assertEquals("depth 2 insertion, root.getRight ",6,(int)root.getRight());
+        assertEquals("depth 2 insertion, depth1.getLeft ",2,(int)depth1.getLeft());
+        assertEquals("depth 2 insertion, depth1.getRight ",5,(int)depth1.getRight());
+        assertEquals("depth 2 insertion, depth2.getLeft ",3,(int)depth2.getLeft());
+        assertEquals("depth 2 insertion, depth2.getRight ",4,(int)depth2.getRight());
+
+        NestedSetNode depth3 = new NestedSetNode("depth3");
+        dao.add(depth3,depth2);
+
+        dao.refresh(depth1);
+        dao.refresh(depth2);
+        dao.refresh(root);
+
+        assertEquals("",1,(int)root.getLeft());
+        assertEquals("",8,(int)root.getRight());
+        assertEquals("",2,(int)depth1.getLeft());
+        assertEquals("",7,(int)depth1.getRight());
+        assertEquals("",3,(int)depth2.getLeft());
+        assertEquals("",6,(int)depth2.getRight());
+        assertEquals("",4,(int)depth3.getLeft());
+        assertEquals("",5,(int)depth3.getRight());
+
+        System.out.println(dao.listAll());
     }
 
-    private void addChildrenInDepth(int depth, int depthCount, int id ,NestedSetNode parent){
-       if(depthCount <= depth) {
-           NestedSetNode child = new NestedSetNode(String.format("child-depth:%d-id:%d",depthCount,id));
-           child = dao.add(child, parent);
-           assertNotNull(child.getId());
-           addChildrenInDepth(depth, ++depthCount, id, child);
-       }
-    }
+
 
 /*
     @Test

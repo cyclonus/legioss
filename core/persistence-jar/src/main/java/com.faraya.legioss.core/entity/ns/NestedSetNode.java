@@ -1,7 +1,8 @@
 package com.faraya.legioss.core.entity.ns;
 
 import com.faraya.legioss.core.IIdentifiable;
-import org.hibernate.annotations.Index;
+//import org.hibernate.annotations.Index;
+import javax.persistence.Index;
 import javax.persistence.*;
 
 /**
@@ -12,7 +13,13 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "ns_node")
+@Table(name = "ns_node",
+        indexes =  {
+                @Index(name = "name", unique = true, columnList = "name"),
+                @Index(name = "left_index", unique = true, columnList = "_left"),
+                @Index(name = "right_index", unique = true, columnList = "_right")
+        }
+)
 public class NestedSetNode implements IIdentifiable<Long> {
 
     public NestedSetNode() {
@@ -53,8 +60,7 @@ public class NestedSetNode implements IIdentifiable<Long> {
         this.name = name;
     }
 
-    @Column(name = "lft", nullable = false)
-    @Index(name = "left_index")
+    @Column(name = "_left", nullable = false)
     private Integer left;
 
     public Integer getLeft() {
@@ -65,8 +71,7 @@ public class NestedSetNode implements IIdentifiable<Long> {
         this.left = left;
     }
 
-    @Column(name = "rgt", nullable = false)
-    @Index(name = "right_index")
+    @Column(name = "_right", nullable = false)
     private Integer right;
 
     public Integer getRight() {
