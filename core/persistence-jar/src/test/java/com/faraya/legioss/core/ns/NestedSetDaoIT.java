@@ -3,6 +3,8 @@ package com.faraya.legioss.core.ns;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
+import com.faraya.legioss.core.dao.ns.ITreeDAO;
+import com.faraya.legioss.core.entity.ns.Tree;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -36,28 +38,36 @@ public class NestedSetDaoIT extends BasePersitenceTest {
     Logger logger = LoggerFactory.getLogger(NestedSetDaoIT.class);
 
     @Autowired
-    INestedSetDAO dao;
+    ITreeDAO treeDao;
+
+    @Autowired
+    INestedSetDAO nestedSetDao;
+
 
     @Test
     public void firstAddChildrenTest() throws Exception{
 
+        assertNotNull("null", nestedSetDao);
+        Tree tree = new Tree("NestedSetTreeTest");
+        treeDao.save(tree);
+        assertNotNull("null", tree.getId());
+
         // first add two nodes
-        assertNotNull("null", dao);
-        NestedSetNode root = new NestedSetNode("root");
-        dao.add(root);
-        assertEquals(root.countChildren(),0);
+        NestedSetNode root = new NestedSetNode("root",tree);
+        nestedSetDao.add(root);
+        assertEquals(root.countChildren(), 0);
         assertRoot(root);
 
-        NestedSetNode child1 = new NestedSetNode("child-1");
-        dao.add(child1,root);
-        dao.refresh(root); // Require for the Test to work
+        NestedSetNode child1 = new NestedSetNode("child-1",tree);
+        nestedSetDao.add(child1, root);
+        nestedSetDao.refresh(root); // Require for the Test to work
         assertEquals(root.countChildren(), 1);
         assertEquals(child1.getParent(),root.getId());
         assertRootHasOneChild(root);
 
-        NestedSetNode child2 = new NestedSetNode("child-2");
-        dao.add(child2,root);
-        dao.refresh(root); // Require for the Test to work
+        NestedSetNode child2 = new NestedSetNode("child-2",tree);
+        nestedSetDao.add(child2, root);
+        nestedSetDao.refresh(root); // Require for the Test to work
         assertEquals(root.countChildren(), 2);
         assertEquals(child2.getParent(),root.getId());
 
@@ -67,36 +77,36 @@ public class NestedSetDaoIT extends BasePersitenceTest {
     public void secondRemoveChildrenTest() throws Exception{
         // now first remove child 2
 
-        NestedSetNode child2 = dao.findByName("child-2");
+        NestedSetNode child2 = nestedSetDao.findByName("child-2");
         assertNotNull(child2);
-        dao.delete(child2);
+        nestedSetDao.delete(child2);
 
-        NestedSetNode child1 = dao.findByName("child-1");
+        NestedSetNode child1 = nestedSetDao.findByName("child-1");
         assertEquals(child1.countChildren(), 0);
 
         //then remove child 1
-        child1 = dao.findByName("child-1");
+        child1 = nestedSetDao.findByName("child-1");
         assertNotNull(child1);
-        dao.delete(child1);
+        nestedSetDao.delete(child1);
 
-        NestedSetNode root = dao.findRoot();
+        NestedSetNode root = nestedSetDao.findRoot();
         assertEquals(root.countChildren(), 0);
     }
 
 
         public void assertRoot(NestedSetNode root){
         assertNotNull(root.getId());
-        assertEquals("Root's left must always be 1 ",1,(int)root.getLeft());
-        assertEquals("Root's right must be 2 when first added ",2,(int)root.getRight());
-        assertNull("initially, root does not have right most node",dao.getRightMostNodeFor(root));
+        assertEquals("Root's left must always be 1 ",1,(long)root.getLeft());
+        assertEquals("Root's right must be 2 when first added ",2,(long)root.getRight());
+        assertNull("initially, root does not have right most node", nestedSetDao.getRightMostNodeFor(root));
     }
 
     public void assertRootHasOneChild(NestedSetNode root){
-        NestedSetNode rm1 = dao.getRightMostNodeFor(root);
+        NestedSetNode rm1 = nestedSetDao.getRightMostNodeFor(root);
         assertNotNull("right most node must not be null this time",rm1);
-        assertEquals("right most is the only child owned by root ",2L,(long)rm1.getId());
+        assertEquals("right most is the only child owned by root ", 2L, (long) rm1.getId());
 
-        List<NestedSetNode> onlyChild = dao.getTree(root.getId());
+        List<NestedSetNode> onlyChild = nestedSetDao.getTree(root.getId());
         assertEquals("must have 1 child",1,onlyChild.size());
         NestedSetNode c1 = onlyChild.get(0);
         assertNode(c1,2,3);
@@ -108,10 +118,10 @@ public class NestedSetDaoIT extends BasePersitenceTest {
     }
 
     public void assertRootFirstGrandChild(NestedSetNode child1,NestedSetNode grandChild){
-        NestedSetNode rm3 = dao.getRightMostNodeFor(child1);
+        NestedSetNode rm3 = nestedSetDao.getRightMostNodeFor(child1);
         assertNotNull(rm3);
         assertEquals("right most node is child-3", grandChild.getId(), rm3.getId());
-        List<NestedSetNode> subTree2 = dao.getTree(child1.getId());
+        List<NestedSetNode> subTree2 = nestedSetDao.getTree(child1.getId());
         assertEquals("must have 1 child", 1, subTree2.size());
         NestedSetNode c4 = subTree2.get(0);
         assertEquals("Must match.. ",rm3,c4);
@@ -124,7 +134,7 @@ public class NestedSetDaoIT extends BasePersitenceTest {
     }
 
     private void assertNode(NestedSetNode node,int left, int right){
-        assertEquals("",left, (int)node.getLeft());
-        assertEquals("",right,(int)node.getRight());
+        assertEquals("",left, (long)node.getLeft());
+        assertEquals("",right,(long)node.getRight());
     }
 }

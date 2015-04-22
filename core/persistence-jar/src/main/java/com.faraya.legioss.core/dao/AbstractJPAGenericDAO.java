@@ -71,7 +71,6 @@ public abstract class AbstractJPAGenericDAO<T extends IIdentifiable, PK extends 
         return merged;
     }
 
-    @Override
     public List<T> find(int from, int max) {
         String statement = "SELECT o FROM "+getPersistentClass().getSimpleName() + " o ";
         Query q = getEntityManager().createQuery(statement);
@@ -80,7 +79,6 @@ public abstract class AbstractJPAGenericDAO<T extends IIdentifiable, PK extends 
         return q.getResultList();
     }
 
-    @Override
     public T findByPK(PK id) {
         return getEntityManager().find(getPersistentClass(),id);
     }

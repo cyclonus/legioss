@@ -98,7 +98,7 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
          return add(newNode,null);
     }
 
-    private int shiftLeft(int inc, int after){
+    private int shiftLeft(long inc, Long after){
         String update = " UPDATE NestedSetNode n set n.left = n.left + :inc WHERE n.left > :l ";
         Query updateQuery = getEntityManager().createQuery(update);
         updateQuery.setParameter("inc", inc);
@@ -108,7 +108,7 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
         return rows;
     }
 
-    private int shiftRight(int inc, int after){
+    private int shiftRight(long inc, long after){
         String update = " UPDATE NestedSetNode n set n.right = n.right + :inc WHERE n.right > :r ";
         Query updateQuery = getEntityManager().createQuery(update);
         updateQuery.setParameter("inc", inc);
@@ -124,7 +124,7 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
      * @param shiftAfter
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    private void shiftNodes(int shiftAfter){
+    private void shiftNodes(long shiftAfter){
         final int inc = 2;
         shiftRight(inc, shiftAfter);
         shiftLeft(inc, shiftAfter);
@@ -148,28 +148,28 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
             if (root == null) {
                 // no root was found, we are inserting root now!!
                 newNode.setParent(null);
-                newNode.setLeft(1);
-                newNode.setRight(2);
+                newNode.setLeft(1L);
+                newNode.setRight(2L);
                 logger.info(" Creating NEW a root node ");
             } else {
                 throw new IllegalStateException("No parent was specified and Root node already exists");
             }
         } else {
             // We always need to know the parent before adding a node
-            int newLeft = parent.getLeft() + 1;
+            Long newLeft = parent.getLeft() + 1;
             NestedSetNode rm = getRightMostNodeFor(parent);
             if (rm != null) {
                 // This should only happen when adding nodes under a parent that already has children
                 // So we need to calculate the right most one to add next to it
                 newLeft = rm.getRight() + 1;
             }
-            int newRight = newLeft + 1;
+            long newRight = newLeft + 1;
             logger.info(String.format("New left is %d & New right is %d ",newLeft, newRight));
             newNode.setParent(parent.getId());
             newNode.setLeft(newLeft);
             newNode.setRight(newRight);
 
-            int shiftAfter = newLeft - 1;
+            long shiftAfter = newLeft - 1;
             logger.info(" shifting nodes after: "+shiftAfter );
             shiftNodes(shiftAfter);
         }
@@ -255,16 +255,16 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
 
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean delete(NestedSetNode node){
-        int width = node.getRight() - node.getLeft() + 1;
-        int l = node.getLeft();
-        int r = node.getRight();
+        long width = node.getRight() - node.getLeft() + 1;
+        Long l = node.getLeft();
+        long r = node.getRight();
         String delete = "DELETE FROM NestedSetNode n WHERE n.left BETWEEN :l AND :r";
         Query deleteQuery = getEntityManager().createQuery(delete);
         deleteQuery.setParameter("l",l);
         deleteQuery.setParameter("r",r);
         int rows = deleteQuery.executeUpdate();
         flush();
-        int inc = -1 * width;
+        long inc = -1 * width;
 
         int sr = shiftRight(inc, r);
         int sl = shiftLeft(inc, l);

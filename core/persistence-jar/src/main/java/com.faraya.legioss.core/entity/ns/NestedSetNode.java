@@ -25,8 +25,9 @@ public class NestedSetNode implements IIdentifiable<Long> {
     public NestedSetNode() {
     }
 
-    public NestedSetNode(String name) {
+    public NestedSetNode(String name,Tree tree) {
         this.name = name;
+        this.tree = tree;
     }
 
     public NestedSetNode(String name, Long parent) {
@@ -39,14 +40,24 @@ public class NestedSetNode implements IIdentifiable<Long> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @JoinColumn(name = "tree_id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Tree tree;
+
+    public Tree getTree() {
+        return tree;
+    }
+
+    public void setTree(Tree tree) {
+        this.tree = tree;
     }
 
     @Column(nullable = false, unique = true)
@@ -61,24 +72,24 @@ public class NestedSetNode implements IIdentifiable<Long> {
     }
 
     @Column(name = "_left", nullable = false)
-    private Integer left;
+    private Long left;
 
-    public Integer getLeft() {
+    public Long getLeft() {
         return left;
     }
 
-    public void setLeft(Integer left) {
+    public void setLeft(Long left) {
         this.left = left;
     }
 
     @Column(name = "_right", nullable = false)
-    private Integer right;
+    private Long right;
 
-    public Integer getRight() {
+    public Long getRight() {
         return right;
     }
 
-    public void setRight(Integer right) {
+    public void setRight(Long right) {
         this.right = right;
     }
 
@@ -101,7 +112,7 @@ public class NestedSetNode implements IIdentifiable<Long> {
         return ((getRight() - getLeft()) == 1);
     }
 
-    public int countChildren() {
+    public long countChildren() {
         // ((11 – 1) – 4) / 2 = 3 nodes
         return ((getRight() - 1) - getLeft()) / 2;
     }
@@ -127,7 +138,7 @@ public class NestedSetNode implements IIdentifiable<Long> {
 
     @Override
     public String toString() {
-        int childrenCount = 0;
+        long childrenCount = 0;
         if(getLeft() != null && getRight() != null)
            childrenCount = countChildren();
 

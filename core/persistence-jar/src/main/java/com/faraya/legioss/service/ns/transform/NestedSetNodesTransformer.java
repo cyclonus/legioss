@@ -61,12 +61,11 @@ public class NestedSetNodesTransformer<ID, S extends NestedSetNode> {
         }
 
         return new ITree() {
-            @Override
+
             public Long getId() {
                 return null;
             }
 
-            @Override
             public INode getRoot() {
                 return root;
             }
@@ -85,9 +84,8 @@ public class NestedSetNodesTransformer<ID, S extends NestedSetNode> {
      */
     private static class LeftComparator implements Comparator<NestedSetNode> {
 
-        @Override
         public int compare(NestedSetNode o1, NestedSetNode o2) {
-            return o1.getLeft() - o2.getLeft();
+            return o1.getLeft().intValue() - o2.getLeft().intValue();
         }
 
     }
