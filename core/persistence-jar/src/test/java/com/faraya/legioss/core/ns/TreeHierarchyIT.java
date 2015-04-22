@@ -44,7 +44,6 @@ public class TreeHierarchyIT extends BasePersitenceTest {
     INestedSetDAO nestedSetDAO;
 
     @Test
-    @Rollback(false)
     public void firstInDepthTest() throws Exception{
 
         assertNotNull("null", nestedSetDAO);
