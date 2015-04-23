@@ -17,17 +17,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * This is considered a bad practice, but I found my self in a situation where I needed to guarantee the execution order of the test methods
+ * This is considered a bad practice, but I found my self in a situation where I needed to guarantee the execution order of the category methods
  * Second methods relies on the commits done on the first, third method relies on the commits accomplished by the second and so on.
  * <p/>
- * When adding new methods to this test case, keep in mind stiking to the naming convention
+ * When adding new methods to this category case, keep in mind stiking to the naming convention
  * if Last method was "thirdTestSomething"
  * The new one should start with "fourthSomethingDescriptive"
  *
  * @See http://howtodoinjava.com/2012/11/24/ordered-testcases-execution-in-junit-4/
  *
  *
- * for integration test use
+ * for integration category use
  * @See http://zeroturnaround.com/rebellabs/the-correct-way-to-use-integration-tests-in-your-build-process/
  *
  */

@@ -16,8 +16,8 @@ import javax.persistence.*;
 @Table(name = "ns_node",
         indexes =  {
                 @Index(name = "name", unique = true, columnList = "name"),
-                @Index(name = "left_index", unique = true, columnList = "_left"),
-                @Index(name = "right_index", unique = true, columnList = "_right")
+                @Index(name = "left_index", unique = true, columnList = "left_value"),
+                @Index(name = "right_index", unique = true, columnList = "right_value")
         }
 )
 public class NestedSetNode implements IIdentifiable<Long> {
@@ -71,7 +71,7 @@ public class NestedSetNode implements IIdentifiable<Long> {
         this.name = name;
     }
 
-    @Column(name = "_left", nullable = false)
+    @Column(name = "left_value", nullable = false)
     private Long left;
 
     public Long getLeft() {
@@ -82,7 +82,7 @@ public class NestedSetNode implements IIdentifiable<Long> {
         this.left = left;
     }
 
-    @Column(name = "_right", nullable = false)
+    @Column(name = "right_value", nullable = false)
     private Long right;
 
     public Long getRight() {
