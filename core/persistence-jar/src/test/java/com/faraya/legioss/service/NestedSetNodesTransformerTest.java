@@ -70,9 +70,10 @@ public class NestedSetNodesTransformerTest {
     public void DataTransformationTest() {
         DefaultNodeInstanceFactory instanceFactory = new DefaultNodeInstanceFactory();
         List<NestedSetNode> dataSet = mockDataSet();
-        NestedSetNodesTransformer transformer = new NestedSetNodesTransformer<Long,NestedSetNode>(dataSet,instanceFactory);
-        ITree tree = transformer.transformAndGet();
-        List <INode> children = tree.getRoot().getChildren();
+        NestedSetNodesTransformer <Long,NestedSetNode> transformer = new NestedSetNodesTransformer<Long,NestedSetNode>(dataSet,instanceFactory);
+        ITree<Long> tree = transformer.transformAndGet();
+
+        List <INode<Long>> children = tree.getRoot().getChildren();
         for(INode n : children ){
             System.out.println(n);
         }

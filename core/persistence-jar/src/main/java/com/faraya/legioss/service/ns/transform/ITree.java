@@ -10,7 +10,7 @@ public interface ITree<T> {
      * unique tree identifier
      * @return
      */
-    Long getId();
+    T getId();
 
     /**
      * Root node
