@@ -12,11 +12,11 @@ import java.util.*;
  * and transform it into a tree (Parent-children like) structure
  */
 
-public class NestedSetNodesTransformer<ID, S extends NestedSetNode> {
+public class NestedSetNodesTransformer<ID, N extends NestedSetNode> {
 
     Logger logger = LoggerFactory.getLogger(NestedSetNodesTransformer.class);
 
-    private List<S> subTree;
+    private List<N> subTree;
 
     private INodeInstanceFactory instanceFactory;
 
@@ -30,7 +30,7 @@ public class NestedSetNodesTransformer<ID, S extends NestedSetNode> {
      * The factory that will convert from NestedSetNode to a concert Node Representation
      * @param instanceFactory
      */
-    public NestedSetNodesTransformer(List<S> subTree, INodeInstanceFactory<ID, S> instanceFactory) {
+    public NestedSetNodesTransformer(List<N> subTree, INodeInstanceFactory<ID, N> instanceFactory) {
         this.subTree = subTree;
         this.instanceFactory = instanceFactory;
     }
@@ -40,7 +40,7 @@ public class NestedSetNodesTransformer<ID, S extends NestedSetNode> {
         final Map<ID, INode<ID>> mappedNodes = new HashMap<ID, INode<ID>>();
         Collections.sort(subTree, new LeftComparator());
         for (int i = 0; i <= subTree.size() - 1; i++) {
-            S ns = subTree.get(i);
+            N ns = subTree.get(i);
             @SuppressWarnings("unchecked")
             INode<ID> node = instanceFactory.newInstance(ns);
             mappedNodes.put(node.getId(), node);

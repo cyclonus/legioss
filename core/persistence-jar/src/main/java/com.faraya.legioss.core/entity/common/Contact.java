@@ -1,4 +1,4 @@
-package com.faraya.legioss.core.entity.profile;
+package com.faraya.legioss.core.entity.common;
 
 import com.faraya.legioss.core.entity.AbstractEntity;
 
@@ -26,8 +26,8 @@ public class Contact extends AbstractEntity {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, length=100)
-    private String name;
+    @Column(name = "value", nullable = false, length=100)
+    private String value;
 
     public Long getId() {
         return id;
@@ -45,12 +45,12 @@ public class Contact extends AbstractEntity {
         this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public String getValue() {
+        return value;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     @Override

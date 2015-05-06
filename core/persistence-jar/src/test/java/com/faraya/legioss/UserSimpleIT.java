@@ -1,7 +1,6 @@
 package com.faraya.legioss;
 
-import com.faraya.legioss.core.dao.profile.IEducationDAO;
-import com.faraya.legioss.core.entity.profile.Education;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +16,10 @@ import static org.junit.Assert.assertNotNull;
 @Ignore
 public class UserSimpleIT extends BasePersitenceTest {
 
-    @Autowired
-    IEducationDAO educationDAO;
 
     @Test
     public void andNewUserTest(){
 
-         assertNotNull("null", educationDAO);
-         Education education = new Education();
-         educationDAO.save(education);
-         assertNotNull("null", education.getId());
+
     }
 }

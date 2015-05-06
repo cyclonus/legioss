@@ -3,9 +3,9 @@ package com.faraya.legioss.core.dao.ns;
 import com.faraya.legioss.core.dao.AbstractJPAGenericDAO;
 import com.faraya.legioss.core.entity.ns.NestedSetNode;
 
+import com.faraya.legioss.core.entity.ns.NestedSetTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,16 +50,15 @@ check against : http://www.developer.com/db/article.php/3517366/Using-the-Nested
  *
  */
 
-@Repository
-public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> implements INestedSetDAO {
+public abstract class NestedSetDAO <N extends NestedSetNode, T extends NestedSetTree> extends AbstractJPAGenericDAO<N,Long> implements INestedSetDAO<N,T> {
 
     Logger logger = LoggerFactory.getLogger(NestedSetDAO.class);
 
     @PersistenceContext(unitName = "legioss")
     EntityManager entityManager;
 
-    public NestedSetDAO() {
-        super(NestedSetNode.class);
+    public NestedSetDAO(final Class<N> persistentClass) {
+        super(persistentClass);
     }
 
     @Override
@@ -67,67 +66,77 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
         return entityManager;
     }
 
-    public NestedSetNode findById(Long id){
-      return getEntityManager().find(NestedSetNode.class,id);
+    public N findById(Long id){
+      return getEntityManager().find(getPersistentClass(),id);
     }
 
-    public NestedSetNode findByName(String name){
-        NestedSetNode node = null;
-        Query query = getEntityManager().createQuery(" SELECT n FROM NestedSetNode n WHERE n.name = :n ", NestedSetNode.class);
+    public N findByName(String name, T tree){
+        String clazzName = getPersistentClass().getSimpleName();
+        String queryStr = String.format(" SELECT n FROM %s n WHERE n.name = :n AND n.tree.id = :treeId ", clazzName);
+        N node = null;
+        Query query = getEntityManager().createQuery(queryStr, getPersistentClass());
         try {
             query.setParameter("n", name);
-            node = (NestedSetNode) query.getSingleResult();
+            query.setParameter("treeId", tree.getId());
+            node = getPersistentClass().cast(query.getSingleResult());
         } catch (NoResultException nre) {
             logger.warn(" Node not found under name :"+name);
         }
         return node;
     }
 
-    public NestedSetNode findRoot() {
-        NestedSetNode root = null;
-        Query query = getEntityManager().createQuery(" SELECT n FROM NestedSetNode n WHERE n.left = 1 ", NestedSetNode.class);
+    public N findRoot(T tree) {
+        N root = null;
+        String clazzName = getPersistentClass().getSimpleName();
+        String queryStr = String.format(" SELECT n FROM %s n WHERE n.left = 1 AND n.tree.id = :treeId ", clazzName);
+        Query query = getEntityManager().createQuery(queryStr, getPersistentClass());
         try {
-            root = (NestedSetNode) query.getSingleResult();
+            query.setParameter("treeId", tree.getId());
+            root = getPersistentClass().cast(query.getSingleResult());
         } catch (NoResultException nre) {
             logger.warn(" No root tree was found ");
         }
         return root;
     }
 
-    public NestedSetNode add(NestedSetNode newNode){
-         return add(newNode,null);
-    }
-
-    private int shiftLeft(long inc, Long after){
-        String update = " UPDATE NestedSetNode n set n.left = n.left + :inc WHERE n.left > :l ";
+    private int shiftLeft(Long inc, Long after, Long treeId){
+        String clazzName = getPersistentClass().getSimpleName();
+        String update = String.format(" UPDATE %s n set n.left = n.left + :inc WHERE n.left > :l AND n.tree.id = :treeId ",clazzName);
         Query updateQuery = getEntityManager().createQuery(update);
         updateQuery.setParameter("inc", inc);
         updateQuery.setParameter("l", after);
+        updateQuery.setParameter("treeId", treeId);
         int rows = (updateQuery.executeUpdate());
         logger.info("shiftLeft " + rows);
         return rows;
     }
 
-    private int shiftRight(long inc, long after){
-        String update = " UPDATE NestedSetNode n set n.right = n.right + :inc WHERE n.right > :r ";
+    private int shiftRight(Long inc, Long after, Long treeId){
+        String clazzName = getPersistentClass().getSimpleName();
+        String update = String.format(" UPDATE %s n set n.right = n.right + :inc WHERE n.right > :r AND n.tree.id = :treeId ",clazzName);
         Query updateQuery = getEntityManager().createQuery(update);
         updateQuery.setParameter("inc", inc);
         updateQuery.setParameter("r", after);
+        updateQuery.setParameter("treeId", treeId);
         int rows = (updateQuery.executeUpdate());
         logger.info("shiftRight " + rows);
         return rows;
     }
 
     /**
-     * Shifts all nodes in the Nested set - Tree
+     * Shifts all nodes in the Nested set - NestedSetTree
      * New Transaction is needed to force commits
      * @param shiftAfter
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    private void shiftNodes(long shiftAfter){
-        final int inc = 2;
-        shiftRight(inc, shiftAfter);
-        shiftLeft(inc, shiftAfter);
+    private void shiftNodes(Long shiftAfter, NestedSetTree tree){
+        final long inc = 2;
+        shiftRight(inc, shiftAfter, tree.getId());
+        shiftLeft(inc, shiftAfter, tree.getId());
+    }
+
+    public N add(N newNode, T tree){
+        return add(newNode, null, tree);
     }
 
     /**
@@ -141,15 +150,17 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRED, noRollbackFor = NoResultException.class)
-    public NestedSetNode add(NestedSetNode newNode, NestedSetNode parent) {
+    public N add(N newNode, N parent, T tree) {
         if (parent == null) {
             // insert directly under root
-            NestedSetNode root = findRoot();
+            N root = findRoot(tree);
             if (root == null) {
                 // no root was found, we are inserting root now!!
                 newNode.setParent(null);
                 newNode.setLeft(1L);
                 newNode.setRight(2L);
+                // set the tree it belongs to
+                newNode.setTree(tree);
                 logger.info(" Creating NEW a root node ");
             } else {
                 throw new IllegalStateException("No parent was specified and Root node already exists");
@@ -157,21 +168,26 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
         } else {
             // We always need to know the parent before adding a node
             Long newLeft = parent.getLeft() + 1;
-            NestedSetNode rm = getRightMostNodeFor(parent);
+            N rm = getRightMostNodeFor(parent);
             if (rm != null) {
                 // This should only happen when adding nodes under a parent that already has children
                 // So we need to calculate the right most one to add next to it
                 newLeft = rm.getRight() + 1;
             }
+
             long newRight = newLeft + 1;
             logger.info(String.format("New left is %d & New right is %d ",newLeft, newRight));
+
             newNode.setParent(parent.getId());
             newNode.setLeft(newLeft);
             newNode.setRight(newRight);
 
-            long shiftAfter = newLeft - 1;
+            // set the tree it belongs to
+            newNode.setTree(tree);
+
+            Long shiftAfter = newLeft - 1;
             logger.info(" shifting nodes after: "+shiftAfter );
-            shiftNodes(shiftAfter);
+            shiftNodes(shiftAfter, tree);
         }
         save(newNode);
         // update depth if required
@@ -180,28 +196,35 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
         return newNode;
     }
 
-    public List<NestedSetNode> getTree(Long rootId){
+    public List<N> getTree(Long rootId){
+        String clazzName = getPersistentClass().getSimpleName();
         String ql =
-                " SELECT node FROM NestedSetNode node, NestedSetNode parent " +
+                String.format(
+                     " SELECT node FROM %s node, %s parent " +
                      " WHERE node.left > parent.left AND  node.left < parent.right " +
-                     " AND parent.id = :id ORDER BY node.left";
+                     " AND parent.id = :id ORDER BY node.left", clazzName, clazzName);
 
-        Query query = getEntityManager().createQuery(ql,NestedSetNode.class);
-        query.setParameter("id",rootId);
-        return query.getResultList();
+        Query query = getEntityManager().createQuery(ql, getPersistentClass());
+        query.setParameter("id", rootId);
+        @SuppressWarnings("unchecked")
+        List<N> list = query.getResultList();
+        return list;
     }
 
 
-    public List<NestedSetNode> getLeafNodes(){
+    public List<N> getLeafNodes(){
+        String clazzName = getPersistentClass().getSimpleName();
        /*
-        *  SELECT * FROM NestedTest WHERE lft = (rgt - 1);
+        *  SELECT * FROM NestedSetNode WHERE lft = (rgt - 1);
         *  (rgt – lft) = 1
         */
-        String ql =
-                " SELECT node FROM NestedSetNode node " +
-                " WHERE  ( node.right = node.left ) = 1 ";
-        Query query = getEntityManager().createQuery(ql,NestedSetNode.class);
-        return query.getResultList();
+        String ql = String.format(
+                " SELECT node FROM %s node " +
+                " WHERE  ( node.right = node.left ) = 1 ", clazzName);
+        Query query = getEntityManager().createQuery(ql, getPersistentClass());
+        @SuppressWarnings("unchecked")
+        List<N> list = query.getResultList();
+        return list;
     }
 
     /**
@@ -209,21 +232,27 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
      * @param parent
      * @return
      */
-    public NestedSetNode getRightMostNodeFor(NestedSetNode parent){
+    public N getRightMostNodeFor(N parent){
         logger.debug(" getting the right-most node under: "+parent);
-        NestedSetNode rm = null;
-        String q1 = " SELECT max(n.right) FROM NestedSetNode n WHERE n.left > :lft AND n.right < :rgt ";
-        Query query1 = getEntityManager().createQuery(q1,Number.class);
+        String clazzName = getPersistentClass().getSimpleName();
+        N rm = null;
+        String q1 = String.format(
+                " SELECT max(n.right) FROM %s n WHERE n.left > :lft AND n.right < :rgt ",
+                clazzName);
+        Query query1 = getEntityManager().createQuery(q1, Number.class);
 
         try{
             query1.setParameter("lft",parent.getLeft());
             query1.setParameter("rgt",parent.getRight());
             Number max = (Number)query1.getSingleResult();
             if(max != null){
-                String q2 = " SELECT n FROM NestedSetNode n WHERE n.right = :max ";
-                Query query2 = getEntityManager().createQuery(q2,NestedSetNode.class);
+                String q2 = String.format(
+                        " SELECT n FROM %s n WHERE n.right = :max ",
+                        clazzName);
+                Query query2 = getEntityManager().createQuery(q2, getPersistentClass());
                 query2.setParameter("max",max);
-                rm  = (NestedSetNode)query2.getSingleResult();
+
+                rm  = getPersistentClass().cast(query2.getSingleResult());
             }
         }catch (NoResultException nre) {
             logger.warn(" No Left Most Node was found for parent "+parent);
@@ -232,19 +261,20 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
         return rm;
     }
 
-    public NestedSetNode getLeftMostNodeFor(NestedSetNode parent){
-        NestedSetNode lm = null;
-        String q1 = " SELECT min(n.right) FROM NestedSetNode n WHERE n.left > :lft AND n.right < :rgt ";
-        Query query1 = getEntityManager().createQuery(q1,Number.class);
+    public N getLeftMostNodeFor(N parent){
+        N lm = null;
+        String clazzName = getPersistentClass().getSimpleName();
+        String q1 = String.format(" SELECT min(n.right) FROM %s n WHERE n.left > :lft AND n.right < :rgt ", clazzName);
+        Query query1 = getEntityManager().createQuery(q1, Number.class);
         try{
             query1.setParameter("lft",parent.getLeft());
             query1.setParameter("rgt",parent.getRight());
             Number min = (Number)query1.getSingleResult();
             if(min != null){
-                String q2 = " SELECT n FROM NestedSetNode n WHERE n.left = :min ";
-                Query query2 = getEntityManager().createQuery(q2,NestedSetNode.class);
+                String q2 = String.format(" SELECT n FROM %s n WHERE n.left = :min ", clazzName);
+                Query query2 = getEntityManager().createQuery(q2, getPersistentClass());
                 query2.setParameter("min",min);
-                lm  = (NestedSetNode)query2.getSingleResult();
+                lm  = getPersistentClass().cast(query2.getSingleResult());
             }
         }catch (NoResultException nre) {
             logger.warn(" No Left Most Node was found for parent "+parent);
@@ -254,20 +284,20 @@ public class NestedSetDAO extends AbstractJPAGenericDAO<NestedSetNode,Long> impl
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean delete(NestedSetNode node){
-        long width = node.getRight() - node.getLeft() + 1;
+    public boolean delete(N node, T tree){
+        Long width = node.getRight() - node.getLeft() + 1;
         Long l = node.getLeft();
-        long r = node.getRight();
-        String delete = "DELETE FROM NestedSetNode n WHERE n.left BETWEEN :l AND :r";
+        Long r = node.getRight();
+        String clazzName = getPersistentClass().getSimpleName();
+        String delete =  String.format(" DELETE FROM %s n WHERE n.left BETWEEN :l AND :r ",clazzName);
         Query deleteQuery = getEntityManager().createQuery(delete);
         deleteQuery.setParameter("l",l);
         deleteQuery.setParameter("r",r);
         int rows = deleteQuery.executeUpdate();
         flush();
-        long inc = -1 * width;
-
-        int sr = shiftRight(inc, r);
-        int sl = shiftLeft(inc, l);
+        final long inc = -1 * width;
+        int sr = shiftRight(inc, r, tree.getId());
+        int sl = shiftLeft(inc, l, tree.getId());
 
         logger.debug(" shift right " + sr);
         logger.debug(" shift left " + sl);

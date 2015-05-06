@@ -76,7 +76,9 @@ public abstract class AbstractJPAGenericDAO<T extends IIdentifiable, PK extends 
         Query q = getEntityManager().createQuery(statement);
         q.setFirstResult(from);
         q.setMaxResults(max);
-        return q.getResultList();
+        @SuppressWarnings("unchecked")
+        List<T> list = q.getResultList();
+        return list;
     }
 
     public T findByPK(PK id) {

@@ -1,6 +1,7 @@
 package com.faraya.legioss.service.ns.transform;
 
-import com.faraya.legioss.core.entity.ns.NestedSetNode;
+
+import com.faraya.legioss.core.entity.accounting.AccountNode;
 
 /**
  * Created by fabrizzio on 3/31/15.
@@ -8,10 +9,10 @@ import com.faraya.legioss.core.entity.ns.NestedSetNode;
  * This will take whatever nested-set node type is passed to it and will return
  * an instance of ChildImpl which is the basic type to represent a nested-set node
  */
-public class DefaultNodeInstanceFactory implements INodeInstanceFactory <Long,NestedSetNode> {
+public class DefaultNodeInstanceFactory implements INodeInstanceFactory <Long,AccountNode> {
 
     @Override
-    public INode<Long> newInstance(NestedSetNode node) {
+    public INode<Long> newInstance(AccountNode node) {
         return new ChildImpl(node.getId(),node.getParent(), node.getName());
     }
 

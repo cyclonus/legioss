@@ -2,7 +2,6 @@ package com.faraya.legioss.core.entity.ns;
 
 import com.faraya.legioss.core.IIdentifiable;
 //import org.hibernate.annotations.Index;
-import javax.persistence.Index;
 import javax.persistence.*;
 
 /**
@@ -12,22 +11,24 @@ import javax.persistence.*;
  * Time: 5:34 PM
  */
 
+/*
 @Entity
 @Table(name = "ns_node",
         indexes =  {
-                @Index(name = "name", unique = true, columnList = "name"),
+                @Index(name = "tree", columnList = "tree_id"),
+                @Index(name = "name", unique = true, columnList = "name, tree_id"),
                 @Index(name = "left_index", unique = true, columnList = "left_value"),
                 @Index(name = "right_index", unique = true, columnList = "right_value")
         }
-)
-public class NestedSetNode implements IIdentifiable<Long> {
+)*/
+@MappedSuperclass
+public abstract class NestedSetNode <T extends NestedSetTree> implements IIdentifiable<Long> {
 
     public NestedSetNode() {
     }
 
-    public NestedSetNode(String name,Tree tree) {
+    public NestedSetNode(String name) {
         this.name = name;
-        this.tree = tree;
     }
 
     public NestedSetNode(String name, Long parent) {
@@ -49,14 +50,14 @@ public class NestedSetNode implements IIdentifiable<Long> {
     }
 
     @JoinColumn(name = "tree_id", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Tree tree;
+    @OneToOne(optional = false, fetch = FetchType.EAGER)
+    private T tree;
 
-    public Tree getTree() {
+    public T getTree() {
         return tree;
     }
 
-    public void setTree(Tree tree) {
+    public void setTree(T tree) {
         this.tree = tree;
     }
 
@@ -139,9 +140,9 @@ public class NestedSetNode implements IIdentifiable<Long> {
     @Override
     public String toString() {
         long childrenCount = 0;
-        if(getLeft() != null && getRight() != null)
-           childrenCount = countChildren();
-
+        if(getLeft() != null && getRight() != null) {
+            childrenCount = countChildren();
+        }
         return "Node{" +
                 " id=" + id +
                 ", name='" + name + '\'' +

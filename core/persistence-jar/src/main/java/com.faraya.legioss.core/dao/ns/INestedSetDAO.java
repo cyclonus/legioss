@@ -2,6 +2,7 @@ package com.faraya.legioss.core.dao.ns;
 
 import com.faraya.legioss.core.dao.IGenericDAO;
 import com.faraya.legioss.core.entity.ns.NestedSetNode;
+import com.faraya.legioss.core.entity.ns.NestedSetTree;
 
 import java.util.List;
 
@@ -10,24 +11,24 @@ import java.util.List;
  * Date: 6/9/13
  * Time: 10:10 PM
  */
-public interface INestedSetDAO extends IGenericDAO<NestedSetNode,Long> {
+public interface INestedSetDAO <N extends NestedSetNode, T extends NestedSetTree> extends IGenericDAO<N,Long> {
 
-    public NestedSetNode findById(Long id);
+     N findById(Long id);
 
-    public NestedSetNode findByName(String name);
+     N findByName(String name, T tree);
 
-    public NestedSetNode findRoot();
+     N findRoot(T tree);
 
-    public NestedSetNode add(NestedSetNode node);
+     N add(N node, T tree);
 
-    public NestedSetNode add(NestedSetNode newNode,NestedSetNode parent);
+     N add(N newNode, N parent, T tree);
 
-    public boolean delete(NestedSetNode node);
+     boolean delete(N node, T tree);
 
-    public List<NestedSetNode> getTree(Long rootId);
+     List<N> getTree(Long rootId);
 
-    public NestedSetNode getRightMostNodeFor(NestedSetNode parent);
+     N getRightMostNodeFor(N parent);
 
-    public NestedSetNode getLeftMostNodeFor(NestedSetNode parent);
+     N getLeftMostNodeFor(N parent);
 
 }

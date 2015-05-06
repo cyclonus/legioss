@@ -2,8 +2,8 @@ package com.faraya.legioss.service;
 
 import static org.junit.Assert.assertEquals;
 
-import com.faraya.legioss.core.entity.ns.NestedSetNode;
-import com.faraya.legioss.core.entity.ns.Tree;
+import com.faraya.legioss.core.entity.accounting.AccountCatalog;
+import com.faraya.legioss.core.entity.accounting.AccountNode;
 import com.faraya.legioss.service.ns.transform.DefaultNodeInstanceFactory;
 import com.faraya.legioss.service.ns.transform.INode;
 import com.faraya.legioss.service.ns.transform.ITree;
@@ -16,47 +16,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
  * Created by fabrizzio on 3/29/15.
  */
 public class NestedSetNodesTransformerTest {
 
     Logger logger = LoggerFactory.getLogger(NestedSetNodesTransformerTest.class);
 
-    private List<NestedSetNode> mockDataSet(){
+    private List<AccountNode> mockDataSet(){
 
-        Tree tree = new Tree("TransformerTestTree");
+        AccountCatalog tree = new AccountCatalog("TransformerTestTree");
 
-        NestedSetNode root = new NestedSetNode("rdb",tree);
+        AccountNode root = new AccountNode("rdb");
+        root.setTree(tree);
         root.setId(1L);
         root.setLeft(1L);
         root.setRight(12L);
         root.setParent(null);
-        NestedSetNode sqlLite = new NestedSetNode("SQL-Lite",tree);
+
+        AccountNode sqlLite = new AccountNode("SQL-Lite");
+        sqlLite.setTree(tree);
         sqlLite.setId(2L);
         sqlLite.setLeft(2L);
         sqlLite.setRight(3L);
         sqlLite.setParent(1L);
-        NestedSetNode mySQL = new NestedSetNode("mySQL",tree);
+
+        AccountNode mySQL = new AccountNode("mySQL");
+        mySQL.setTree(tree);
         mySQL.setId(3L);
         mySQL.setLeft(4L);
         mySQL.setRight(9L);
         mySQL.setParent(1L);
-        NestedSetNode oracle = new NestedSetNode("Oracle",tree);
+
+        AccountNode oracle = new AccountNode("Oracle");
+        oracle.setTree(tree);
         oracle.setId(4L);
         oracle.setLeft(10L);
         oracle.setRight(11L);
         oracle.setParent(1L);
-        NestedSetNode InnoDB = new NestedSetNode("InnoDB",tree);
+
+        AccountNode InnoDB = new AccountNode("InnoDB");
+        InnoDB.setTree(tree);
         InnoDB.setId(5L);
         InnoDB.setLeft(5L);
         InnoDB.setRight(6L);
         InnoDB.setParent(3L);
-        NestedSetNode MyISAM = new NestedSetNode("MyISAM",tree);
+
+        AccountNode MyISAM = new AccountNode("MyISAM");
+        MyISAM.setTree(tree);
         MyISAM.setId(5L);
         MyISAM.setLeft(7L);
         MyISAM.setRight(8L);
         MyISAM.setParent(3L);
-        List<NestedSetNode> list = new ArrayList<NestedSetNode>(6);
+
+        List<AccountNode> list = new ArrayList<>(6);
         list.add(root);
         list.add(sqlLite);
         list.add(mySQL);
@@ -69,15 +82,15 @@ public class NestedSetNodesTransformerTest {
     @Test
     public void DataTransformationTest() {
         DefaultNodeInstanceFactory instanceFactory = new DefaultNodeInstanceFactory();
-        List<NestedSetNode> dataSet = mockDataSet();
-        NestedSetNodesTransformer <Long,NestedSetNode> transformer = new NestedSetNodesTransformer<Long,NestedSetNode>(dataSet,instanceFactory);
+        List<AccountNode> dataSet = mockDataSet();
+        NestedSetNodesTransformer <Long,AccountNode> transformer = new NestedSetNodesTransformer<>(dataSet,instanceFactory);
         ITree<Long> tree = transformer.transformAndGet();
 
         List <INode<Long>> children = tree.getRoot().getChildren();
         for(INode n : children ){
-            System.out.println(n);
+            logger.info("node: ",n);
         }
-        System.out.println(tree);
+        logger.info("tree: ",tree);
     }
 
 

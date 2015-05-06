@@ -1,17 +1,16 @@
 package com.faraya.legioss.core.ns;
 
 import com.faraya.legioss.BasePersitenceTest;
-import com.faraya.legioss.core.dao.ns.INestedSetDAO;
-import com.faraya.legioss.core.dao.ns.ITreeDAO;
-import com.faraya.legioss.core.entity.ns.NestedSetNode;
-import com.faraya.legioss.core.entity.ns.Tree;
+import com.faraya.legioss.core.dao.accounting.IAccountCatalogDAO;
+import com.faraya.legioss.core.dao.accounting.IAccountNodeDAO;
+import com.faraya.legioss.core.entity.accounting.AccountNode;
+import com.faraya.legioss.core.entity.accounting.AccountCatalog;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -37,11 +36,11 @@ public class TreeHierarchyIT extends BasePersitenceTest {
     Logger logger = LoggerFactory.getLogger(NestedSetDaoIT.class);
 
     @Autowired
-    ITreeDAO treeDao;
+    IAccountCatalogDAO treeDao;
 
 
     @Autowired
-    INestedSetDAO nestedSetDAO;
+    IAccountNodeDAO nestedSetDAO;
 
     @Test
     public void firstInDepthTest() throws Exception{
@@ -49,17 +48,17 @@ public class TreeHierarchyIT extends BasePersitenceTest {
         assertNotNull("null", nestedSetDAO);
         assertNotNull("null", treeDao);
 
-        Tree tree = new Tree("TreeHierarchyTest");
+        AccountCatalog tree = new AccountCatalog("TreeHierarchyTest");
         treeDao.save(tree);
         assertNotNull("null", tree.getId());
 
-        NestedSetNode root = new NestedSetNode("root", tree);
-        nestedSetDAO.add(root);
+        AccountNode root = new AccountNode("root");
+        nestedSetDAO.add(root, tree);
         assertEquals("root insertion, root.getLeft ", 1L, (long) root.getLeft());
         assertEquals("root insertion, root.getRight ", 2L, (long) root.getRight());
 
-        NestedSetNode depth1 = new NestedSetNode("depth1", tree);
-        nestedSetDAO.add(depth1, root);
+        AccountNode depth1 = new AccountNode("depth1");
+        nestedSetDAO.add(depth1, root, tree);
         nestedSetDAO.refresh(root);
 
         assertEquals("depth 1 insertion, root.getLeft ",1L,(long)root.getLeft());
@@ -67,8 +66,8 @@ public class TreeHierarchyIT extends BasePersitenceTest {
         assertEquals("depth 1 insertion, depth1.getLeft",2L,(long)depth1.getLeft());
         assertEquals("depth 1 insertion, depth1.getRight", 3L, (long) depth1.getRight());
 
-        NestedSetNode depth2 = new NestedSetNode("depth2", tree);
-        nestedSetDAO.add(depth2, depth1);
+        AccountNode depth2 = new AccountNode("depth2");
+        nestedSetDAO.add(depth2, depth1, tree);
 
         nestedSetDAO.refresh(depth1);
         nestedSetDAO.refresh(root);
@@ -80,8 +79,8 @@ public class TreeHierarchyIT extends BasePersitenceTest {
         assertEquals("depth 2 insertion, depth2.getLeft ",3L,(long)depth2.getLeft());
         assertEquals("depth 2 insertion, depth2.getRight ", 4L, (long) depth2.getRight());
 
-        NestedSetNode depth3 = new NestedSetNode("depth3", tree);
-        nestedSetDAO.add(depth3, depth2);
+        AccountNode depth3 = new AccountNode("depth3");
+        nestedSetDAO.add(depth3, depth2, tree);
 
         nestedSetDAO.refresh(depth1);
         nestedSetDAO.refresh(depth2);

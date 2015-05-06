@@ -1,4 +1,4 @@
-package com.faraya.legioss.core.entity.profile;
+package com.faraya.legioss.core.entity.common;
 
 /**
  * User: fabrizzio
@@ -7,19 +7,16 @@ package com.faraya.legioss.core.entity.profile;
  */
 import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
-import com.faraya.legioss.core.entity.profile.Profile;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-//@Entity
-//@Table(name = "ph_address")
+@Entity
+@Table(name = "ph_address")
 public class Address extends AbstractEntity implements IIdentifiable<Long>, Serializable{
 
     @Id
     @Column(name = "address_id", nullable = false)
-    //@SequenceGenerator(name="address_gen", sequenceName="address_seq")
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="address_gen")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
@@ -38,17 +35,6 @@ public class Address extends AbstractEntity implements IIdentifiable<Long>, Seri
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    Profile profile;
-
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
     }
 
     @Column(name = "address_country", nullable = false, length=5)
