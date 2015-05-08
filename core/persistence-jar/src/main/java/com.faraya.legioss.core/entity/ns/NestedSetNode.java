@@ -50,7 +50,7 @@ public abstract class NestedSetNode <T extends NestedSetTree> implements IIdenti
     }
 
     @JoinColumn(name = "tree_id", nullable = false)
-    @OneToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private T tree;
 
     public T getTree() {
@@ -61,7 +61,7 @@ public abstract class NestedSetNode <T extends NestedSetTree> implements IIdenti
         this.tree = tree;
     }
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     public String getName() {

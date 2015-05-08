@@ -4,6 +4,7 @@ import com.faraya.legioss.BasePersitenceTest;
 import com.faraya.legioss.core.dao.accounting.IAccountCatalogDAO;
 import com.faraya.legioss.core.entity.accounting.AccountCatalog;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import static org.junit.Assert.assertNotNull;
  * Created by fabrizzio on 4/21/15.
  */
 
+@Ignore
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AccountCatalogDAOIT extends BasePersitenceTest {
 

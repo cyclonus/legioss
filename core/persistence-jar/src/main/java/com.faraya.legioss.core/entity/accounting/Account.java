@@ -29,11 +29,11 @@ public class Account extends AbstractEntity {
     private boolean active;
 
     @JoinColumn(name = "catalog_id", nullable = true)
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
     private AccountCatalog catalog;
 
     @JoinColumn(name = "currency_id", nullable = false)
-    @OneToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Currency currency;
 
     public Long getId() {
@@ -89,5 +89,26 @@ public class Account extends AbstractEntity {
         return (id == null);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Account)) return false;
 
+        Account account = (Account) o;
+
+        if (!getId().equals(account.getId())) return false;
+        if (!getName().equals(account.getName())) return false;
+        if (!getCatalog().equals(account.getCatalog())) return false;
+        return getCurrency().equals(account.getCurrency());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getCatalog().hashCode();
+        result = 31 * result + getCurrency().hashCode();
+        return result;
+    }
 }

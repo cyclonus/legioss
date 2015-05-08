@@ -64,9 +64,7 @@ public class Currency extends AbstractEntity {
         if (!(o instanceof Currency)) return false;
 
         Currency currency = (Currency) o;
-
-        if (!getId().equals(currency.getId())) return false;
-        return getSymbol().equals(currency.getSymbol());
+        return (getId().equals(currency.getId()) && getSymbol().equals(currency.getSymbol()));
 
     }
 

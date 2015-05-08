@@ -1,7 +1,6 @@
 package com.faraya.legioss.core.entity.accounting;
 
 import com.faraya.legioss.core.entity.ns.NestedSetTree;
-
 import javax.persistence.*;
 
 /**
@@ -25,20 +24,18 @@ public class AccountCatalog extends NestedSetTree<AccountNode> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AccountCatalog)) return false;
-
-        NestedSetTree tree = AccountCatalog.class.cast(o);
-
-        boolean sameName = getName().equals(tree.getName());
-        boolean sameId = getId().equals(tree.getId());
-        return sameName && sameId;
-
+    public int hashCode() {
+        return 31 * super.hashCode();
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AccountCatalog)) return false;
+        AccountCatalog catalog = (AccountCatalog) o;
+        return (
+          getId().compareTo(catalog.getId()) == 0 &&
+            getName().equals(catalog.getName())
+        );
     }
 }

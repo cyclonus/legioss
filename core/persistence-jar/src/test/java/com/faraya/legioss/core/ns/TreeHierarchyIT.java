@@ -57,6 +57,9 @@ public class TreeHierarchyIT extends BasePersitenceTest {
         assertEquals("root insertion, root.getLeft ", 1L, (long) root.getLeft());
         assertEquals("root insertion, root.getRight ", 2L, (long) root.getRight());
 
+       // AccountCatalog tree2 = new AccountCatalog("TreeHierarchyTest2");
+       // treeDao.save(tree2);
+
         AccountNode depth1 = new AccountNode("depth1");
         nestedSetDAO.add(depth1, root, tree);
         nestedSetDAO.refresh(root);
