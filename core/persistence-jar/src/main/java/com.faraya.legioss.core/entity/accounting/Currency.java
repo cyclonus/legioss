@@ -1,5 +1,6 @@
 package com.faraya.legioss.core.entity.accounting;
 
+import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import javax.persistence.*;
                 @Index(name = "symbol", unique = true, columnList = "symbol")
         }
 )
-public class Currency extends AbstractEntity {
+public class Currency extends AbstractEntity implements IIdentifiable<Long>{
 
     @Id
     @Column(name = "Id", nullable = false)
@@ -28,6 +29,14 @@ public class Currency extends AbstractEntity {
     @Column(name = "symbol", nullable = false)
     private String symbol;
 
+    public Currency() {
+
+    }
+
+    public Currency(String name, String symbol) {
+        this.name = name;
+        this.symbol = symbol;
+    }
 
     public Long getId() {
         return id;

@@ -1,8 +1,11 @@
 package com.faraya.legioss.core.entity.accounting;
 
+import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
-
+import com.faraya.legioss.core.model.accounting.AccountType;
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -12,10 +15,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "account",
         indexes =  {
-                @Index(name = "name", unique = true, columnList = "name")
+                @Index(name = "name", unique = true, columnList = "name,catalog_id")
         }
 )
-public class Account extends AbstractEntity {
+public class Account extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id
     @Column(name = "Id", nullable = false)
@@ -23,6 +26,8 @@ public class Account extends AbstractEntity {
     private Long id;
 
     private String name;
+
+    private AccountType accountType;
 
     private String i18eKey;
 
@@ -35,6 +40,18 @@ public class Account extends AbstractEntity {
     @JoinColumn(name = "currency_id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Currency currency;
+
+    @JoinColumn(name = "transaction_id", nullable = true)
+    @OneToMany()
+    private Set<TransactionJournal> posting;
+
+    public Account() {
+    }
+
+    public Account(String name, Currency currency) {
+        this.name = name;
+        this.currency = currency;
+    }
 
     public Long getId() {
         return id;
@@ -50,6 +67,14 @@ public class Account extends AbstractEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 
     public String getI18eKey() {
@@ -82,6 +107,17 @@ public class Account extends AbstractEntity {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    public Set<TransactionJournal> getPosting() {
+        if(posting == null){
+           posting = new HashSet<>();
+        }
+        return posting;
+    }
+
+    public void setPosting(Set<TransactionJournal> posting) {
+        this.posting = posting;
     }
 
     @Override

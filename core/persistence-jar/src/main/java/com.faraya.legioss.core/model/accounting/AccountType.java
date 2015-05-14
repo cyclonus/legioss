@@ -6,6 +6,7 @@ package com.faraya.legioss.core.model.accounting;
  */
 public enum AccountType {
 
-    ASSET, LIABILITY, EQUITY, VALUATION, EXPENSE, REVENUE
+    // ASSET = LIABILITY + CAPITAL - DRAWINGS + REVENUE - EXPENSES
+    ASSET, LIABILITY, CAPITAL, DRAWINGS, REVENUE, EXPENSES
 
 }

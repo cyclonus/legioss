@@ -17,7 +17,7 @@ public class Business {
 
     private String name;
 
-    private Currency defaultCurrency;
+    private Currency currency;
 
     private Set<Address> address;
 

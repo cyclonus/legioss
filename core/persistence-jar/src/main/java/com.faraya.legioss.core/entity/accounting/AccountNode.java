@@ -13,8 +13,8 @@ import javax.persistence.*;
         indexes =  {
                 @Index(name = "tree", columnList = "tree_id"),
                 @Index(name = "name", unique = true, columnList = "name, tree_id"),
-                @Index(name = "left_index", unique = true, columnList = "left_value"),
-                @Index(name = "right_index", unique = true, columnList = "right_value")
+                @Index(name = "left_index", unique = true, columnList = "left_value, tree_id"),
+                @Index(name = "right_index", unique = true, columnList = "right_value, tree_id")
         }
 )
 public class AccountNode extends NestedSetNode <AccountCatalog> {

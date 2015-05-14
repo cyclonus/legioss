@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 
 @MappedSuperclass
-public abstract class User extends AbstractEntity implements IIdentifiable<Long>, Serializable {
+public abstract class User extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id
     @Column(name = "user_id", nullable = false)

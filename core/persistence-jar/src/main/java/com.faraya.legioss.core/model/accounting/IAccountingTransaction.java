@@ -15,7 +15,7 @@ public interface IAccountingTransaction {
     Date getDate();
 
     //IAccountingEvent getAccountingEvent(), event must have a User and company information
-    //Transaction Type
+    //TransactionJournal Type
 
     Set<IAccountSnapshot> getAffectedAccounts();
 

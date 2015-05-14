@@ -1,14 +1,21 @@
 package com.faraya.legioss.core.model.accounting;
 
 /**
- * Created by fabrizzio on 4/26/15.
+ *
+ *  Created by fabrizzio on 4/26/15.
  */
 public enum BalanceType {
+    /*
+     * ASSETS = LIABILITIES + CAPITAL - DRAWINGS + REVENUE - EXPENSES
+     *
+     * ASSETS:      DEB+ CRED-
+     * LIABILITIES: DEB- CRED+
+     * CAPITAL:     DEB- CRED+
+     * DRAWINGS:    DEB+ CRED-
+     * REVENUE:     DEB+ CRED-
+     * EXPENSES     DEB+ CRED-
+     * */
+
     DEBIT,
     CREDIT
-    // Assets are increased by debits and decreased by credits.
-    // Liabilities are increased by credits and decreased by debits.
-    // Equity accounting are increased by credits and decreased by debits
-    // Assets = Liability + Equity
-    // (Debits) (Credits)  (Credits)
 }
