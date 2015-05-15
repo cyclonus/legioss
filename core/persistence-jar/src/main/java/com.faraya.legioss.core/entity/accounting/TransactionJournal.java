@@ -72,6 +72,11 @@ public class TransactionJournal extends AbstractEntity implements IIdentifiable<
         return entries;
     }
 
+    public void addEntry(JournalEntry entry){
+      entry.setTransactionJournal(this);
+      getEntries().add(entry);
+    }
+
     public void setEntries(Set<JournalEntry> entries) {
         this.entries = entries;
     }

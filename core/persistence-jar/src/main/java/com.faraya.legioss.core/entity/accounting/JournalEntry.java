@@ -54,6 +54,46 @@ public class JournalEntry extends AbstractEntity implements IIdentifiable<Long>{
        this.id = id;
     }
 
+    public TransactionJournal getTransactionJournal() {
+        return transactionJournal;
+    }
+
+    public void setTransactionJournal(TransactionJournal transactionJournal) {
+        this.transactionJournal = transactionJournal;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public BalanceType getBalanceType() {
+        return balanceType;
+    }
+
+    public void setBalanceType(BalanceType balanceType) {
+        this.balanceType = balanceType;
+    }
+
+    public Long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
+    }
+
     @Override
     public boolean isTransient() {
         return id == null;
@@ -64,25 +104,25 @@ public class JournalEntry extends AbstractEntity implements IIdentifiable<Long>{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        JournalEntry that = (JournalEntry) o;
+        JournalEntry entry = (JournalEntry) o;
 
-        if (!getId().equals(that.getId())) return false;
-        if (!transactionJournal.equals(that.transactionJournal)) return false;
-        if (!date.equals(that.date)) return false;
-        if (!amount.equals(that.amount)) return false;
-        if (balanceType != that.balanceType) return false;
-        return eventId.equals(that.eventId);
+        if (!getId().equals(entry.getId())) return false;
+        if (!getTransactionJournal().equals(entry.getTransactionJournal())) return false;
+        if (!getDate().equals(entry.getDate())) return false;
+        if (!getAmount().equals(entry.getAmount())) return false;
+        if (getBalanceType() != entry.getBalanceType()) return false;
+        return getEventId().equals(entry.getEventId());
 
     }
 
     @Override
     public int hashCode() {
         int result = getId().hashCode();
-        result = 31 * result + transactionJournal.hashCode();
-        result = 31 * result + date.hashCode();
-        result = 31 * result + amount.hashCode();
-        result = 31 * result + balanceType.hashCode();
-        result = 31 * result + eventId.hashCode();
+        result = 31 * result + getTransactionJournal().hashCode();
+        result = 31 * result + getDate().hashCode();
+        result = 31 * result + getAmount().hashCode();
+        result = 31 * result + getBalanceType().hashCode();
+        result = 31 * result + getEventId().hashCode();
         return result;
     }
 }

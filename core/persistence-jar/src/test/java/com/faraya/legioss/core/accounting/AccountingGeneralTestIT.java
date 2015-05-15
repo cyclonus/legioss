@@ -1,13 +1,9 @@
 package com.faraya.legioss.core.accounting;
 
 import com.faraya.legioss.BasePersitenceTest;
-import com.faraya.legioss.core.dao.accounting.IAccountCatalogDAO;
-import com.faraya.legioss.core.dao.accounting.IAccountDAO;
-import com.faraya.legioss.core.dao.accounting.IAccountNodeDAO;
-import com.faraya.legioss.core.dao.accounting.ICurrencyDAO;
-import com.faraya.legioss.core.entity.accounting.Account;
-import com.faraya.legioss.core.entity.accounting.AccountCatalog;
-import com.faraya.legioss.core.entity.accounting.Currency;
+import com.faraya.legioss.core.dao.accounting.*;
+import com.faraya.legioss.core.entity.accounting.*;
+import com.faraya.legioss.core.model.accounting.BalanceType;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -19,6 +15,10 @@ import org.springframework.test.annotation.Rollback;
 
 import javax.persistence.PersistenceException;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -32,6 +32,12 @@ public class AccountingGeneralTestIT extends BasePersitenceTest {
     Logger logger = LoggerFactory.getLogger(AccountingGeneralTestIT.class);
 
     @Autowired
+    ITransactionJournalDAO transactionJournalDAO;
+
+    @Autowired
+    IJournalEntryDAO journalEntryDAO;
+
+    @Autowired
     IAccountNodeDAO accountNodeDAO;
 
     @Autowired
@@ -42,11 +48,11 @@ public class AccountingGeneralTestIT extends BasePersitenceTest {
 
     @Autowired
     ICurrencyDAO currencyDAO;
-
+    
+/*
     @Test
-    //@ExpectedException(javax.persistence.PersistenceException.class)
-    //@ExpectedException(org.hibernate.exception.ConstraintViolationException.class)
-    public void AttemptCreatingTwoCurrenciesNamedTheSame(){
+    @ExpectedException(javax.persistence.PersistenceException.class)
+    public void attemptCreatingTwoCurrenciesNamedTheSame(){
 
            Currency currency1 = new Currency("All mighty dollar", "USD");
            currencyDAO.save(currency1);
@@ -57,10 +63,10 @@ public class AccountingGeneralTestIT extends BasePersitenceTest {
            assertNotNull("id", currency2.getId());
 
     }
-
+*/
     @Test
     @ExpectedException(PersistenceException.class)
-    public void AttemptCreatingTwoCatalogsNamedTheSame(){
+    public void attemptCreatingTwoCatalogsNamedTheSame(){
         AccountCatalog a = new AccountCatalog("DuplicateCatalog");
         accountCatalogDAO.save(a);
         assertNotNull("id", a.getId());
@@ -79,15 +85,34 @@ public class AccountingGeneralTestIT extends BasePersitenceTest {
         assertNotNull("id", crc.getId());
 
         assertNotNull(" accountCatalogDAO is null", accountCatalogDAO);
-        AccountCatalog c = new AccountCatalog("myCatalog");
-        accountCatalogDAO.save(c);
-        assertNotNull("id", c.getId());
+        AccountCatalog catalog = new AccountCatalog("myCatalog");
+        accountCatalogDAO.save(catalog);
+        assertNotNull("id", catalog.getId());
 
-        Account account = new Account("Happy-Account",crc);
+        Account account = new Account("Happy-Account",crc, catalog);
 
         accountDAO.save(account);
         assertNotNull("account", account.getId());
 
+        TransactionJournal transactionJournal = new TransactionJournal(account, new Date());
+        transactionJournalDAO.save(transactionJournal);
+        assertNotNull("id", transactionJournal.getId());
+
+        JournalEntry creditEntry = new JournalEntry(new Date(), new BigDecimal(1.0), BalanceType.CREDIT, 0L);
+        JournalEntry debitEntry = new JournalEntry(new Date(), new BigDecimal(1.0), BalanceType.DEBIT, 0L);
+
+        journalEntryDAO.save(creditEntry);
+        assertNotNull("creditEntry", creditEntry.getId());
+        journalEntryDAO.save(debitEntry);
+        assertNotNull("debitEntry", debitEntry.getId());
+
+        transactionJournal.addEntry(creditEntry);
+        transactionJournal.addEntry(debitEntry);
+
+        transactionJournalDAO.save(transactionJournal);
+        TransactionJournal tj = transactionJournalDAO.findByPK(transactionJournal.getId());
+        assertNotNull("id", tj.getId());
+        assertEquals("accounting entries in journal dont mantch",tj.getEntries().size(), 2);
     }
 
 

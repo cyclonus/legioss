@@ -33,7 +33,7 @@ public class Account extends AbstractEntity implements IIdentifiable<Long> {
 
     private boolean active;
 
-    @JoinColumn(name = "catalog_id", nullable = true)
+    @JoinColumn(name = "catalog_id", nullable = false)
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
     private AccountCatalog catalog;
 
@@ -48,9 +48,10 @@ public class Account extends AbstractEntity implements IIdentifiable<Long> {
     public Account() {
     }
 
-    public Account(String name, Currency currency) {
+    public Account(String name, Currency currency, AccountCatalog catalog) {
         this.name = name;
         this.currency = currency;
+        this.catalog = catalog;
     }
 
     public Long getId() {
