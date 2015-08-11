@@ -9,7 +9,11 @@ public class TreeImpl implements ITree <Long> {
 
     private Long id;
 
+
     private INode<Long> root;
+
+    public TreeImpl() {
+    }
 
     public TreeImpl(Long id, INode<Long> root) {
         this.id = id;
@@ -24,5 +28,14 @@ public class TreeImpl implements ITree <Long> {
     @Override
     public INode<Long> getRoot() {
         return root;
+    }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setRoot(INode<Long> root) {
+        this.root = root;
     }
 }

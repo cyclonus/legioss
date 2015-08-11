@@ -16,6 +16,6 @@ public enum BalanceType {
      * EXPENSES     DEB+ CRED-
      * */
 
-    DEBIT,
-    CREDIT
+    debit,
+    credit
 }

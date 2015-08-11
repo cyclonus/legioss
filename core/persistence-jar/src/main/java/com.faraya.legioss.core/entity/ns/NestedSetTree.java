@@ -40,8 +40,9 @@ public abstract class NestedSetTree<T extends NestedSetNode> implements IIdentif
     }
 
     /*
-    @OneToMany(mappedBy = "tree", fetch = FetchType.LAZY)
-    private Set<T> nodes;
+     * I'm Commenting this out, cuz it might slow down things considerably
+     @OneToMany(mappedBy = "tree", fetch = FetchType.LAZY)
+     private Set<T> nodes;
     */
 
     public Long getId() {

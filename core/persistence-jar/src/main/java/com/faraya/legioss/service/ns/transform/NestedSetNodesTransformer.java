@@ -25,7 +25,7 @@ public class NestedSetNodesTransformer<ID, N extends NestedSetNode> {
     private ITree<ID> tree;
 
     /**
-     * Since Nodes can have many different implementations an node instance factory is required
+     * Since Nodes can have many different implementations a node instance factory is required
      * @param subTree
      * The factory that will convert from NestedSetNode to a concert Node Representation
      * @param instanceFactory

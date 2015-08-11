@@ -17,6 +17,7 @@
         <jetty.version>6.1.4</jetty.version>
         <slf4j.version>1.6.2</slf4j.version>
         <hsqldb.version>2.3.2</hsqldb.version>
+        <jackson.version>2.4.4</jackson.version>
         <maven.failsafe.version>2.18.1</maven.failsafe.version>
 
     </properties>
@@ -131,6 +132,17 @@
             <artifactId>slf4j-simple</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>3.2.3.RELEASE</version>
+        </dependency>
+
 
     </dependencies>
     <build>

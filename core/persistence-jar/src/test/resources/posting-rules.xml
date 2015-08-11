@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:bean="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd"
+        >
+
+    <bean id="testCompanyID" class="java.lang.String">
+        <constructor-arg value="1" type="java.lang.String"/>
+    </bean>
+
+    <bean id="postingRuleManager" class="com.faraya.legioss.core.model.accounting.rule.PostingRuleManagerImpl">
+        <property name="saleRulesByType">
+            <map>
+                <entry key="finishedGood" value-ref="salePostingRulesMap"/>
+                <entry key="service" value-ref="salePostingRulesMap"/>
+                <entry key="equipment" value-ref="equipmentSaleRule"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean:map id="generalSaleConfig">
+        <entry key="001" value="debit"/>
+        <entry key="002" value="credit"/>
+        <entry key="008" value="credit"/>
+    </bean:map>
+
+
+    <bean id="productOrServiceSaleRule" class="com.faraya.legioss.core.model.accounting.rule.SalePostingRule">
+        <property name="accounts" ref="generalSaleConfig" />
+    </bean>
+
+    <bean id="equipmentSaleRule" class="com.faraya.legioss.core.model.accounting.rule.SalePostingRule">
+        <property name="accounts" ref="generalSaleConfig"/>
+    </bean>
+
+
+</beans>

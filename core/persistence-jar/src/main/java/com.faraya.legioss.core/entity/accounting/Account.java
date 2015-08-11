@@ -35,7 +35,7 @@ public class Account extends AbstractEntity implements IIdentifiable<Long> {
 
     @JoinColumn(name = "catalog_id", nullable = false)
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
-    private AccountCatalog catalog;
+    private Catalog catalog;
 
     @JoinColumn(name = "currency_id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -48,8 +48,9 @@ public class Account extends AbstractEntity implements IIdentifiable<Long> {
     public Account() {
     }
 
-    public Account(String name, Currency currency, AccountCatalog catalog) {
+    public Account(String name, AccountType type, Currency currency, Catalog catalog) {
         this.name = name;
+        this.accountType = type;
         this.currency = currency;
         this.catalog = catalog;
     }
@@ -94,11 +95,11 @@ public class Account extends AbstractEntity implements IIdentifiable<Long> {
         this.active = active;
     }
 
-    public AccountCatalog getCatalog() {
+    public Catalog getCatalog() {
         return catalog;
     }
 
-    public void setCatalog(AccountCatalog catalog) {
+    public void setCatalog(Catalog catalog) {
         this.catalog = catalog;
     }
 

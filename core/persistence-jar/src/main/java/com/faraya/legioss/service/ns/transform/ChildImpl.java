@@ -1,5 +1,8 @@
 package com.faraya.legioss.service.ns.transform;
 
+import com.faraya.legioss.core.model.accounting.AccountType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +15,18 @@ public class ChildImpl implements INode <Long> {
 
     private Long parentId;
 
-    private String label;
+    private String name;
 
-    public ChildImpl(Long id, Long parentId, String label) {
+    private AccountType type;
+
+    public ChildImpl() {
+    }
+
+    public ChildImpl(Long id, Long parentId, String name, AccountType type) {
         this.id = id;
         this.parentId = parentId;
-        this.label = label;
+        this.name = name;
+        this.type = type;
     }
 
     private List<INode<Long>> children;
@@ -35,7 +44,7 @@ public class ChildImpl implements INode <Long> {
     @Override
     public List<INode<Long>> getChildren() {
         if(children == null){
-           children = new ArrayList<INode<Long>>();
+           children = new ArrayList<>();
         }
         return children;
     }
@@ -45,13 +54,24 @@ public class ChildImpl implements INode <Long> {
          getChildren().add(node);
     }
 
+
     @Override
+    @JsonIgnore
     public boolean isRoot() {
         return getParentId() == null;
     }
 
     @Override
+    @JsonIgnore
     public boolean isLeaf() {
         return getChildren().isEmpty();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public AccountType getType() {
+        return type;
     }
 }

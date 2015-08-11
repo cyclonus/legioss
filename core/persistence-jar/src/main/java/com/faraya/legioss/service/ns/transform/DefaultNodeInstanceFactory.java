@@ -13,7 +13,9 @@ public class DefaultNodeInstanceFactory implements INodeInstanceFactory <Long,Ac
 
     @Override
     public INode<Long> newInstance(AccountNode node) {
-        return new ChildImpl(node.getId(),node.getParent(), node.getName());
+        return new ChildImpl(node.getId(),node.getParent(), node.getName(),
+                node.getAccount() == null ? null :
+                node.getAccount().getAccountType());
     }
 
 }

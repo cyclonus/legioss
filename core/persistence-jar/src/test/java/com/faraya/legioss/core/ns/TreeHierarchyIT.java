@@ -1,10 +1,10 @@
 package com.faraya.legioss.core.ns;
 
 import com.faraya.legioss.BasePersitenceTest;
-import com.faraya.legioss.core.dao.accounting.IAccountCatalogDAO;
+import com.faraya.legioss.core.dao.accounting.ICatalogDAO;
 import com.faraya.legioss.core.dao.accounting.IAccountNodeDAO;
 import com.faraya.legioss.core.entity.accounting.AccountNode;
-import com.faraya.legioss.core.entity.accounting.AccountCatalog;
+import com.faraya.legioss.core.entity.accounting.Catalog;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -36,7 +36,7 @@ public class TreeHierarchyIT extends BasePersitenceTest {
     Logger logger = LoggerFactory.getLogger(NestedSetDaoIT.class);
 
     @Autowired
-    IAccountCatalogDAO treeDao;
+    ICatalogDAO treeDao;
 
 
     @Autowired
@@ -48,7 +48,7 @@ public class TreeHierarchyIT extends BasePersitenceTest {
         assertNotNull("null", nestedSetDAO);
         assertNotNull("null", treeDao);
 
-        AccountCatalog tree = new AccountCatalog("TreeHierarchyTest");
+        Catalog tree = new Catalog("TreeHierarchyTest");
         treeDao.save(tree);
         assertNotNull("null", tree.getId());
 
@@ -57,7 +57,7 @@ public class TreeHierarchyIT extends BasePersitenceTest {
         assertEquals("root insertion, root.getLeft ", 1L, (long) root.getLeft());
         assertEquals("root insertion, root.getRight ", 2L, (long) root.getRight());
 
-       // AccountCatalog tree2 = new AccountCatalog("TreeHierarchyTest2");
+       // Catalog tree2 = new Catalog("TreeHierarchyTest2");
        // treeDao.save(tree2);
 
         AccountNode depth1 = new AccountNode("depth1");

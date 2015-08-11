@@ -17,7 +17,7 @@ import javax.persistence.*;
                 @Index(name = "right_index", unique = true, columnList = "right_value, tree_id")
         }
 )
-public class AccountNode extends NestedSetNode <AccountCatalog> {
+public class AccountNode extends NestedSetNode <Catalog> {
 
     public AccountNode() {
     }

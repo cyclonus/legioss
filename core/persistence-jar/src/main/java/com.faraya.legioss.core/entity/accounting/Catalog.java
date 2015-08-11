@@ -14,12 +14,12 @@ import javax.persistence.*;
                 @Index(name = "name", unique = true, columnList = "name")
         }
 )
-public class AccountCatalog extends NestedSetTree<AccountNode> {
+public class Catalog extends NestedSetTree<AccountNode> {
 
-    public AccountCatalog() {
+    public Catalog() {
     }
 
-    public AccountCatalog(String name) {
+    public Catalog(String name) {
         super(name);
     }
 
@@ -31,8 +31,8 @@ public class AccountCatalog extends NestedSetTree<AccountNode> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AccountCatalog)) return false;
-        AccountCatalog catalog = (AccountCatalog) o;
+        if (!(o instanceof Catalog)) return false;
+        Catalog catalog = (Catalog) o;
         return (
           getId().compareTo(catalog.getId()) == 0 &&
             getName().equals(catalog.getName())

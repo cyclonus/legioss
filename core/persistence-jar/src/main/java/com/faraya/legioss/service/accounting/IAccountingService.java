@@ -1,10 +1,6 @@
 package com.faraya.legioss.service.accounting;
 
-import com.faraya.legioss.core.entity.accounting.Business;
-import com.faraya.legioss.core.model.accounting.IAccountingEvent;
-import com.faraya.legioss.core.model.accounting.ICatalog;
-
-import java.util.List;
+import com.faraya.legioss.core.model.accounting.event.AbstractAccountingEvent;
 
 /**
  *
@@ -13,6 +9,8 @@ import java.util.List;
 
 public interface IAccountingService {
 
-     void post(IAccountingEvent e);
+     void process(AbstractAccountingEvent e);
+
+
 
 }
