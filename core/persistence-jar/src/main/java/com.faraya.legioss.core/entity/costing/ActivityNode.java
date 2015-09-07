@@ -1,15 +1,13 @@
-package com.faraya.legioss.core.entity.accounting;
+package com.faraya.legioss.core.entity.costing;
 
+import com.faraya.legioss.core.entity.accounting.*;
+import com.faraya.legioss.core.entity.accounting.Catalog;
 import com.faraya.legioss.core.entity.ns.NestedSetNode;
+
 import javax.persistence.*;
 
-/**
- *
- * Created by fabrizzio on 4/29/15.
- */
-
 @Entity
-@Table(name = "account_node",
+@Table(name = "activity_node",
         indexes =  {
                 @Index(name = "tree", columnList = "tree_id"),
                 @Index(name = "name", unique = true, columnList = "name, tree_id"),
@@ -17,20 +15,20 @@ import javax.persistence.*;
                 @Index(name = "right_index", unique = true, columnList = "right_value, tree_id")
         }
 )
-public class AccountNode extends NestedSetNode <Catalog> {
+public class ActivityNode extends NestedSetNode<Catalog> {
 
-    public AccountNode() {
+    public ActivityNode() {
     }
 
-    public AccountNode(String name) {
+    public ActivityNode(String name) {
         super(name);
     }
 
-    public AccountNode(String name, Long parent) {
+    public ActivityNode(String name, Long parent) {
         super(name, parent);
     }
 
-    public AccountNode(Account account, Long parent) {
+    public ActivityNode(Account account, Long parent) {
         this(account.getName(), parent);
         this.account = account;
     }
@@ -38,7 +36,7 @@ public class AccountNode extends NestedSetNode <Catalog> {
     /**
      * Can be Nullable because of Parent nodes
      */
-    @JoinColumn(name = "account_id", nullable = true)
+    @JoinColumn(name = "activity_id", nullable = true)
     @OneToOne(optional = true, fetch = FetchType.EAGER)
     private Account account;
 
@@ -61,7 +59,7 @@ public class AccountNode extends NestedSetNode <Catalog> {
 
         AccountNode that = (AccountNode) o;
         return getId().equals(that.getId())
-           && getAccount() != null
+                && getAccount() != null
                 && getAccount().equals(that.getAccount());
 
     }
@@ -83,7 +81,7 @@ public class AccountNode extends NestedSetNode <Catalog> {
         String account = (getAccount() != null  ? getAccount().getName() : "no-account" );
         String catalog = (getTree() != null ? getTree().getName() : "no-catalog" );
 
-        return "AccountNode{" +
+        return "ActivityNode{" +
                 " id=" + getId() +
                 ", name='" + getName() + '\'' +
                 ", left=" + getLeft() +
@@ -95,3 +93,4 @@ public class AccountNode extends NestedSetNode <Catalog> {
                 '}';
     }
 }
+

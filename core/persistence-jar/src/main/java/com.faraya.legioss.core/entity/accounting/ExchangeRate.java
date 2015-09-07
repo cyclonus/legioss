@@ -1,5 +1,7 @@
 package com.faraya.legioss.core.entity.accounting;
 
+import com.faraya.legioss.core.entity.common.Currency;
+
 import java.math.BigDecimal;
 import java.util.Date;
 

@@ -1,4 +1,4 @@
-package com.faraya.legioss.core.entity.accounting;
+package com.faraya.legioss.core.entity.common;
 
 import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
@@ -23,7 +23,7 @@ public class Currency extends AbstractEntity implements IIdentifiable<Long>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "symbol", nullable = false)

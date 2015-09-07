@@ -66,7 +66,7 @@
     <tx:annotation-driven transaction-manager="txManager" />
 
     <context:annotation-config/>
-    <context:component-scan base-package="com.faraya.legioss.core"/>
+    <context:component-scan base-package="com.faraya.legioss"/>
 
     <!--import resource="posting-rules.xml"/-->
 

@@ -3,6 +3,7 @@ package com.faraya.legioss.core.model.accounting.rule;
 import com.faraya.legioss.core.model.accounting.event.AbstractAccountingEvent;
 import com.faraya.legioss.core.model.accounting.event.SaleEvent;
 import com.faraya.legioss.core.model.accounting.event.SoldItemType;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import java.util.Map;
  * Created by fabrizzio on 5/22/15.
  */
 
+@Service
 public class PostingRuleManagerImpl implements IPostingRuleManager {
 
     private Map<SoldItemType,SalePostingRule> saleRulesByType;

@@ -2,6 +2,7 @@ package com.faraya.legioss.core.entity.accounting;
 
 import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
+import com.faraya.legioss.core.entity.common.Currency;
 import com.faraya.legioss.core.model.accounting.AccountType;
 import javax.persistence.*;
 import java.util.HashSet;

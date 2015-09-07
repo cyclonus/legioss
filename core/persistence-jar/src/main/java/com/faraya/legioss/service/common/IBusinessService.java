@@ -1,10 +1,4 @@
-package com.faraya.legioss.service.accounting;
-
-import com.faraya.legioss.core.entity.accounting.Business;
-import com.faraya.legioss.core.entity.accounting.Currency;
-import com.faraya.legioss.core.model.accounting.ICatalog;
-
-import java.util.List;
+package com.faraya.legioss.service.common;
 
 /**
  *

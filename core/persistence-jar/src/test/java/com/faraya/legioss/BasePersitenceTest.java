@@ -15,7 +15,4 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations={"classpath:context.xml"})
 @Transactional
 public abstract class BasePersitenceTest {
-
-
-
 }

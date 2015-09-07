@@ -1,7 +1,4 @@
-package com.faraya.legioss.core.entity.accounting;
-
-import com.faraya.legioss.core.entity.common.Address;
-import com.faraya.legioss.core.entity.common.Period;
+package com.faraya.legioss.core.entity.common;
 
 import javax.persistence.Embedded;
 import java.util.Set;

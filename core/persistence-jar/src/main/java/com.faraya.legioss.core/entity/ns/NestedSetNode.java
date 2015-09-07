@@ -11,7 +11,7 @@ import javax.persistence.*;
  * Time: 5:34 PM
  */
 
-/*
+/* Add these to the inheritors
 @Entity
 @Table(name = "ns_node",
         indexes =  {

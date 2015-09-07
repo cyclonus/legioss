@@ -1,7 +1,7 @@
-package com.faraya.legioss.core.dao.accounting;
+package com.faraya.legioss.core.dao.common;
 
 import com.faraya.legioss.core.dao.AbstractJPAGenericDAO;
-import com.faraya.legioss.core.entity.accounting.Currency;
+import com.faraya.legioss.core.entity.common.Currency;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

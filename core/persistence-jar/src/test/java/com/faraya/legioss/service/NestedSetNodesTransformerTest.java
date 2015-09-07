@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import com.faraya.legioss.core.entity.accounting.Account;
 import com.faraya.legioss.core.entity.accounting.Catalog;
 import com.faraya.legioss.core.entity.accounting.AccountNode;
-import com.faraya.legioss.core.entity.accounting.Currency;
+import com.faraya.legioss.core.entity.common.Currency;
 import com.faraya.legioss.core.model.accounting.AccountType;
 import com.faraya.legioss.service.ns.transform.*;
 import com.fasterxml.jackson.databind.ObjectMapper;

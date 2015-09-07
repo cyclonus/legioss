@@ -7,14 +7,13 @@ import com.faraya.legioss.core.dao.security.IUserDAO;
 import com.faraya.legioss.core.entity.security.Permission;
 import com.faraya.legioss.core.entity.security.Role;
 import com.faraya.legioss.core.entity.security.User;
-import com.faraya.legioss.core.entity.security.UserImpl;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
+
 import static org.junit.Assert.*;
 
 /**
@@ -73,7 +72,7 @@ public class SecurityGeneralTestIT extends BasePersitenceTest {
         roleDAO.save(developer);
         assertFalse(developer.isTransient());
 
-        User user = new UserImpl("devmanager@gmail.com","","","123456","");
+        User user = new User("devmanager@gmail.com","","");
         user.addRole(manager);
         user.addRole(developer);
         userDAO.save(user);

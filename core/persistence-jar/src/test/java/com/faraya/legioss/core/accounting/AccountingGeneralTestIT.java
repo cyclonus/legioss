@@ -2,12 +2,16 @@ package com.faraya.legioss.core.accounting;
 
 import com.faraya.legioss.BasePersitenceTest;
 import com.faraya.legioss.core.dao.accounting.*;
+import com.faraya.legioss.core.dao.common.ICurrencyDAO;
 import com.faraya.legioss.core.entity.accounting.*;
+import com.faraya.legioss.core.entity.common.Currency;
 import com.faraya.legioss.core.model.accounting.AccountType;
 import com.faraya.legioss.core.model.accounting.BalanceType;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +31,7 @@ import static org.junit.Assert.assertNotNull;
  * Created by fabrizzio on 5/11/15.
  *
  */
+
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AccountingGeneralTestIT extends BasePersitenceTest {
@@ -52,6 +57,8 @@ public class AccountingGeneralTestIT extends BasePersitenceTest {
     ICurrencyDAO currencyDAO;
 
 /*
+http://stackoverflow.com/questions/1108066/junit4-expected-exception-not-working-with-spring
+
     @Test
     @ExpectedException(javax.persistence.PersistenceException.class)
     public void attemptCreatingTwoCurrenciesNamedTheSame(){
@@ -65,10 +72,13 @@ public class AccountingGeneralTestIT extends BasePersitenceTest {
            assertNotNull("id", currency2.getId());
 
     }
-*/
-    @Ignore
+
+
+    //@Rule
+    //public TestName name = new TestName();
+
     @Test
-    @ExpectedException(PersistenceException.class)
+    @ExpectedException(javax.persistence.PersistenceException.class)
     public void attemptCreatingTwoCatalogsNamedTheSame(){
         Catalog a = new Catalog("DuplicateCatalog");
         accountCatalogDAO.save(a);
@@ -79,6 +89,7 @@ public class AccountingGeneralTestIT extends BasePersitenceTest {
         assertNotNull("id", b.getId());
 
     }
+*/
 
     @Test
     @Rollback(false)

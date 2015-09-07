@@ -12,8 +12,11 @@ import java.util.Date;
 @Embeddable
 public class Period {
 
-    @Temporal(value = TemporalType.DATE) java.util.Date startDate;
-    @Temporal(value = TemporalType.DATE) java.util.Date endDate;
+    @Temporal(value = TemporalType.DATE)
+    java.util.Date startDate;
+
+    @Temporal(value = TemporalType.DATE)
+    java.util.Date endDate;
 
     public Date getStartDate() {
         return startDate;

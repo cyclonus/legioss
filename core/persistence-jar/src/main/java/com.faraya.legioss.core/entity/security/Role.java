@@ -31,14 +31,14 @@ public class Role extends AbstractEntity implements IIdentifiable<Long> {
     @Column(name = "name", unique = true, nullable = false, length = 50)
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinTable(name="role_permission",
             joinColumns={@JoinColumn(name="role_id")},
             inverseJoinColumns={@JoinColumn(name="permission_id")})
     private Set<Permission> permissions;
 
     public Role(String name) {
-        this.name = name;
+        this.name = name.toLowerCase();
     }
 
     @Override

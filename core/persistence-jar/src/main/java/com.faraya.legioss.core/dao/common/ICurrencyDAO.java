@@ -1,7 +1,7 @@
-package com.faraya.legioss.core.dao.accounting;
+package com.faraya.legioss.core.dao.common;
 
 import com.faraya.legioss.core.dao.IGenericDAO;
-import com.faraya.legioss.core.entity.accounting.Currency;
+import com.faraya.legioss.core.entity.common.Currency;
 
 /**
  *

@@ -25,7 +25,7 @@ public abstract class NestedSetTree<T extends NestedSetNode> implements IIdentif
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     //Must be set manually

@@ -14,6 +14,7 @@ public class Contact extends AbstractEntity {
     public enum Type {
         PHONE,
         MOBILE,
+        SKYPE,
         EMAIL,
         OTHER
     }
