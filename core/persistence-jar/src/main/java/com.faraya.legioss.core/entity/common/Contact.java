@@ -1,5 +1,6 @@
 package com.faraya.legioss.core.entity.common;
 
+import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
 
 import javax.persistence.*;
@@ -9,7 +10,9 @@ import javax.persistence.*;
  * Date: 10/10/13
  * Time: 11:40 PM
  */
-public class Contact extends AbstractEntity {
+@Entity
+@Table(name = "contact")
+public class Contact extends AbstractEntity implements IIdentifiable<Long>{
 
     public enum Type {
         PHONE,
@@ -19,11 +22,19 @@ public class Contact extends AbstractEntity {
         OTHER
     }
 
+    public Contact() {
+    }
+
+    public Contact(String value, Type type) {
+        this.value = value;
+        this.type = type;
+    }
+
     @Enumerated(EnumType.STRING)
     private Type type;
 
     @Id
-    @Column(name = "contact_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 

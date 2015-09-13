@@ -12,14 +12,15 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "ph_address")
+@Table(name = "address")
 public class Address extends AbstractEntity implements IIdentifiable<Long>, Serializable{
 
     @Id
-    @Column(name = "address_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+    private boolean primary = false;
     private String country;
     private String street;
     private String city;
@@ -35,6 +36,15 @@ public class Address extends AbstractEntity implements IIdentifiable<Long>, Seri
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Column(name = "address_primary", nullable = false)
+    public boolean isPrimary() {
+        return primary;
+    }
+
+    public void setPrimary(boolean primary) {
+        this.primary = primary;
     }
 
     @Column(name = "address_country", nullable = false, length=5)

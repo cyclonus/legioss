@@ -21,7 +21,7 @@ import javax.persistence.*;
 public abstract class NestedSetTree<T extends NestedSetNode> implements IIdentifiable<Long>{
 
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

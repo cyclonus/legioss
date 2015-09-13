@@ -18,6 +18,11 @@ public class Period {
     @Temporal(value = TemporalType.DATE)
     java.util.Date endDate;
 
+    public Period(Date startDate, Date endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public Date getStartDate() {
         return startDate;
     }

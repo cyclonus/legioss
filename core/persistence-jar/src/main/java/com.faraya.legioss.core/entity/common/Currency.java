@@ -19,14 +19,14 @@ import javax.persistence.*;
 public class Currency extends AbstractEntity implements IIdentifiable<Long>{
 
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "symbol", nullable = false)
+    @Column(name = "symbol", nullable = false, unique = true)
     private String symbol;
 
     public Currency() {

@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "hashed_credential",
+@Table(name = "security_hashed_credential",
         indexes = {
 
         }
@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Credential implements IIdentifiable <Long>{
 
     @Id
-    @Column(name = "credential_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

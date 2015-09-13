@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "account_node",
+@Table(name = "accounting_account_node",
         indexes =  {
                 @Index(name = "tree", columnList = "tree_id"),
                 @Index(name = "name", unique = true, columnList = "name, tree_id"),

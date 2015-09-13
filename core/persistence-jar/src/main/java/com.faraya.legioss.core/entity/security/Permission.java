@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "permission",
+@Table(name = "security_permission",
         indexes = {
                 @Index(name = "permission_name", columnList = "name")
         }
@@ -19,7 +19,7 @@ import javax.persistence.*;
 public class Permission extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id
-    @Column(name = "permission_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

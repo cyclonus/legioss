@@ -37,7 +37,7 @@ public abstract class NestedSetNode <T extends NestedSetTree> implements IIdenti
     }
 
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

@@ -15,7 +15,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "role",
+@Table(name = "security_role",
         indexes = {
                 @Index(name = "role_name", columnList = "name")
         }
@@ -23,7 +23,7 @@ import java.util.Set;
 public class Role extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id
-    @Column(name = "role_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

@@ -14,7 +14,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "account",
+@Table(name = "accounting_account",
         indexes =  {
                 @Index(name = "name", unique = true, columnList = "name,catalog_id")
         }
@@ -22,7 +22,7 @@ import java.util.Set;
 public class Account extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

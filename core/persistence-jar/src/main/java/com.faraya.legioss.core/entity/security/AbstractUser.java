@@ -16,7 +16,7 @@ import javax.persistence.*;
 public abstract class AbstractUser extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

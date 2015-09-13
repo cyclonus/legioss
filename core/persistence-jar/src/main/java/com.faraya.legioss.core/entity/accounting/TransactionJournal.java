@@ -14,11 +14,11 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "transaction_journal")
+@Table(name = "accounting_transaction_journal")
 public class TransactionJournal extends AbstractEntity implements IIdentifiable<Long>{
 
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
