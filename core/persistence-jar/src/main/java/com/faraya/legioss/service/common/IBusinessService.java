@@ -8,9 +8,7 @@ public interface IBusinessService {
 /*
     Business createBusiness(String name, Currency currency);
 
-    void dropBusiness(Long id);
-
-    Business findBusinessByID(Long id);
+        Business findBusinessByID(Long id);
 
     List<ICatalog> getCatalogsByBusiness(Business business);
 */

@@ -1,6 +1,6 @@
 package com.faraya.legioss.core.ns;
 
-import com.faraya.legioss.BasePersitenceTest;
+import com.faraya.legioss.TransactionalSpringJUnit4RunnerTest;
 import com.faraya.legioss.core.dao.accounting.ICatalogDAO;
 import com.faraya.legioss.core.dao.accounting.IAccountNodeDAO;
 import com.faraya.legioss.core.entity.accounting.AccountNode;
@@ -31,7 +31,7 @@ import static org.junit.Assert.assertNotNull;
  *
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TreeHierarchyIT extends BasePersitenceTest {
+public class TreeHierarchyIT extends TransactionalSpringJUnit4RunnerTest {
 
     Logger logger = LoggerFactory.getLogger(NestedSetDaoIT.class);
 

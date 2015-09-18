@@ -20,7 +20,7 @@ public class Address extends AbstractEntity implements IIdentifiable<Long>, Seri
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    private boolean primary = false;
+
     private String country;
     private String street;
     private String city;
@@ -38,13 +38,15 @@ public class Address extends AbstractEntity implements IIdentifiable<Long>, Seri
         this.id = id;
     }
 
-    @Column(name = "address_primary", nullable = false)
-    public boolean isPrimary() {
-        return primary;
+    @Column(name = "weight", nullable = false)
+    private int weight = 0;
+
+    public int getWeight() {
+        return weight;
     }
 
-    public void setPrimary(boolean primary) {
-        this.primary = primary;
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     @Column(name = "address_country", nullable = false, length=5)

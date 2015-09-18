@@ -14,11 +14,10 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.faraya.legioss.BasePersitenceTest;
+import com.faraya.legioss.TransactionalSpringJUnit4RunnerTest;
 import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.annotation.Rollback;
 
-import javax.persistence.PersistenceException;
 import java.util.List;
 
 /**
@@ -35,7 +34,7 @@ import java.util.List;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class NestedSetDaoIT extends BasePersitenceTest {
+public class NestedSetDaoIT extends TransactionalSpringJUnit4RunnerTest {
 
     Logger logger = LoggerFactory.getLogger(NestedSetDaoIT.class);
 

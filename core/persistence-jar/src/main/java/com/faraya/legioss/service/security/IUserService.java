@@ -1,5 +1,7 @@
 package com.faraya.legioss.service.security;
 
+import com.faraya.legioss.core.entity.security.IDomain;
+import com.faraya.legioss.core.entity.security.IUser;
 import com.faraya.legioss.core.entity.security.User;
 
 /**
@@ -15,7 +17,7 @@ public interface IUserService {
 
     boolean isValidPassword(String password);
 
-    User createUser( String email ,String firstName, String lastName, String password) throws Exception;
+    IUser createUser( String email ,String firstName, String lastName, String password, IDomain domain) throws Exception;
 
-    User authenticate(String email, String password) throws Exception;
+    IUser authenticate(String email, String password, IDomain domain) throws Exception;
 }

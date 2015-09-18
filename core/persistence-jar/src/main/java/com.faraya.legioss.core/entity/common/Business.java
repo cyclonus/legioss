@@ -2,6 +2,7 @@ package com.faraya.legioss.core.entity.common;
 
 import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
+import com.faraya.legioss.core.entity.security.IDomain;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,7 +18,7 @@ import java.util.Set;
                 @Index(name = "name", unique = true, columnList = "name")
         }
 )
-public class Business extends AbstractEntity implements IIdentifiable<Long> {
+public class Business extends AbstractEntity implements IIdentifiable<Long>, IDomain {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -41,6 +42,13 @@ public class Business extends AbstractEntity implements IIdentifiable<Long> {
 
     @Embedded
     private Period businessYear;
+
+    public Business() {
+    }
+
+    public Business(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -94,4 +102,24 @@ public class Business extends AbstractEntity implements IIdentifiable<Long> {
     public boolean isTransient() {
         return (getId() == null);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Business business = (Business) o;
+
+        if (!getId().equals(business.getId())) return false;
+        return getName().equals(business.getName());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + getName().hashCode();
+        return result;
+    }
+
 }

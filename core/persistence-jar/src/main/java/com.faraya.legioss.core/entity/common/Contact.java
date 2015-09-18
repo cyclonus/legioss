@@ -18,6 +18,8 @@ public class Contact extends AbstractEntity implements IIdentifiable<Long>{
         PHONE,
         MOBILE,
         SKYPE,
+        FACEBOOK,
+        LINKEDIN,
         EMAIL,
         OTHER
     }
@@ -29,6 +31,15 @@ public class Contact extends AbstractEntity implements IIdentifiable<Long>{
         this.value = value;
         this.type = type;
     }
+
+    public Contact(Type type, String value, int weight) {
+        this.type = type;
+        this.value = value;
+        this.weight = weight;
+    }
+
+    @Column(name = "weight", nullable = false)
+    private int weight = 0;
 
     @Enumerated(EnumType.STRING)
     private Type type;
@@ -63,6 +74,14 @@ public class Contact extends AbstractEntity implements IIdentifiable<Long>{
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     @Override

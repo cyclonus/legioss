@@ -3,7 +3,8 @@ package com.faraya.legioss.service.security;
 import com.faraya.legioss.core.dao.security.ICredentialDAO;
 import com.faraya.legioss.core.dao.security.IUserDAO;
 import com.faraya.legioss.core.entity.security.Credential;
-import com.faraya.legioss.core.entity.security.AbstractUser;
+import com.faraya.legioss.core.entity.security.IDomain;
+import com.faraya.legioss.core.entity.security.IUser;
 import com.faraya.legioss.core.entity.security.User;
 import com.faraya.legioss.core.security.PasswordHash;
 import com.faraya.legioss.util.EmailValidator;
@@ -26,6 +27,9 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     ICredentialDAO credentialDAO;
 
+    @Autowired
+    IUserDomainServiceProvider userDomainServiceProvider;
+
     @Override
     public boolean isEmailAlreadyInUse(String email) {
         return (userDAO.findByEmail(email) != null);
@@ -46,7 +50,7 @@ public class UserServiceImpl implements IUserService {
 
     @Transactional
     @Override
-    public User createUser(String email, String firstName, String lastName, String password) throws Exception {
+    public IUser createUser( String email ,String firstName, String lastName, String password, IDomain domain) throws Exception{
 
         boolean validEmailAddress = isValidEmail(email);
         if(!validEmailAddress) {
@@ -67,12 +71,18 @@ public class UserServiceImpl implements IUserService {
         userDAO.save(user);
         String hashedPassword = PasswordHash.createHash(password);
         Credential credential = new Credential(user, hashedPassword);
+
+        //TODO: get The respective DomainService, and register
+
         credentialDAO.save(credential);
+
+
+
         return user;
 
     }
 
-    public User authenticate(String email, String password) throws Exception {
+    public IUser authenticate(String email, String password, IDomain domain) throws Exception {
         User user = userDAO.findByEmail(email);
         if(user != null && user.getStatus() == User.Status.ACTIVE){
            Credential credential = credentialDAO.findByOwnerId(user.getId());

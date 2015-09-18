@@ -14,5 +14,5 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:context.xml"})
 @Transactional
-public abstract class BasePersitenceTest {
+public abstract class TransactionalSpringJUnit4RunnerTest {
 }

@@ -1,6 +1,6 @@
 package com.faraya.legioss.core.accounting;
 
-import com.faraya.legioss.BasePersitenceTest;
+import com.faraya.legioss.TransactionalSpringJUnit4RunnerTest;
 import com.faraya.legioss.core.dao.accounting.*;
 import com.faraya.legioss.core.dao.common.ICurrencyDAO;
 import com.faraya.legioss.core.entity.accounting.*;
@@ -8,18 +8,12 @@ import com.faraya.legioss.core.entity.common.Currency;
 import com.faraya.legioss.core.model.accounting.AccountType;
 import com.faraya.legioss.core.model.accounting.BalanceType;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.annotation.Rollback;
-
-import javax.persistence.PersistenceException;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -34,7 +28,7 @@ import static org.junit.Assert.assertNotNull;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class AccountingGeneralTestIT extends BasePersitenceTest {
+public class AccountingGeneralTestIT extends TransactionalSpringJUnit4RunnerTest {
 
     Logger logger = LoggerFactory.getLogger(AccountingGeneralTestIT.class);
 
