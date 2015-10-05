@@ -128,7 +128,7 @@ public abstract class NestedSetDAO <N extends NestedSetNode, T extends NestedSet
      * New Transaction is needed to force commits
      * @param shiftAfter
      */
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    
     private void shiftNodes(Long shiftAfter, NestedSetTree tree){
         final long inc = 2;
         shiftRight(inc, shiftAfter, tree.getId());

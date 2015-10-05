@@ -28,7 +28,8 @@ public abstract class AbstractEntity {
     protected Date modifiedDate;
 
     @Version
-    protected Integer version;
+    @Column(name = "version", nullable = false)
+    protected Integer version = 0;
 
     @Column(name = "created_by")
     protected Long createdBy;

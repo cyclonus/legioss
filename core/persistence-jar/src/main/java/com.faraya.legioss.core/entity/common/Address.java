@@ -13,21 +13,49 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "address")
-public class Address extends AbstractEntity implements IIdentifiable<Long>, Serializable{
+public class Address extends AbstractEntity implements IIdentifiable<Long>{
 
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-
+    @Column(name = "country", nullable = false, length=5)
     private String country;
+
+    @Column(name = "street", nullable = false, length=250)
     private String street;
+
+    @Column(name = "city", nullable = false, length=50)
     private String city;
+
+    @Column(name = "state", nullable = false, length=50)
     private String state;
+
+    @Column(name = "zipcode", nullable = false, length=10)
     private String zipCode;
 
+    @Column(name = "weight", nullable = false)
+    private int weight = 0;
+
     public Address() {
+    }
+
+    public Address(String country, String street, String city, String state, String zipCode) {
+        this.country = country;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+    }
+
+    public Address(String country, String street, String city, String state, String zipCode, int weight) {
+        this.country = country;
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.weight = weight;
     }
 
     public Long getId() {
@@ -38,8 +66,6 @@ public class Address extends AbstractEntity implements IIdentifiable<Long>, Seri
         this.id = id;
     }
 
-    @Column(name = "weight", nullable = false)
-    private int weight = 0;
 
     public int getWeight() {
         return weight;
@@ -49,7 +75,7 @@ public class Address extends AbstractEntity implements IIdentifiable<Long>, Seri
         this.weight = weight;
     }
 
-    @Column(name = "address_country", nullable = false, length=5)
+
     public String getCountry() {
         return country;
     }
@@ -58,7 +84,6 @@ public class Address extends AbstractEntity implements IIdentifiable<Long>, Seri
         this.country = country;
     }
 
-    @Column(name = "address_street", nullable = false, length=250)
     public String getStreet() {
         return this.street;
     }
@@ -67,7 +92,6 @@ public class Address extends AbstractEntity implements IIdentifiable<Long>, Seri
         this.street = street;
     }
 
-    @Column(name = "address_city", nullable = false, length=50)
     public String getCity() {
         return this.city;
     }
@@ -76,7 +100,6 @@ public class Address extends AbstractEntity implements IIdentifiable<Long>, Seri
         this.city = city;
     }
 
-    @Column(name = "address_state", nullable = false, length=50)
     public String getState() {
         return this.state;
     }
@@ -85,7 +108,6 @@ public class Address extends AbstractEntity implements IIdentifiable<Long>, Seri
         this.state = state;
     }
 
-    @Column(name = "address_zipcode", nullable = false, length=10)
     public String getZipCode() {
         return this.zipCode;
     }

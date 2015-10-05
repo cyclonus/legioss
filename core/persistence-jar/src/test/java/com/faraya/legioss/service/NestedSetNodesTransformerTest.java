@@ -31,7 +31,7 @@ public class NestedSetNodesTransformerTest {
 
     private List<AccountNode> mockDataSet(){
 
-        Currency crc =  new Currency("Costa Rica Colon","CRC");
+        Currency crc =  new Currency("Costa Rica Colon","CRC","¢");
         Catalog catalog = new Catalog("TransformerTestTree");
 
         Account rdb = new Account("rdb", AccountType.ASSET, crc, catalog);

@@ -1,5 +1,6 @@
 package com.faraya.legioss.core.entity.payroll;
 
+import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
 import com.faraya.legioss.core.entity.common.Contact;
 import com.faraya.legioss.core.entity.security.User;
@@ -9,12 +10,13 @@ import java.util.Date;
 import java.util.Set;
 
 /**
+ *
  * Created by fabrizzio on 9/8/15.
  */
 
 @Entity
 @Table(name = "payroll_employee")
-public class Employee extends AbstractEntity {
+public class Employee extends AbstractEntity implements IIdentifiable <Long>{
 
     public static final String NO_ID = "0";
 
@@ -40,9 +42,13 @@ public class Employee extends AbstractEntity {
     @OneToMany()
     private Set<Contact> contacts;
 
-    @JoinColumn(name = "account_id", nullable = false)
+    @JoinColumn(name = "account_id", nullable = false, updatable = false, insertable = false)
     @OneToOne(optional = true, fetch = FetchType.EAGER)
     private User user;
+
+    @JoinColumn(name = "agreenebt_id", nullable = false, updatable = false, insertable = false)
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    private Agreement agreement;
 
     public Employee() {
     }
@@ -56,14 +62,15 @@ public class Employee extends AbstractEntity {
         this.hireDate = hireDate;
     }
 
-
+    @Override
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public String getSocialSecurityNumber() {
         return socialSecurityNumber;

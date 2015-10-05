@@ -1,14 +1,13 @@
 package com.faraya.legioss.core.security;
 
 import com.faraya.legioss.TransactionalSpringJUnit4RunnerTest;
-import com.faraya.legioss.core.dao.common.IBusinessDAO;
-import com.faraya.legioss.core.dao.common.IUserBusinessDomainDAO;
+import com.faraya.legioss.core.dao.accounting.IAccountDAO;
+import com.faraya.legioss.core.dao.common.*;
 import com.faraya.legioss.core.dao.security.ICredentialDAO;
 import com.faraya.legioss.core.dao.security.IPermissionDAO;
 import com.faraya.legioss.core.dao.security.IRoleDAO;
 import com.faraya.legioss.core.dao.security.IUserDAO;
-import com.faraya.legioss.core.entity.common.Business;
-import com.faraya.legioss.core.entity.common.UserBusinessDomain;
+import com.faraya.legioss.core.entity.common.*;
 import com.faraya.legioss.core.entity.security.Credential;
 import com.faraya.legioss.core.entity.security.Permission;
 import com.faraya.legioss.core.entity.security.Role;
@@ -25,6 +24,15 @@ import static org.junit.Assert.assertNotNull;
  * Created by fabrizzio on 9/5/15.
  */
 public class UserTestIT extends TransactionalSpringJUnit4RunnerTest {
+
+    @Autowired
+    ICurrencyDAO currencyDAO;
+
+    @Autowired
+    IContactDAO contactDAO;
+
+    @Autowired
+    IAddressDAO addressDAO;
 
     @Autowired
     IUserDAO userDAO;
@@ -47,7 +55,20 @@ public class UserTestIT extends TransactionalSpringJUnit4RunnerTest {
     @Test
     public void createUserBusinessAndDomain() {
 
-        Business business = new Business("Legioss Software S.A.");
+        Currency currency = new Currency("US Dollar","USD","$");
+        currencyDAO.save(currency);
+        assertNotNull("null id", currency.getId());
+
+        Address address = new Address("CR","la perica","Palmares","Alajuela","-");
+        addressDAO.save(address);
+
+        Contact contact = new Contact("fabaraya@hotmail.com", Contact.Type.EMAIL);
+        contactDAO.save(contact);
+
+        Business business = new Business("Legioss Software S.A.", currency);
+        business.addAddress(address);
+        business.addContact(contact);
+
         businessDAO.save(business);
         assertNotNull("null id", business.getId());
 

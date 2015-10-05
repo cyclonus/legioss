@@ -23,7 +23,7 @@ public class JournalEntry extends AbstractEntity implements IIdentifiable<Long>{
     private Long id;
 
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="transaction_id")
+    @JoinColumn(name="transaction_id",nullable = true)//TODO: FIXME I need to be not nullable
     private TransactionJournal transactionJournal;
 
     private Date date;

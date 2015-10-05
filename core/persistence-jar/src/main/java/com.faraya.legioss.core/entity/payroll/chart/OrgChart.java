@@ -1,22 +1,26 @@
-package com.faraya.legioss.core.entity.costing;
+package com.faraya.legioss.core.entity.payroll.chart;
 
 import com.faraya.legioss.core.entity.common.Business;
 import com.faraya.legioss.core.entity.ns.NestedSetTree;
 
 import javax.persistence.*;
 
+/**
+ *
+ * Created by fabrizzio on 10/4/15.
+ */
 @Entity
-@Table(name = "activity_tree",
+@Table(name = "organization_chart",
         indexes =  {
                 @Index(name = "name", unique = true, columnList = "name")
         }
 )
-public class ActivityTree extends NestedSetTree<ActivityNode> {
+public class OrgChart extends NestedSetTree<ChartNode> {
 
-    public ActivityTree() {
+    public OrgChart() {
     }
 
-    public ActivityTree(Business business) {
+    public OrgChart(Business business) {
         super(business.getName());
         this.business = business;
     }
@@ -44,22 +48,5 @@ public class ActivityTree extends NestedSetTree<ActivityNode> {
         this.businessId = businessId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
 
-        ActivityTree that = (ActivityTree) o;
-
-        return businessId.equals(that.businessId);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + businessId.hashCode();
-        return result;
-    }
 }

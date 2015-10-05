@@ -5,6 +5,7 @@ import com.faraya.legioss.core.entity.AbstractEntity;
 import com.faraya.legioss.core.entity.security.IDomain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -25,19 +26,19 @@ public class Business extends AbstractEntity implements IIdentifiable<Long>, IDo
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true, length = 50)
     private String name;
 
-    @JoinColumn(name = "currency_id", nullable = true)
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "currency_id", nullable = false)
+    @OneToOne(fetch = FetchType.EAGER)
     private Currency primaryCurrency;
 
-    @JoinColumn(name = "address_id", nullable = true)
-    @OneToMany()
+    @JoinColumn(name = "address_id")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Address> address;
 
-    @JoinColumn(name = "contact_id", nullable = true)
-    @OneToMany()
+    @JoinColumn(name = "contact_id")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Contact> contacts;
 
     @Embedded
@@ -48,6 +49,11 @@ public class Business extends AbstractEntity implements IIdentifiable<Long>, IDo
 
     public Business(String name) {
         this.name = name;
+    }
+
+    public Business(String name, Currency primaryCurrency) {
+        this.name = name;
+        this.primaryCurrency = primaryCurrency;
     }
 
     public Long getId() {
@@ -75,6 +81,9 @@ public class Business extends AbstractEntity implements IIdentifiable<Long>, IDo
     }
 
     public Set<Address> getAddress() {
+        if(address == null){
+           address = new HashSet<>();
+        }
         return address;
     }
 
@@ -82,12 +91,23 @@ public class Business extends AbstractEntity implements IIdentifiable<Long>, IDo
         this.address = address;
     }
 
+    public void addAddress(Address a){
+        getAddress().add(a);
+    }
+
     public Set<Contact> getContacts() {
+        if(contacts == null){
+           contacts = new HashSet<>();
+        }
         return contacts;
     }
 
     public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    public void addContact(Contact c){
+        getContacts().add(c);
     }
 
     public Period getBusinessYear() {

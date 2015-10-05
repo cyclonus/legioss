@@ -23,18 +23,22 @@ public class Currency extends AbstractEntity implements IIdentifiable<Long>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true, length = 50)
     private String name;
 
-    @Column(name = "symbol", nullable = false, unique = true)
+    @Column(name = "short_name", nullable = false, unique = true, length = 3)
+    private String shortName;
+
+    @Column(name = "symbol", nullable = false, unique = true, length = 1)
     private String symbol;
 
     public Currency() {
 
     }
 
-    public Currency(String name, String symbol) {
+    public Currency(String name, String shortName, String symbol) {
         this.name = name;
+        this.shortName = shortName;
         this.symbol = symbol;
     }
 
@@ -54,6 +58,14 @@ public class Currency extends AbstractEntity implements IIdentifiable<Long>{
         this.name = name;
     }
 
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
     public String getSymbol() {
         return symbol;
     }
@@ -70,17 +82,23 @@ public class Currency extends AbstractEntity implements IIdentifiable<Long>{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Currency)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Currency currency = (Currency) o;
-        return (getId().equals(currency.getId()) && getSymbol().equals(currency.getSymbol()));
+
+        if (!id.equals(currency.id)) return false;
+        if (!name.equals(currency.name)) return false;
+        if (!shortName.equals(currency.shortName)) return false;
+        return symbol.equals(currency.symbol);
 
     }
 
     @Override
     public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + getSymbol().hashCode();
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + shortName.hashCode();
+        result = 31 * result + symbol.hashCode();
         return result;
     }
 }

@@ -1,9 +1,7 @@
 package com.faraya.legioss.core.entity.costing;
 
-import com.faraya.legioss.core.entity.accounting.*;
-import com.faraya.legioss.core.entity.accounting.Catalog;
+import com.faraya.legioss.core.entity.common.Business;
 import com.faraya.legioss.core.entity.ns.NestedSetNode;
-
 import javax.persistence.*;
 
 @Entity
@@ -15,7 +13,7 @@ import javax.persistence.*;
                 @Index(name = "right_index", unique = true, columnList = "right_value, tree_id")
         }
 )
-public class ActivityNode extends NestedSetNode<Catalog> {
+public class ActivityNode extends NestedSetNode<ActivityTree> {
 
     public ActivityNode() {
     }
@@ -28,68 +26,62 @@ public class ActivityNode extends NestedSetNode<Catalog> {
         super(name, parent);
     }
 
-    public ActivityNode(Account account, Long parent) {
-        this(account.getName(), parent);
-        this.account = account;
+    public ActivityNode(Activity activity, Long parent, Business business) {
+        this(activity.getName(), parent);
+        this.activity = activity;
+        this.business = business;
     }
 
-    /**
-     * Can be Nullable because of Parent nodes
-     */
     @JoinColumn(name = "activity_id", nullable = true)
     @OneToOne(optional = true, fetch = FetchType.EAGER)
-    private Account account;
+    private Activity activity;
 
-    public Account getAccount() {
-        return account;
+    @JoinColumn(name = "business_id", nullable = true)
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    private Business business;
+
+    public Activity getActivity() {
+        return activity;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
-    public boolean isParentNode(){
-        return (account == null);
+    public Business getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(Business business) {
+        this.business = business;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AccountNode)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
-        AccountNode that = (AccountNode) o;
-        return getId().equals(that.getId())
-                && getAccount() != null
-                && getAccount().equals(that.getAccount());
+        ActivityNode that = (ActivityNode) o;
+
+        if (!activity.equals(that.activity)) return false;
+        return business.equals(that.business);
 
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + getAccount().hashCode();
+        result = 31 * result + activity.hashCode();
+        result = 31 * result + business.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        long childrenCount = 0;
-        if(getLeft() != null && getRight() != null) {
-            childrenCount = countChildren();
-        }
-
-        String account = (getAccount() != null  ? getAccount().getName() : "no-account" );
-        String catalog = (getTree() != null ? getTree().getName() : "no-catalog" );
-
         return "ActivityNode{" +
-                " id=" + getId() +
-                ", name='" + getName() + '\'' +
-                ", left=" + getLeft() +
-                ", right=" + getRight() +
-                ", parent=" + getParent() +
-                ", account='" + account + '\'' +
-                ", catalog='" + catalog + '\'' +
-                ", children=" + childrenCount +
+                "activity=" + activity +
+                ", business=" + business +
                 '}';
     }
 }
