@@ -1,5 +1,6 @@
 package com.faraya.legioss.core.entity.payroll.chart;
 
+import com.faraya.legioss.core.entity.common.Business;
 import com.faraya.legioss.core.entity.ns.NestedSetNode;
 import com.faraya.legioss.core.entity.payroll.Employee;
 
@@ -24,23 +25,37 @@ public class ChartNode extends NestedSetNode <OrgChart> {
     public ChartNode() {
     }
 
-    public ChartNode(String position) {
-        super(position);
+    public ChartNode(Employee employee, String position, Long parent, Business business) {
+        super(position, parent);
+        this.employee = employee;
+        this.business = business;
     }
 
-    public ChartNode(String position, Long parent) {
-        super(position, parent);
+    public ChartNode(Employee employee, String position, Business business) {
+        this(employee, position, null, business);
+    }
+
+    public ChartNode(Business business) {
+        this(null, business.getName(), null, business);
     }
 
     /**
      * Can be Nullable because of Parent nodes
      */
-    @JoinColumn(name = "employee_id", nullable = true, insertable = false, updatable = false)
+    @JoinColumn(name = "employee_id" )
     @OneToOne(optional = true, fetch = FetchType.EAGER)
     private Employee employee;
 
-    @Column(name = "employee_id", nullable = false)
+    @Column(name = "employee_id", nullable = true, insertable = false, updatable = false)
     private Long employeeId;
+
+    @JoinColumn(name = "business_id" )
+    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    private Business business;
+
+    @Column(name = "business_id", nullable = true, insertable = false, updatable = false)
+    private Long businessId;
+
 
     public Employee getEmployee() {
         return employee;
@@ -58,17 +73,26 @@ public class ChartNode extends NestedSetNode <OrgChart> {
         this.employeeId = employeeId;
     }
 
+    public Business getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(Business business) {
+        this.business = business;
+    }
+
+    public Long getBusinessId() {
+        return businessId;
+    }
+
+    public void setBusinessId(Long businessId) {
+        this.businessId = businessId;
+    }
+
     public boolean isParentNode(){
         return (employee == null);
     }
 
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + getEmployeeId().hashCode();
-        return result;
-    }
 
     @Override
     public String toString() {
@@ -77,18 +101,15 @@ public class ChartNode extends NestedSetNode <OrgChart> {
             childrenCount = countChildren();
         }
 
-        Long employeeId = (getEmployee() != null  ? getEmployee().getId() : 0L );
-        String catalog = (getTree() != null ? getTree().getName() : "no-catalog" );
-
         return "EmployeeNode{" +
-                " id=" + getId() +
+                "  id=" + getId() +
                 ", name='" + getName() + '\'' +
-                ", left=" + getLeft() +
-                ", right=" + getRight() +
-                ", parent=" + getParent() +
-                ", employee='" + employeeId + '\'' +
-                ", catalog='" + catalog + '\'' +
-                ", children=" + childrenCount +
+                ", left=" + getLeft() + '\'' +
+                ", right=" + getRight() + '\'' +
+                ", parent=" + getParent() + '\'' +
+                ", employee='" + getEmployeeId() + '\'' +
+                ", catalog='" + getTreeId() + '\'' +
+                ", children=" + childrenCount + '\'' +
                 '}';
     }
 }

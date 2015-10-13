@@ -10,7 +10,7 @@ import javax.persistence.*;
  * Created by fabrizzio on 10/4/15.
  */
 @Entity
-@Table(name = "organization_chart",
+@Table(name = "payroll_org_chart",
         indexes =  {
                 @Index(name = "name", unique = true, columnList = "name")
         }
@@ -25,11 +25,11 @@ public class OrgChart extends NestedSetTree<ChartNode> {
         this.business = business;
     }
 
-    @JoinColumn(name = "business_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "business_id" )
     @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Business business;
 
-    @Column(name = "business_id", nullable = false)
+    @Column(name = "business_id", nullable = false, insertable = false, updatable = false)
     private Long businessId;
 
     public Business getBusiness() {

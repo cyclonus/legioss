@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
  */
 
 @ContextConfiguration(locations={"classpath:context.xml"})
-public class NestedSetLoadTest extends AbstractTestNGSpringContextTests {
+public class NestedSetLoadIT extends AbstractTestNGSpringContextTests {
 
     @Autowired
     ICatalogDAO treeDao;

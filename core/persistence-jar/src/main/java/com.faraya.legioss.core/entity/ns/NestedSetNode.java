@@ -49,7 +49,7 @@ public abstract class NestedSetNode <T extends NestedSetTree> implements IIdenti
         this.id = id;
     }
 
-    @JoinColumn(name = "tree_id", nullable = false)
+    @JoinColumn(name = "tree_id" )
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private T tree;
 
@@ -59,6 +59,17 @@ public abstract class NestedSetNode <T extends NestedSetTree> implements IIdenti
 
     public void setTree(T tree) {
         this.tree = tree;
+    }
+
+    @Column(name = "tree_id", nullable = false, insertable = false, updatable = false)
+    private Long treeId;
+
+    public Long getTreeId() {
+        return treeId;
+    }
+
+    public void setTreeId(Long treeId) {
+        this.treeId = treeId;
     }
 
     @Column(nullable = false)
@@ -146,10 +157,11 @@ public abstract class NestedSetNode <T extends NestedSetTree> implements IIdenti
         return "Node{" +
                 " id=" + id +
                 ", name='" + name + '\'' +
-                ", left=" + left +
-                ", right=" + right +
-                ", parent=" + parent +
-                ", children=" + childrenCount +
+                ", treeId='" + treeId + '\'' +
+                ", left=" + left + '\'' +
+                ", right=" + right + '\'' +
+                ", parent=" + parent + '\'' +
+                ", children=" + childrenCount + '\'' +
                 '}';
     }
 

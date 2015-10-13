@@ -33,11 +33,9 @@ public class Business extends AbstractEntity implements IIdentifiable<Long>, IDo
     @OneToOne(fetch = FetchType.EAGER)
     private Currency primaryCurrency;
 
-    @JoinColumn(name = "address_id")
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Address> address;
 
-    @JoinColumn(name = "contact_id")
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Contact> contacts;
 
@@ -47,13 +45,10 @@ public class Business extends AbstractEntity implements IIdentifiable<Long>, IDo
     public Business() {
     }
 
-    public Business(String name) {
-        this.name = name;
-    }
-
-    public Business(String name, Currency primaryCurrency) {
+    public Business(String name, Currency primaryCurrency, Period businessYear) {
         this.name = name;
         this.primaryCurrency = primaryCurrency;
+        this.businessYear = businessYear;
     }
 
     public Long getId() {

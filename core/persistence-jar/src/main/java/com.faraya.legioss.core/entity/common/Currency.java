@@ -6,6 +6,7 @@ import com.faraya.legioss.core.entity.AbstractEntity;
 import javax.persistence.*;
 
 /**
+ *
  * Created by fabrizzio on 4/24/15.
  */
 
@@ -16,7 +17,7 @@ import javax.persistence.*;
                 @Index(name = "symbol", unique = true, columnList = "symbol")
         }
 )
-public class Currency extends AbstractEntity implements IIdentifiable<Long>{
+public class Currency extends AbstractEntity implements IIdentifiable<Long>, Comparable<Currency>{
 
     @Id
     @Column(name = "id", nullable = false)
@@ -100,5 +101,14 @@ public class Currency extends AbstractEntity implements IIdentifiable<Long>{
         result = 31 * result + shortName.hashCode();
         result = 31 * result + symbol.hashCode();
         return result;
+    }
+
+
+    @Override
+    public int compareTo(Currency o) {
+        int idComparison = id.compareTo(o.id);
+        int nameComparison = name.compareTo(o.name);
+        int symbolComparison = symbol.compareTo(o.symbol);
+        return (idComparison == 0 && nameComparison == 0 && symbolComparison == 0) ? 0 : 1 ;
     }
 }

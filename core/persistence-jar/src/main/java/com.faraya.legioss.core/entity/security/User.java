@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "security_user",
         indexes =  {
-                @Index(name = "name", unique = true, columnList = "name,email")
+                @Index(name = "email", unique = true, columnList = "email")
         }
 )
 public class User extends AbstractEntity implements IIdentifiable<Long>, IUser {
@@ -25,16 +25,12 @@ public class User extends AbstractEntity implements IIdentifiable<Long>, IUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Basic(optional = true)
-    @Column(name = "name", unique=true , nullable=true, length = 60)
-    private String name;
-
     @Basic(optional = false)
-    @Column(name = "first_name", unique=true , nullable=false, length = 60)
+    @Column(name = "first_name", unique=false , nullable=false, length = 60)
     private String firstName;
 
     @Basic(optional = false)
-    @Column(name = "last_name", unique=true , nullable=false, length = 60)
+    @Column(name = "last_name", unique=false , nullable=false, length = 60)
     private String lastName;
 
     @Basic(optional = false)
@@ -44,7 +40,7 @@ public class User extends AbstractEntity implements IIdentifiable<Long>, IUser {
     @Column(name = "profile_pic_url", nullable = true, length=150)
     private String profilePicURL;
 
-    @Column(name = "status", unique=true , nullable = false, length = 10)
+    @Column(name = "status", unique=false , nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
     private Status status = Status.INACTIVE ;
 
@@ -78,14 +74,6 @@ public class User extends AbstractEntity implements IIdentifiable<Long>, IUser {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getPrimaryEmail() {

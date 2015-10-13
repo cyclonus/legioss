@@ -3,9 +3,11 @@ package com.faraya.legioss.core.entity.payroll;
 import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
 import com.faraya.legioss.core.entity.common.Contact;
+import com.faraya.legioss.core.entity.payroll.agreement.Agreement;
 import com.faraya.legioss.core.entity.security.User;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
@@ -33,22 +35,27 @@ public class Employee extends AbstractEntity implements IIdentifiable <Long>{
     private String idNumber = NO_ID;
 
     @Column(name = "hired_date", nullable = false)
-    private Date hireDate;
+    private Date hireDate = Calendar.getInstance().getTime();
 
     @Column(name = "cease_date", nullable = true)
     private Date ceaseDate;
 
-    @JoinColumn(name = "contact_id", nullable = true)
-    @OneToMany()
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Contact> contacts;
 
-    @JoinColumn(name = "account_id", nullable = false, updatable = false, insertable = false)
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private User user;
 
-    @JoinColumn(name = "agreenebt_id", nullable = false, updatable = false, insertable = false)
-    @OneToOne(optional = true, fetch = FetchType.EAGER)
+    @Column(name = "user_id", nullable = true, updatable = false, insertable = false)
+    public Long userId;
+
+    @JoinColumn(name = "agreement_id")
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Agreement agreement;
+
+    @Column(name = "agreement_id", nullable = false, updatable = false, insertable = false)
+    private Long agreementId;
 
     public Employee() {
     }
@@ -70,7 +77,6 @@ public class Employee extends AbstractEntity implements IIdentifiable <Long>{
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public String getSocialSecurityNumber() {
         return socialSecurityNumber;
@@ -118,6 +124,31 @@ public class Employee extends AbstractEntity implements IIdentifiable <Long>{
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Agreement getAgreement() {
+        return agreement;
+    }
+
+    public void setAgreement(Agreement agreement) {
+        agreement.setEmployee(this);
+        this.agreement = agreement;
+    }
+
+    public Long getAgreementId() {
+        return agreementId;
+    }
+
+    public void setAgreementId(Long agreementId) {
+        this.agreementId = agreementId;
     }
 
     @Override

@@ -18,16 +18,14 @@ public class ActivityNode extends NestedSetNode<ActivityTree> {
     public ActivityNode() {
     }
 
-    public ActivityNode(String name) {
-        super(name);
-    }
-
-    public ActivityNode(String name, Long parent) {
-        super(name, parent);
-    }
-
     public ActivityNode(Activity activity, Long parent, Business business) {
-        this(activity.getName(), parent);
+        super(activity.getName(), parent);
+        this.activity = activity;
+        this.business = business;
+    }
+
+    public ActivityNode(Activity activity, Business business) {
+        super(activity.getName(), null);
         this.activity = activity;
         this.business = business;
     }
@@ -36,9 +34,12 @@ public class ActivityNode extends NestedSetNode<ActivityTree> {
     @OneToOne(optional = true, fetch = FetchType.EAGER)
     private Activity activity;
 
-    @JoinColumn(name = "business_id", nullable = true)
+    @JoinColumn(name = "business_id" )
     @OneToOne(optional = true, fetch = FetchType.EAGER)
     private Business business;
+
+    @Column(name = "business_id", nullable = true, insertable = false, updatable = false)
+    private Long businessId;
 
     public Activity getActivity() {
         return activity;
@@ -54,6 +55,14 @@ public class ActivityNode extends NestedSetNode<ActivityTree> {
 
     public void setBusiness(Business business) {
         this.business = business;
+    }
+
+    public Long getBusinessId() {
+        return businessId;
+    }
+
+    public void setBusinessId(Long businessId) {
+        this.businessId = businessId;
     }
 
     @Override

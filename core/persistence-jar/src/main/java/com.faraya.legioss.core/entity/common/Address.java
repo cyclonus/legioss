@@ -121,4 +121,32 @@ public class Address extends AbstractEntity implements IIdentifiable<Long>{
         return (id == null);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Address address = (Address) o;
+
+        if (weight != address.weight) return false;
+        if (id != null ? !id.equals(address.id) : address.id != null) return false;
+        if (!country.equals(address.country)) return false;
+        if (!street.equals(address.street)) return false;
+        if (!city.equals(address.city)) return false;
+        if (!state.equals(address.state)) return false;
+        return zipCode.equals(address.zipCode);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 1;
+        result = 31 * result + country.hashCode();
+        result = 31 * result + street.hashCode();
+        result = 31 * result + city.hashCode();
+        result = 31 * result + state.hashCode();
+        result = 31 * result + zipCode.hashCode();
+        result = 31 * result + weight;
+        return result;
+    }
 }

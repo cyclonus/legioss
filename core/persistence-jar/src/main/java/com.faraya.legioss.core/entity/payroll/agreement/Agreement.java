@@ -1,10 +1,12 @@
-package com.faraya.legioss.core.entity.payroll;
+package com.faraya.legioss.core.entity.payroll.agreement;
 
 import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
 import com.faraya.legioss.core.entity.payroll.Employee;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -12,13 +14,16 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "agreement",
+@Table(name = "payroll_agreement",
         indexes =  {
         }
 )
 public class Agreement extends AbstractEntity implements IIdentifiable<Long> {
     //Set<HoursAgreement> // regular, overnight, weekend, holiday
-    //Set<PiceworkAgreement>
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<PiceworkAgreement> piceworkAgreements;
+
     //FixedSalaryAgreement
 
     @Id
@@ -26,7 +31,6 @@ public class Agreement extends AbstractEntity implements IIdentifiable<Long> {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "employee_id", nullable = false,  insertable = false, updatable = false)
     @OneToOne(optional = true, fetch = FetchType.EAGER)
     private Employee employee;
 
@@ -48,8 +52,24 @@ public class Agreement extends AbstractEntity implements IIdentifiable<Long> {
         this.employee = employee;
     }
 
+    public Set<PiceworkAgreement> getPiceworkAgreements() {
+        if(piceworkAgreements == null){
+           piceworkAgreements = new HashSet<>();
+        }
+        return piceworkAgreements;
+    }
+
+    public void setPiceworkAgreements(Set<PiceworkAgreement> piceworkAgreements) {
+        this.piceworkAgreements = piceworkAgreements;
+    }
+
+    public void addPieceworkAgreement(PiceworkAgreement piceworkAgreement){
+         getPiceworkAgreements().add(piceworkAgreement);
+    }
+
     public boolean isTransient() {
         return (getId() == null);
     }
+
 
 }

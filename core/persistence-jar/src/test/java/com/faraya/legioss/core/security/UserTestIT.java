@@ -12,8 +12,12 @@ import com.faraya.legioss.core.entity.security.Credential;
 import com.faraya.legioss.core.entity.security.Permission;
 import com.faraya.legioss.core.entity.security.Role;
 import com.faraya.legioss.core.entity.security.User;
+import com.faraya.legioss.util.DateUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
+
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -53,6 +57,7 @@ public class UserTestIT extends TransactionalSpringJUnit4RunnerTest {
     IRoleDAO roleDAO;
 
     @Test
+    @Rollback(true)
     public void createUserBusinessAndDomain() {
 
         Currency currency = new Currency("US Dollar","USD","$");
@@ -65,7 +70,7 @@ public class UserTestIT extends TransactionalSpringJUnit4RunnerTest {
         Contact contact = new Contact("fabaraya@hotmail.com", Contact.Type.EMAIL);
         contactDAO.save(contact);
 
-        Business business = new Business("Legioss Software S.A.", currency);
+        Business business = new Business("Legioss Software S.A.", currency, new Period(DateUtils.computeYearsFrom(new Date(), 1)));
         business.addAddress(address);
         business.addContact(contact);
 

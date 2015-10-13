@@ -86,7 +86,7 @@ http://stackoverflow.com/questions/1108066/junit4-expected-exception-not-working
 */
 
     @Test
-    @Rollback(false)
+    @Rollback(true)
     public void firstCreateAccountHappyPath(){
         Currency crc =  new Currency("Costa Rica Colon","CRC","¢");//Factory method??
         currencyDAO.save(crc);
