@@ -35,6 +35,28 @@ public class DateUtils {
         return calendar.getTime();
     }
 
+    public static Date yesterday() {
+        return addDays(new Date(),-1);
+    }
+
+    public static Date tomorrow() {
+        return addDays(new Date(),1);
+    }
+
+    public static Date addDays(Date date, Integer days) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days);
+        return cal.getTime();
+    }
+
+    public static Date addHours(Date date, Integer hours) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR_OF_DAY, hours);
+        return cal.getTime();
+    }
+
     private DateUtils() {
         // utility
     }

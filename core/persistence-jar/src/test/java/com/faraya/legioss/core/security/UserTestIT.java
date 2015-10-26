@@ -33,12 +33,6 @@ public class UserTestIT extends TransactionalSpringJUnit4RunnerTest {
     ICurrencyDAO currencyDAO;
 
     @Autowired
-    IContactDAO contactDAO;
-
-    @Autowired
-    IAddressDAO addressDAO;
-
-    @Autowired
     IUserDAO userDAO;
 
     @Autowired
@@ -65,10 +59,8 @@ public class UserTestIT extends TransactionalSpringJUnit4RunnerTest {
         assertNotNull("null id", currency.getId());
 
         Address address = new Address("CR","la perica","Palmares","Alajuela","-");
-        addressDAO.save(address);
 
         Contact contact = new Contact("fabaraya@hotmail.com", Contact.Type.EMAIL);
-        contactDAO.save(contact);
 
         Business business = new Business("Legioss Software S.A.", currency, new Period(DateUtils.computeYearsFrom(new Date(), 1)));
         business.addAddress(address);

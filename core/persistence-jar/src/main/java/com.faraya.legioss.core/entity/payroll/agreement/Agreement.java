@@ -19,12 +19,12 @@ import java.util.Set;
         }
 )
 public class Agreement extends AbstractEntity implements IIdentifiable<Long> {
-    //Set<HoursAgreement> // regular, overnight, weekend, holiday
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<PiceworkAgreement> piceworkAgreements;
 
-    //FixedSalaryAgreement
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<HoursAgreement> hoursAgreements;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -65,6 +65,21 @@ public class Agreement extends AbstractEntity implements IIdentifiable<Long> {
 
     public void addPieceworkAgreement(PiceworkAgreement piceworkAgreement){
          getPiceworkAgreements().add(piceworkAgreement);
+    }
+
+    public Set<HoursAgreement> getHoursAgreements() {
+        if(hoursAgreements == null){
+          hoursAgreements = new HashSet<>();
+        }
+        return hoursAgreements;
+    }
+
+    public void setHoursAgreements(Set<HoursAgreement> hoursAgreements) {
+        this.hoursAgreements = hoursAgreements;
+    }
+
+    public void addHoursAgreements(HoursAgreement hoursAgreement){
+       getHoursAgreements().add(hoursAgreement);
     }
 
     public boolean isTransient() {

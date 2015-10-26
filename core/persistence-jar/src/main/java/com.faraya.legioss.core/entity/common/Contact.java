@@ -104,7 +104,7 @@ public class Contact extends AbstractEntity implements IIdentifiable<Long>{
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result =  id == null ? 1 : id.hashCode();
         result = 31 * result + type.hashCode();
         return result;
     }

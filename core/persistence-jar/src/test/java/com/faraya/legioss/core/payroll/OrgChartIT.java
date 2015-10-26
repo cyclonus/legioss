@@ -15,6 +15,8 @@ import com.faraya.legioss.core.entity.common.Period;
 import com.faraya.legioss.core.entity.costing.Piecework;
 import com.faraya.legioss.core.entity.payroll.Employee;
 import com.faraya.legioss.core.entity.payroll.agreement.Agreement;
+import com.faraya.legioss.core.entity.payroll.agreement.HoursAgreement;
+import com.faraya.legioss.core.entity.payroll.agreement.HoursAgreementType;
 import com.faraya.legioss.core.entity.payroll.agreement.PiceworkAgreement;
 import com.faraya.legioss.core.entity.payroll.chart.ChartNode;
 import com.faraya.legioss.core.entity.payroll.chart.OrgChart;
@@ -67,12 +69,6 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
     @Test
     public void simpleChartTest(){
 
-        Piecework pieceworkBoxes1 = new Piecework("0001","small-boxes");
-        pieceworkDAO.save(pieceworkBoxes1);
-
-        Piecework pieceworkBoxes2 = new Piecework("0002","big-boxes");
-        pieceworkDAO.save(pieceworkBoxes2);
-
         Currency crc =  new Currency("CR Colon","CRC","£");//Factory method??
         currencyDAO.save(crc);
 
@@ -88,11 +84,13 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
         User userCEO = new User("ceo@legios.net","fn","ln");
         userDAO.save(userCEO);
 
+        Piecework pw1 = new Piecework("0001","big-boxes-1");
+        pieceworkDAO.save(pw1);
         Employee ceo = new Employee(userCEO,new Date());
         Agreement agreement1 = new Agreement();
         agreement1.addPieceworkAgreement(new PiceworkAgreement(
                         new Period(),
-                        new Money(new BigDecimal(1), crc), pieceworkBoxes1
+                        new Money(new BigDecimal(1), crc), pw1
                 )
         );
 
@@ -107,14 +105,21 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
         User userCFO = new User("cfo@legios.net","fn","ln");
         userDAO.save(userCEO);
 
-        Employee cfo = new Employee(userCFO,new Date());
-        pieceworkDAO.save(pieceworkBoxes2);
+        Piecework pw2 = new Piecework("0002","big-boxes-2");
+        pieceworkDAO.save(pw2);
 
+        Employee cfo = new Employee(userCFO,new Date());
         Agreement agreement2 = new Agreement();
         agreement2.addPieceworkAgreement(new PiceworkAgreement(
                         new Period(),
-                        new Money(new BigDecimal(1), crc),pieceworkBoxes2
+                        new Money(new BigDecimal(1), crc),pw2
                         )
+        );
+
+        agreement2.addHoursAgreements(
+                new HoursAgreement(
+                        new Period(),
+                        new Money(new BigDecimal(1),crc))
         );
 
         cfo.setAgreement(agreement2);
@@ -130,13 +135,18 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
         userDAO.save(userCEO);
         Employee coo = new Employee(userCOO,new Date());
 
-        pieceworkDAO.save(pieceworkBoxes2);
-
+        pieceworkDAO.save(pw2);
         Agreement agreement3 = new Agreement();
         agreement3.addPieceworkAgreement(new PiceworkAgreement(
                         new Period(),
-                        new Money(new BigDecimal(1), crc),pieceworkBoxes2
+                        new Money(new BigDecimal(1), crc),pw2
                 )
+        );
+
+        agreement3.addHoursAgreements(
+                new HoursAgreement(
+                        new Period(),
+                        new Money(new BigDecimal(1),crc))
         );
 
         coo.setAgreement(agreement3);
@@ -150,11 +160,10 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
         userDAO.save(userCIO);
 
         Employee cio = new Employee(userCIO,new Date());
-        pieceworkDAO.save(pieceworkBoxes2);
         Agreement agreement4 = new Agreement();
-        agreement2.addPieceworkAgreement(new PiceworkAgreement(
+        agreement4.addPieceworkAgreement(new PiceworkAgreement(
                         new Period(),
-                        new Money(new BigDecimal(1), crc),pieceworkBoxes2
+                        new Money(new BigDecimal(1), crc),pw2
                 )
         );
 
