@@ -1,0 +1,53 @@
+{
+  "name": "CR-Holidays",
+  "calendar": [
+    {
+      "monthDay": "--01-01",
+      "name": "año nuevo"
+    },
+    {
+      "monthDay": "--04-02",
+      "name": "Jueves Santo"
+    },
+    {
+      "monthDay": "--04-03",
+      "name": "Viernes Santo"
+    },
+    {
+      "monthDay": "--04-11",
+      "name": "Día de Juan Santamaría"
+    },
+    {
+      "monthDay": "--05-01",
+      "name": "Dia del trabajador"
+    },
+    {
+      "monthDay": "--06-25",
+      "name": "Anexión del Partido de Nicoya a Costa Rica"
+    },
+    {
+      "monthDay": "--07-02",
+      "name": "Día de la Virgen de los Ángeles"
+    },
+    {
+      "monthDay": "--07-02",
+      "name": "Día de la Madre"
+    },
+    {
+      "monthDay": "--09-15",
+      "name": "Día de la Independencia"
+    },
+    {
+      "monthDay": "--10-12",
+      "name": "Día de las Culturas"
+    },
+    {
+      "monthDay": "--12-25",
+      "name": "Navidad"
+    },
+    {
+      "monthDay": "--12-31",
+      "name": "Fiesta de Fin de Año"
+    }
+  ]
+}

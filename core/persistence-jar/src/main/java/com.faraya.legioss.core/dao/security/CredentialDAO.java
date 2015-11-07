@@ -35,9 +35,11 @@ public class CredentialDAO  extends AbstractJPAGenericDAO<Credential,Long> imple
     public Credential findByOwnerId(Long id) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Credential> criteriaQuery = criteriaBuilder.createQuery(Credential.class);
-        Root<Credential> from = criteriaQuery.from(Credential.class);
-        CriteriaQuery cq = criteriaQuery.where(criteriaBuilder.equal(from.get("owner").<Long>get("id"), id));
-        //predicate1 = criteriaBuilder.and(predicate1, criteriaBuilder.equal(rootObj.get("Y").<String> get("Z"), param1));}
+        Root<Credential> entity = criteriaQuery.from(Credential.class);
+        criteriaQuery.select(entity);
+        CriteriaQuery cq = criteriaQuery.where(
+                criteriaBuilder.equal(entity.get("owner").<Long>get("id"), id)
+        );
         Query query = entityManager.createQuery(cq);
         Credential result = Credential.class.cast(query.getSingleResult());
         return result;

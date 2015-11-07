@@ -14,51 +14,51 @@ import java.util.Date;
 @Embeddable
 public class Period {
 
-    @Temporal(value = TemporalType.DATE)
-    @Column(name = "start_date", nullable = false)
-    java.util.Date startDate;
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(name = "period_start", nullable = false)
+    java.util.Date start;
 
-    @Temporal(value = TemporalType.DATE)
-    @Column(name = "end_date", nullable = true)
-    java.util.Date endDate;
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(name = "period_end", nullable = true)
+    java.util.Date end;
 
     public Period() {
-        this.startDate = new Date();
+        this.start = new Date();
     }
 
-    public Period(Date startDate, Date endDate) {
-        this.startDate = startDate;
-        this.endDate = endDate;
+    public Period(Date start, Date end) {
+        this.start = start;
+        this.end = end;
     }
 
-    public Period(Date startDate) {
-        this.startDate = startDate;
+    public Period(Date start) {
+        this.start = start;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getStart() {
+        return start;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setStart(Date start) {
+        this.start = start;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Date getEnd() {
+        return end;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEnd(Date end) {
+        this.end = end;
     }
 
     public boolean isWithinPeriod(Date date){
-        if(isOpen() && (startDate.after(date) || startDate.equals(date))){
+        if(isOpen() && (start.after(date) || start.equals(date))){
             return true;
         }
-        return  (startDate.after(date) && endDate.before(date) || startDate.equals(date) || endDate.equals(date));
+        return  (start.after(date) && end.before(date) || start.equals(date) || end.equals(date));
     }
 
     public boolean isOpen(){
-        return (endDate == null);
+        return (end == null);
     }
 }
