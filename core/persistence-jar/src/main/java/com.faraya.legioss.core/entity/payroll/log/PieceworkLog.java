@@ -16,7 +16,6 @@ import java.util.Date;
 @Table(name = "piecework_log")
 public class PieceworkLog extends AbstractEntity implements IIdentifiable<Long> {
 
-
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)

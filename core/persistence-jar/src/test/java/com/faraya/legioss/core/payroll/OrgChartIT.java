@@ -1,6 +1,8 @@
 package com.faraya.legioss.core.payroll;
 
 import com.faraya.legioss.TransactionalSpringJUnit4RunnerTest;
+import com.faraya.legioss.component.MoneyBuilder;
+import com.faraya.legioss.component.WorkdayBuilder;
 import com.faraya.legioss.core.dao.common.IBusinessDAO;
 import com.faraya.legioss.core.dao.common.ICurrencyDAO;
 import com.faraya.legioss.core.dao.costing.IPieceworkDAO;
@@ -16,16 +18,13 @@ import com.faraya.legioss.core.entity.costing.Piecework;
 import com.faraya.legioss.core.entity.payroll.Employee;
 import com.faraya.legioss.core.entity.payroll.agreement.Agreement;
 import com.faraya.legioss.core.entity.payroll.agreement.HoursAgreement;
-import com.faraya.legioss.core.entity.payroll.agreement.HoursAgreementType;
-import com.faraya.legioss.core.entity.payroll.agreement.PiceworkAgreement;
+import com.faraya.legioss.core.entity.payroll.agreement.PieceworkAgreement;
 import com.faraya.legioss.core.entity.payroll.chart.ChartNode;
 import com.faraya.legioss.core.entity.payroll.chart.OrgChart;
 import com.faraya.legioss.core.entity.security.User;
 import com.faraya.legioss.core.ns.NestedSetDaoIT;
 import com.faraya.legioss.util.DateUtils;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +51,12 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
     IBusinessDAO businessDAO;
 
     @Autowired
+    MoneyBuilder moneyBuilder;
+
+    @Autowired
+    WorkdayBuilder workdayBuilder;
+
+    @Autowired
     IOrgChartDAO orgChartDAO;
 
     @Autowired
@@ -69,10 +74,10 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
     @Test
     public void simpleChartTest(){
 
-        Currency crc =  new Currency("CR Colon","CRC","£");//Factory method??
-        currencyDAO.save(crc);
+        //Currency crc =  new Currency("CR Colon","CRC","£");//Factory method??
+        //currencyDAO.save(crc);
 
-        Business business = new Business("LegiossSoft",crc ,new Period(DateUtils.computeYearsFrom(new Date(),1)));
+        Business business = new Business("LegiossSoft",moneyBuilder.crc() ,new Period(DateUtils.computeYearsFrom(new Date(),1)));
         businessDAO.save(business);
 
         OrgChart chart = new OrgChart(business);
@@ -87,10 +92,11 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
         Piecework pw1 = new Piecework("0001","big-boxes-1");
         pieceworkDAO.save(pw1);
         Employee ceo = new Employee(userCEO,new Date());
-        Agreement agreement1 = new Agreement();
-        agreement1.addPieceworkAgreement(new PiceworkAgreement(
+        Agreement agreement1 = new Agreement(workdayBuilder.regularEightHoursWorkday(), moneyBuilder.zeroUsd());
+        agreement1.addPieceworkAgreement(new PieceworkAgreement(
                         new Period(),
-                        new Money(new BigDecimal(1), crc), pw1
+                        moneyBuilder.ofCrc(2),
+                        pw1
                 )
         );
 
@@ -109,17 +115,18 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
         pieceworkDAO.save(pw2);
 
         Employee cfo = new Employee(userCFO,new Date());
-        Agreement agreement2 = new Agreement();
-        agreement2.addPieceworkAgreement(new PiceworkAgreement(
+        Agreement agreement2 = new Agreement(workdayBuilder.regularEightHoursWorkday(), moneyBuilder.zeroCrc());
+        agreement2.addPieceworkAgreement(new PieceworkAgreement(
                         new Period(),
-                        new Money(new BigDecimal(1), crc),pw2
-                        )
+                        moneyBuilder.ofCrc(2),
+                        pw2
+                )
         );
 
         agreement2.addHoursAgreements(
                 new HoursAgreement(
                         new Period(),
-                        new Money(new BigDecimal(1),crc))
+                        moneyBuilder.ofCrc(2))
         );
 
         cfo.setAgreement(agreement2);
@@ -133,20 +140,20 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
 
         User userCOO = new User("coo@legios.net","fn","ln");
         userDAO.save(userCEO);
-        Employee coo = new Employee(userCOO,new Date());
+        Employee coo = new Employee(userCOO, new Date());
 
         pieceworkDAO.save(pw2);
-        Agreement agreement3 = new Agreement();
-        agreement3.addPieceworkAgreement(new PiceworkAgreement(
+        Agreement agreement3 = new Agreement(workdayBuilder.regularEightHoursWorkday(), moneyBuilder.zeroCrc());
+        agreement3.addPieceworkAgreement(new PieceworkAgreement(
                         new Period(),
-                        new Money(new BigDecimal(1), crc),pw2
+                        moneyBuilder.ofCrc(2),pw2
                 )
         );
 
         agreement3.addHoursAgreements(
                 new HoursAgreement(
                         new Period(),
-                        new Money(new BigDecimal(1),crc))
+                        moneyBuilder.ofCrc(2))
         );
 
         coo.setAgreement(agreement3);
@@ -160,10 +167,10 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
         userDAO.save(userCIO);
 
         Employee cio = new Employee(userCIO,new Date());
-        Agreement agreement4 = new Agreement();
-        agreement4.addPieceworkAgreement(new PiceworkAgreement(
+        Agreement agreement4 = new Agreement(workdayBuilder.regularEightHoursWorkday(), moneyBuilder.zeroCrc());
+        agreement4.addPieceworkAgreement(new PieceworkAgreement(
                         new Period(),
-                        new Money(new BigDecimal(1), crc),pw2
+                        moneyBuilder.ofCrc(2),pw2
                 )
         );
 

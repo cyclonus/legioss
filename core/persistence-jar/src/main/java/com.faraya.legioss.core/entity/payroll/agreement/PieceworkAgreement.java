@@ -18,7 +18,7 @@ import javax.persistence.*;
         indexes =  {
         }
 )
-public class PiceworkAgreement extends AbstractEntity implements IIdentifiable<Long> {
+public class PieceworkAgreement extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -35,7 +35,7 @@ public class PiceworkAgreement extends AbstractEntity implements IIdentifiable<L
     @OneToOne(fetch = FetchType.EAGER)
     Piecework piecework;
 
-    public PiceworkAgreement(Period period, Money money, Piecework piecework) {
+    public PieceworkAgreement(Period period, Money money, Piecework piecework) {
         this.period = period;
         this.money = money;
         this.piecework = piecework;
@@ -86,7 +86,7 @@ public class PiceworkAgreement extends AbstractEntity implements IIdentifiable<L
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PiceworkAgreement that = (PiceworkAgreement) o;
+        PieceworkAgreement that = (PieceworkAgreement) o;
 
         if (!id.equals(that.id)) return false;
         if (!period.equals(that.period)) return false;

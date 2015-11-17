@@ -8,7 +8,11 @@ package com.faraya.legioss.core.entity.payroll.agreement;
 public enum HoursAgreementType {
 
 
-    REGULAR("REGULAR"),OVERTIME("OVERTIME"),OVERNIGHT("OVERNIGHT"),WEEKEND("WEEKEND"),HOLIDAY("HOLIDAY");
+    REGULAR("REGULAR"),
+    OVERTIME("OVERTIME"),
+    OVERNIGHT("OVERNIGHT"),
+    WEEKEND("WEEKEND"),
+    HOLIDAY("HOLIDAY");
 
     private final String type;
 

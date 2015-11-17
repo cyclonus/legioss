@@ -32,7 +32,7 @@ public class Period {
     }
 
     public Period(Date start) {
-        this.start = start;
+        this(start,null);
     }
 
     public Date getStart() {

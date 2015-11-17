@@ -15,9 +15,11 @@ import static org.junit.Assert.assertNotNull;
 
 /**
  *
- * Created by fabrizzio on 11/5/15.
+ * Created by fabrizzio on 11/16/15.
  */
+
 public class GlobalParamDaoIT extends BaseIntegrationTest {
+
 
     Logger logger = LoggerFactory.getLogger(GlobalParamDaoIT.class);
 
@@ -26,7 +28,7 @@ public class GlobalParamDaoIT extends BaseIntegrationTest {
 
     @Test
     public void testInsert() throws Exception{
-        GlobalParam gp = new GlobalParam("LOL","LOL", ParamType.STRING,"LOL",createBusiness());
+        GlobalParam gp = new GlobalParam("LOL","LOL", ParamType.string,"LOL",createBusiness());
         globalParamDAO.save(gp);
         assertNotNull("null id", gp.getId());
         List <GlobalParam> list =  globalParamDAO.findAllByGroup("LOL");

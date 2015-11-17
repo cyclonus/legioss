@@ -25,7 +25,11 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
 
     private HoursAgreementType hoursAgreementType;
 
+    @Embedded
     private Money money;
+
+
+    //ProjectID | TaskID 
 
     public HoursAgreement() {
     }

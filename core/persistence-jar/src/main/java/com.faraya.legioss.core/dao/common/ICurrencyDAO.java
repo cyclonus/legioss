@@ -9,4 +9,7 @@ import com.faraya.legioss.core.entity.common.Currency;
  */
 
 public interface ICurrencyDAO extends IGenericDAO<Currency,Long> {
+
+    Currency findByShortName(String name);
+
 }

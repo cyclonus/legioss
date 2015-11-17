@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Embeddable
 public class Money implements Comparable<Money> {
 
-    @Column(name = "amount", nullable = false)
+    @Column(name = "amount", nullable = false, columnDefinition="Decimal(10,2) default '0'")
     private BigDecimal amount;
 
     @JoinColumn(name = "currency_id", nullable = false)
@@ -23,6 +23,22 @@ public class Money implements Comparable<Money> {
 
     public Money(BigDecimal amount, Currency currency) {
         this.amount = amount;
+        this.currency = currency;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
         this.currency = currency;
     }
 
