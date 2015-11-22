@@ -8,6 +8,7 @@ import com.faraya.legioss.core.entity.calendar.Type;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import static org.junit.Assert.assertNotNull;
@@ -25,8 +26,8 @@ public class SimlpeCalendarIT extends BaseIntegrationTest {
     @Test
     public void testInsertCalendar(){
         Calendar c = new Calendar("Holidays",createBusiness());
-        c.addCalendarDate(new CalendarDate("today",new Date(), Type.BUSINESS_DAY));
-        c.addCalendarDate(new CalendarDate("whatever",new Date(), Type.MANDATORY_HOLIDAY));
+        c.addCalendarDate(new CalendarDate("today", LocalDate.now(), Type.BUSINESS_DAY));
+        c.addCalendarDate(new CalendarDate("whatever", LocalDate.now(), Type.MANDATORY_HOLIDAY));
 
         calendarDAO.save(c);
         assertNotNull("null id", c.getId());

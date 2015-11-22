@@ -3,7 +3,7 @@ package com.faraya.legioss.core.entity.payroll;
 import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
 import com.faraya.legioss.core.entity.common.Contact;
-import com.faraya.legioss.core.entity.payroll.agreement.Agreement;
+import com.faraya.legioss.core.entity.payroll.agreement.Agreements;
 import com.faraya.legioss.core.entity.security.User;
 
 import javax.persistence.*;
@@ -52,7 +52,7 @@ public class Employee extends AbstractEntity implements IIdentifiable <Long>{
 
     @JoinColumn(name = "agreement_id")
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Agreement agreement;
+    private Agreements agreement;
 
     @Column(name = "agreement_id", nullable = false, updatable = false, insertable = false)
     private Long agreementId;
@@ -134,11 +134,11 @@ public class Employee extends AbstractEntity implements IIdentifiable <Long>{
         this.userId = userId;
     }
 
-    public Agreement getAgreement() {
+    public Agreements getAgreement() {
         return agreement;
     }
 
-    public void setAgreement(Agreement agreement) {
+    public void setAgreement(Agreements agreement) {
         agreement.setEmployee(this);
         this.agreement = agreement;
     }

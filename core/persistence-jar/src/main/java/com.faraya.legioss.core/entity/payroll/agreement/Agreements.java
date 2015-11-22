@@ -2,13 +2,11 @@ package com.faraya.legioss.core.entity.payroll.agreement;
 
 import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
-import com.faraya.legioss.core.entity.common.CalculationRule;
-import com.faraya.legioss.core.entity.common.Money;
-import com.faraya.legioss.core.entity.common.Workday;
+import com.faraya.legioss.core.entity.common.BasicMoney;
+import com.faraya.legioss.core.entity.common.DailyWorkSchedule;
 import com.faraya.legioss.core.entity.payroll.Employee;
 
 import javax.persistence.*;
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,21 +20,21 @@ import java.util.Set;
         indexes =  {
         }
 )
-public class Agreement extends AbstractEntity implements IIdentifiable<Long> {
+public class Agreements extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<PieceworkAgreement> pieceworkAgreements;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<HoursAgreement> hoursAgreements;
 
     @Embedded
-    private Money baseSalary; //Per period base salary.
+    private BasicMoney baseSalary; //Per period base salary.
 
     //Rule(("BaseSalary"), ("BaseSalary" + "workedHours"), ("PieceWork"), ("PieceWork" + "workedHours"), ("PieceWork + BaseSalary"), ("PieceWork + BaseSalary + workedHours"))
     //EnumSet<CalculationRule> rules;
@@ -47,15 +45,15 @@ public class Agreement extends AbstractEntity implements IIdentifiable<Long> {
     @Column(name = "employee_id", updatable = false, insertable = false)
     private Long employeeId;
 
-    //Jornada laboral (from 8-5)
+    //Jornada laboral (e.g. from 8 to 5)
     @Embedded
-    private Workday workday;
+    private DailyWorkSchedule workDailySchedule;
 
-    public Agreement() {
+    public Agreements() {
     }
 
-    public Agreement(Workday workday, Money baseSalary) {
-        this.workday = workday;
+    public Agreements(DailyWorkSchedule workDailySchedule, BasicMoney baseSalary) {
+        this.workDailySchedule = workDailySchedule;
         this.baseSalary = baseSalary;
     }
 
@@ -85,19 +83,19 @@ public class Agreement extends AbstractEntity implements IIdentifiable<Long> {
         this.employeeId = employeeId;
     }
 
-    public Workday getWorkday() {
-        return workday;
+    public DailyWorkSchedule getWorkDailySchedule() {
+        return workDailySchedule;
     }
 
-    public void setWorkday(Workday workday) {
-        this.workday = workday;
+    public void setWorkDailySchedule(DailyWorkSchedule workDailySchedule) {
+        this.workDailySchedule = workDailySchedule;
     }
 
-    public Money getBaseSalary() {
+    public BasicMoney getBaseSalary() {
         return baseSalary;
     }
 
-    public void setBaseSalary(Money baseSalary) {
+    public void setBaseSalary(BasicMoney baseSalary) {
         this.baseSalary = baseSalary;
     }
 
@@ -112,7 +110,7 @@ public class Agreement extends AbstractEntity implements IIdentifiable<Long> {
         this.pieceworkAgreements = pieceworkAgreements;
     }
 
-    public void addPieceworkAgreement(PieceworkAgreement pieceworkAgreement){
+    public void addAgreement(PieceworkAgreement pieceworkAgreement){
          getPieceworkAgreements().add(pieceworkAgreement);
     }
 
@@ -127,7 +125,7 @@ public class Agreement extends AbstractEntity implements IIdentifiable<Long> {
         this.hoursAgreements = hoursAgreements;
     }
 
-    public void addHoursAgreements(HoursAgreement hoursAgreement){
+    public void addAgreement(HoursAgreement hoursAgreement){
        getHoursAgreements().add(hoursAgreement);
     }
 

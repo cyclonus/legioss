@@ -6,7 +6,7 @@ package com.faraya.legioss.service.common;
  */
 public interface IBusinessService {
 /*
-    Business createBusiness(String name, Currency currency);
+    Business createBusiness(String name, BasicCurrency currency);
 
         Business findBusinessByID(Long id);
 

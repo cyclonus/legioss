@@ -1,25 +1,24 @@
-package com.faraya.legioss.core.dao.payroll;
+package com.faraya.legioss.core.dao.payroll.log;
 
 import com.faraya.legioss.core.dao.AbstractJPAGenericDAO;
-import com.faraya.legioss.core.entity.payroll.agreement.Agreements;
+import com.faraya.legioss.core.entity.payroll.log.AttendanceLog;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * Created by fabrizzio on 10/11/15.
+ * Created by fabrizzio on 11/17/15.
  */
 @Repository
-public class AgreementDAO extends AbstractJPAGenericDAO<Agreements,Long> implements IAgreementDAO {
+public class AttendanceLogDAO extends AbstractJPAGenericDAO<AttendanceLog,Long> implements IAttendanceLogDAO {
+
+    public AttendanceLogDAO() {
+        super(AttendanceLog.class);
+    }
 
     @PersistenceContext(unitName = "legioss")
     EntityManager entityManager;
-
-    public AgreementDAO() {
-        super(Agreements.class);
-    }
 
     @Override
     public EntityManager getEntityManager() {

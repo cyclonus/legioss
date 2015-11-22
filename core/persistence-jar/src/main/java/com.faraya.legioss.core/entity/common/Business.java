@@ -29,9 +29,8 @@ public class Business extends AbstractEntity implements IIdentifiable<Long>, IDo
     @Column(name = "name", nullable = false, unique = true, length = 50)
     private String name;
 
-    @JoinColumn(name = "currency_id", nullable = false)
-    @OneToOne(fetch = FetchType.EAGER)
-    private Currency primaryCurrency;
+    @Embedded
+    private BasicCurrency primaryCurrency;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Address> address;
@@ -45,7 +44,7 @@ public class Business extends AbstractEntity implements IIdentifiable<Long>, IDo
     public Business() {
     }
 
-    public Business(String name, Currency primaryCurrency, Period businessYear) {
+    public Business(String name, BasicCurrency primaryCurrency, Period businessYear) {
         this.name = name;
         this.primaryCurrency = primaryCurrency;
         this.businessYear = businessYear;
@@ -67,11 +66,11 @@ public class Business extends AbstractEntity implements IIdentifiable<Long>, IDo
         this.name = name;
     }
 
-    public Currency getPrimaryCurrency() {
+    public BasicCurrency getPrimaryCurrency() {
         return primaryCurrency;
     }
 
-    public void setPrimaryCurrency(Currency primaryCurrency) {
+    public void setPrimaryCurrency(BasicCurrency primaryCurrency) {
         this.primaryCurrency = primaryCurrency;
     }
 

@@ -2,7 +2,7 @@ package com.faraya.legioss.core.entity.payroll.agreement;
 
 import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
-import com.faraya.legioss.core.entity.common.Money;
+import com.faraya.legioss.core.entity.common.BasicMoney;
 import com.faraya.legioss.core.entity.common.Period;
 import com.faraya.legioss.core.entity.costing.Piecework;
 
@@ -26,18 +26,18 @@ public class PieceworkAgreement extends AbstractEntity implements IIdentifiable<
     private Long id;
 
     @Embedded
-    private Period period;
+    private Period validity;
 
     @Embedded
-    private Money money;
+    private BasicMoney rate;
 
     @JoinColumn(name = "piecework_id", nullable = false)
     @OneToOne(fetch = FetchType.EAGER)
     Piecework piecework;
 
-    public PieceworkAgreement(Period period, Money money, Piecework piecework) {
-        this.period = period;
-        this.money = money;
+    public PieceworkAgreement(Period validity, BasicMoney rate, Piecework piecework) {
+        this.validity = validity;
+        this.rate = rate;
         this.piecework = piecework;
     }
 
@@ -52,20 +52,20 @@ public class PieceworkAgreement extends AbstractEntity implements IIdentifiable<
         this.id = id;
     }
 
-    public Period getPeriod() {
-        return period;
+    public Period getValidity() {
+        return validity;
     }
 
-    public void setPeriod(Period period) {
-        this.period = period;
+    public void setValidity(Period validity) {
+        this.validity = validity;
     }
 
-    public Money getMoney() {
-        return money;
+    public BasicMoney getRate() {
+        return rate;
     }
 
-    public void setMoney(Money money) {
-        this.money = money;
+    public void setRate(BasicMoney rate) {
+        this.rate = rate;
     }
 
     public Piecework getPiecework() {
@@ -89,8 +89,8 @@ public class PieceworkAgreement extends AbstractEntity implements IIdentifiable<
         PieceworkAgreement that = (PieceworkAgreement) o;
 
         if (!id.equals(that.id)) return false;
-        if (!period.equals(that.period)) return false;
-        if (!money.equals(that.money)) return false;
+        if (!validity.equals(that.validity)) return false;
+        if (!rate.equals(that.rate)) return false;
         return piecework.equals(that.piecework);
 
     }
@@ -98,8 +98,8 @@ public class PieceworkAgreement extends AbstractEntity implements IIdentifiable<
     @Override
     public int hashCode() {
         int result = ( id == null ? 1 : id.hashCode());
-        result = 31 * result + period.hashCode();
-        result = 31 * result + money.hashCode();
+        result = 31 * result + validity.hashCode();
+        result = 31 * result + rate.hashCode();
         result = 31 * result + piecework.hashCode();
         return result;
     }

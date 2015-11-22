@@ -2,9 +2,7 @@ package com.faraya.legioss.core.entity.common;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -14,48 +12,46 @@ import java.util.Date;
 @Embeddable
 public class Period {
 
-    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "period_start", nullable = false)
-    java.util.Date start;
+    LocalDate start;
 
-    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name = "period_end", nullable = true)
-    java.util.Date end;
+    LocalDate end;
 
     public Period() {
-        this.start = new Date();
+        this.start = LocalDate.now();
     }
 
-    public Period(Date start, Date end) {
+    public Period(LocalDate start, LocalDate end) {
         this.start = start;
         this.end = end;
     }
 
-    public Period(Date start) {
+    public Period(LocalDate start) {
         this(start,null);
     }
 
-    public Date getStart() {
+    public LocalDate getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(LocalDate start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(LocalDate end) {
         this.end = end;
     }
 
-    public boolean isWithinPeriod(Date date){
-        if(isOpen() && (start.after(date) || start.equals(date))){
+    public boolean isWithinPeriod(LocalDate date){
+        if(isOpen() && (start.isAfter(date) || start.equals(date))){
             return true;
         }
-        return  (start.after(date) && end.before(date) || start.equals(date) || end.equals(date));
+        return  (start.isAfter(date) && end.isBefore(date) || start.equals(date) || end.equals(date));
     }
 
     public boolean isOpen(){

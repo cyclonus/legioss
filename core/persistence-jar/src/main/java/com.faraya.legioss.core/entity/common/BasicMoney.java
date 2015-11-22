@@ -9,19 +9,18 @@ import java.math.BigDecimal;
  */
 
 @Embeddable
-public class Money implements Comparable<Money> {
+public class BasicMoney implements Comparable<BasicMoney> {
 
     @Column(name = "amount", nullable = false, columnDefinition="Decimal(10,2) default '0'")
     private BigDecimal amount;
 
-    @JoinColumn(name = "currency_id", nullable = false)
-    @OneToOne(fetch = FetchType.EAGER)
-    private Currency currency;
+    @Embedded
+    private BasicCurrency currency;
 
-    public Money() {
+    public BasicMoney() {
     }
 
-    public Money(BigDecimal amount, Currency currency) {
+    public BasicMoney(BigDecimal amount, BasicCurrency currency) {
         this.amount = amount;
         this.currency = currency;
     }
@@ -34,11 +33,11 @@ public class Money implements Comparable<Money> {
         this.amount = amount;
     }
 
-    public Currency getCurrency() {
+    public BasicCurrency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(BasicCurrency currency) {
         this.currency = currency;
     }
 
@@ -47,7 +46,7 @@ public class Money implements Comparable<Money> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Money money = (Money) o;
+        BasicMoney money = (BasicMoney) o;
 
         if (amount != null ? !amount.equals(money.amount) : money.amount != null) return false;
         return !(currency != null ? !currency.equals(money.currency) : money.currency != null);
@@ -62,7 +61,23 @@ public class Money implements Comparable<Money> {
     }
 
     @Override
-    public int compareTo(Money o) {
-        return (amount.compareTo(o.amount) == 0 && currency.compareTo(o.currency) == 0) ? 0 : 1 ;
+    public int compareTo(BasicMoney o) {
+        return 0; //TODO: Fixme!!
+               // (amount.compareTo(o.amount) == 0 && currency.toCurrency().compareTo(o.currency) == 0) ? 0 : 1 ;
     }
+
+    private static BigDecimal of(double d){
+       String ds = Double.toString(d);
+       return new BigDecimal(ds);
+    }
+
+    public static BasicMoney ofUSD(double amount) {
+        return new BasicMoney(of(amount), BasicCurrency.usd());
+    }
+
+    public static BasicMoney ofCRC(double amount) {
+        return new BasicMoney(of(amount), BasicCurrency.crc());
+    }
+
+
 }

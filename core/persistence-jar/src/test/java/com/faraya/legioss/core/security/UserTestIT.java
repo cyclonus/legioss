@@ -1,7 +1,6 @@
 package com.faraya.legioss.core.security;
 
 import com.faraya.legioss.TransactionalSpringJUnit4RunnerTest;
-import com.faraya.legioss.core.dao.accounting.IAccountDAO;
 import com.faraya.legioss.core.dao.common.*;
 import com.faraya.legioss.core.dao.security.ICredentialDAO;
 import com.faraya.legioss.core.dao.security.IPermissionDAO;
@@ -12,13 +11,11 @@ import com.faraya.legioss.core.entity.security.Credential;
 import com.faraya.legioss.core.entity.security.Permission;
 import com.faraya.legioss.core.entity.security.Role;
 import com.faraya.legioss.core.entity.security.User;
-import com.faraya.legioss.util.DateUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
-import java.util.Date;
-
+import java.time.LocalDate;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -28,9 +25,6 @@ import static org.junit.Assert.assertNotNull;
  * Created by fabrizzio on 9/5/15.
  */
 public class UserTestIT extends TransactionalSpringJUnit4RunnerTest {
-
-    @Autowired
-    ICurrencyDAO currencyDAO;
 
     @Autowired
     IUserDAO userDAO;
@@ -54,15 +48,13 @@ public class UserTestIT extends TransactionalSpringJUnit4RunnerTest {
     @Rollback(true)
     public void createUserBusinessAndDomain() {
 
-        Currency currency = new Currency("US Dollar","USD","$");
-        currencyDAO.save(currency);
-        assertNotNull("null id", currency.getId());
+        BasicCurrency currency = new BasicCurrency("USD");
 
         Address address = new Address("CR","la perica","Palmares","Alajuela","-");
 
         Contact contact = new Contact("fabaraya@hotmail.com", Contact.Type.EMAIL);
 
-        Business business = new Business("Legioss Software S.A.", currency, new Period(DateUtils.computeYearsFrom(new Date(), 1)));
+        Business business = new Business("Legioss Software S.A.", currency, new Period(LocalDate.now().plusYears(1)));
         business.addAddress(address);
         business.addContact(contact);
 

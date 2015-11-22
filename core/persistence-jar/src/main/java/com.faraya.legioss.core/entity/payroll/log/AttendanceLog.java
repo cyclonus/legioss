@@ -2,10 +2,11 @@ package com.faraya.legioss.core.entity.payroll.log;
 
 import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
+import com.faraya.legioss.core.entity.common.DailyWorkedHours;
 import com.faraya.legioss.core.entity.payroll.Employee;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -21,13 +22,8 @@ public class AttendanceLog extends AbstractEntity implements IIdentifiable<Long>
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.TIME)
-    @Column(name = "check_in")
-    private Date checkIn;
-
-    @Temporal(TemporalType.TIME)
-    @Column(name = "check_out")
-    private Date checkOut;
+    @Embedded
+    private DailyWorkedHours dailyWorkedHours;
 
     //absentDay, sickDay, ppt, holiday
 
@@ -48,9 +44,33 @@ public class AttendanceLog extends AbstractEntity implements IIdentifiable<Long>
         this.id = id;
     }
 
+    public DailyWorkedHours getDailyWorkedHours() {
+        return dailyWorkedHours;
+    }
+
+    public void setDailyWorkedHours(DailyWorkedHours dailyWorkedHours) {
+        this.dailyWorkedHours = dailyWorkedHours;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
     @Override
     public boolean isTransient() {
-        return false;
+        return (id == null);
     }
 
 

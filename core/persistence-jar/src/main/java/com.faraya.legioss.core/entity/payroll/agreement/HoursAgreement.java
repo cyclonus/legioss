@@ -2,7 +2,8 @@ package com.faraya.legioss.core.entity.payroll.agreement;
 
 import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
-import com.faraya.legioss.core.entity.common.Money;
+import com.faraya.legioss.core.entity.common.BasicMoney;
+import com.faraya.legioss.core.entity.common.DailyWorkSchedule;
 import com.faraya.legioss.core.entity.common.Period;
 
 import javax.persistence.*;
@@ -20,28 +21,34 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+    /*
+     * Tells the system if the agreement is still valid
+     * used also to keep historic log of how salaries change in time for employees
+     */
     @Embedded
-    private Period period;
+    private Period validity;
 
-    private HoursAgreementType hoursAgreementType;
+    @Column(name = "active", nullable = true)
+    private Boolean active;
 
     @Embedded
-    private Money money;
+    private BasicMoney rate;
 
+    //TODO: add a reference back to employee
 
-    //ProjectID | TaskID 
+    @Embedded
+    private DailyWorkSchedule schedule;
+
+    @Column(name = "project_ref", nullable = true, length = 50)
+    private String projectRef;
 
     public HoursAgreement() {
     }
 
-    public HoursAgreement(Period period, HoursAgreementType hoursAgreementType, Money money) {
-        this.period = period;
-        this.hoursAgreementType = hoursAgreementType;
-        this.money = money;
-    }
-
-    public HoursAgreement(Period period, Money money) {
-        this(period, HoursAgreementType.REGULAR, money);
+    public HoursAgreement(Period validity, BasicMoney rate) {
+        this.validity = validity;
+        this.rate = rate;
+        this.active = validity.isOpen();
     }
 
     @Override
@@ -54,29 +61,44 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
         this.id = id;
     }
 
-
-    public Period getPeriod() {
-        return period;
+    public Period getValidity() {
+        return validity;
     }
 
-    public void setPeriod(Period period) {
-        this.period = period;
+    public void setValidity(Period validity) {
+        this.validity = validity;
     }
 
-    public HoursAgreementType getHoursAgreementType() {
-        return hoursAgreementType;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setHoursAgreementType(HoursAgreementType hoursAgreementType) {
-        this.hoursAgreementType = hoursAgreementType;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
-    public Money getMoney() {
-        return money;
+    public BasicMoney getRate() {
+        return rate;
     }
 
-    public void setMoney(Money money) {
-        this.money = money;
+    public void setRate(BasicMoney rate) {
+        this.rate = rate;
+    }
+
+    public DailyWorkSchedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(DailyWorkSchedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public String getProjectRef() {
+        return projectRef;
+    }
+
+    public void setProjectRef(String projectRef) {
+        this.projectRef = projectRef;
     }
 
     @Override
@@ -88,9 +110,8 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
     public String toString() {
         return "HoursAgreement{" +
                 "id=" + id +
-                ", period=" + period +
-                ", hoursAgreementType=" + hoursAgreementType +
-                ", money=" + money +
+                ", validity=" + validity +
+                ", rate=" + rate +
                 '}';
     }
 }

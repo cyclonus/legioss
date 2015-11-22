@@ -4,6 +4,7 @@ import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -29,7 +30,7 @@ public class CalendarDate extends AbstractEntity implements IIdentifiable<Long>{
     private String name;
 
     @Column(name = "date", nullable = false, unique = false)
-    private Date date;
+    private LocalDate date;
 
     @Enumerated(EnumType.STRING)
     private Type type;
@@ -37,7 +38,7 @@ public class CalendarDate extends AbstractEntity implements IIdentifiable<Long>{
     public CalendarDate() {
     }
 
-    public CalendarDate(String name, Date date, Type type) {
+    public CalendarDate(String name, LocalDate date, Type type) {
         this.name = name;
         this.date = date;
         this.type = type;
@@ -61,11 +62,11 @@ public class CalendarDate extends AbstractEntity implements IIdentifiable<Long>{
         this.name = name;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

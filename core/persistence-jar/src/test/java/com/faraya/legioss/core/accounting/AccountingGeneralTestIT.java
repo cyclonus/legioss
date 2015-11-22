@@ -2,9 +2,8 @@ package com.faraya.legioss.core.accounting;
 
 import com.faraya.legioss.TransactionalSpringJUnit4RunnerTest;
 import com.faraya.legioss.core.dao.accounting.*;
-import com.faraya.legioss.core.dao.common.ICurrencyDAO;
 import com.faraya.legioss.core.entity.accounting.*;
-import com.faraya.legioss.core.entity.common.Currency;
+import com.faraya.legioss.core.entity.common.BasicCurrency;
 import com.faraya.legioss.core.model.accounting.AccountType;
 import com.faraya.legioss.core.model.accounting.BalanceType;
 import org.junit.FixMethodOrder;
@@ -47,8 +46,6 @@ public class AccountingGeneralTestIT extends TransactionalSpringJUnit4RunnerTest
     @Autowired
     ICatalogDAO accountCatalogDAO;
 
-    @Autowired
-    ICurrencyDAO currencyDAO;
 
 /*
 http://stackoverflow.com/questions/1108066/junit4-expected-exception-not-working-with-spring
@@ -57,11 +54,11 @@ http://stackoverflow.com/questions/1108066/junit4-expected-exception-not-working
     @ExpectedException(javax.persistence.PersistenceException.class)
     public void attemptCreatingTwoCurrenciesNamedTheSame(){
 
-           Currency currency1 = new Currency("All mighty dollar", "USD");
+           BasicCurrency currency1 = new BasicCurrency("All mighty dollar", "USD");
            currencyDAO.save(currency1);
            assertNotNull("id", currency1.getId());
 
-           Currency currency2 = new Currency("All mighty dollar", "USD");
+           BasicCurrency currency2 = new BasicCurrency("All mighty dollar", "USD");
            currencyDAO.save(currency2);
            assertNotNull("id", currency2.getId());
 
@@ -88,10 +85,7 @@ http://stackoverflow.com/questions/1108066/junit4-expected-exception-not-working
     @Test
     @Rollback(true)
     public void firstCreateAccountHappyPath(){
-        Currency crc =  new Currency("Costa Rica Colon","CRC","¢");//Factory method??
-        currencyDAO.save(crc);
-        assertNotNull("id", crc.getId());
-
+        BasicCurrency crc =  new BasicCurrency("CRC");
         assertNotNull(" accountCatalogDAO is null", accountCatalogDAO);
         Catalog catalog = new Catalog("myCatalog");
         accountCatalogDAO.save(catalog);

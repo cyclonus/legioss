@@ -2,7 +2,7 @@ package com.faraya.legioss.core.entity.accounting;
 
 import com.faraya.legioss.core.IIdentifiable;
 import com.faraya.legioss.core.entity.AbstractEntity;
-import com.faraya.legioss.core.entity.common.Currency;
+import com.faraya.legioss.core.entity.common.BasicCurrency;
 import com.faraya.legioss.core.model.accounting.AccountType;
 import javax.persistence.*;
 import java.util.HashSet;
@@ -39,9 +39,8 @@ public class Account extends AbstractEntity implements IIdentifiable<Long> {
     @ManyToOne(optional = true, fetch = FetchType.EAGER)
     private Catalog catalog;
 
-    @JoinColumn(name = "currency_id", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Currency currency;
+    @Embedded
+    private BasicCurrency currency;
 
     @JoinColumn(name = "transaction_id", nullable = true)
     @OneToMany()
@@ -50,7 +49,7 @@ public class Account extends AbstractEntity implements IIdentifiable<Long> {
     public Account() {
     }
 
-    public Account(String name, AccountType type, Currency currency, Catalog catalog) {
+    public Account(String name, AccountType type, BasicCurrency currency, Catalog catalog) {
         this.name = name;
         this.accountType = type;
         this.currency = currency;
@@ -105,11 +104,11 @@ public class Account extends AbstractEntity implements IIdentifiable<Long> {
         this.catalog = catalog;
     }
 
-    public Currency getCurrency() {
+    public BasicCurrency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(Currency currency) {
+    public void setCurrency(BasicCurrency currency) {
         this.currency = currency;
     }
 

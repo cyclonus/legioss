@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.MonthDay;
 import java.util.List;
 
 /**
@@ -31,11 +34,9 @@ public class CalendarImportBeanImpl implements ICalendarImportBean {
         Calendar calendar = new Calendar(model.getName(),business);
         List<CalendarEntryModel> calendarEntries = model.getCalendar();
         for(CalendarEntryModel cem : calendarEntries){
-            java.util.Calendar cal = java.util.Calendar.getInstance();
-            cal.set(java.util.Calendar.MONTH,cem.getMonthDay().getMonthValue());
-            cal.set(java.util.Calendar.DAY_OF_MONTH,cem.getMonthDay().getDayOfMonth());
-            calendar.addCalendarDate(new CalendarDate(cem.getName(),cal.getTime(),
-                     cem.isMandatory() ? Type.MANDATORY_HOLIDAY : Type.NON_MANDATORY_HOLIDAY)
+            MonthDay monthDay = cem.getMonthDay();
+            calendar.addCalendarDate(new CalendarDate(cem.getName(), LocalDate.from(monthDay),
+                            cem.isMandatory() ? Type.MANDATORY_HOLIDAY : Type.NON_MANDATORY_HOLIDAY)
             );
         }
         calendarDAO.save(calendar);
