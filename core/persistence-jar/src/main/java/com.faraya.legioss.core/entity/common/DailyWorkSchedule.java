@@ -23,4 +23,10 @@ public class DailyWorkSchedule extends TimeInTimeOut {
         return new DailyWorkSchedule(LocalTime.of(from,0),LocalTime.of(to,0));
     }
 
+    public boolean isWithinBoundaries(LocalTime time){
+        int cmp1 = getTimeIn().compareTo(time);
+        int cmp2 = getTimeOut().compareTo(time);
+        return (cmp1 >= 0 && cmp2 <= 0);
+    }
+
 }

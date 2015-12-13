@@ -7,6 +7,7 @@ import com.faraya.legioss.core.entity.payroll.agreement.Agreements;
 import com.faraya.legioss.core.entity.security.User;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
@@ -35,10 +36,10 @@ public class Employee extends AbstractEntity implements IIdentifiable <Long>{
     private String idNumber = NO_ID;
 
     @Column(name = "hired_date", nullable = false)
-    private Date hireDate = Calendar.getInstance().getTime();
+    private LocalDate hireDate = LocalDate.now();
 
     @Column(name = "cease_date", nullable = true)
-    private Date ceaseDate;
+    private LocalDate ceaseDate;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Contact> contacts;
@@ -52,7 +53,7 @@ public class Employee extends AbstractEntity implements IIdentifiable <Long>{
 
     @JoinColumn(name = "agreement_id")
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Agreements agreement;
+    private Agreements agreements;
 
     @Column(name = "agreement_id", nullable = false, updatable = false, insertable = false)
     private Long agreementId;
@@ -64,7 +65,7 @@ public class Employee extends AbstractEntity implements IIdentifiable <Long>{
         this.user = user;
     }
 
-    public Employee(User user, Date hireDate) {
+    public Employee(User user, LocalDate hireDate) {
         this.user = user;
         this.hireDate = hireDate;
     }
@@ -94,19 +95,19 @@ public class Employee extends AbstractEntity implements IIdentifiable <Long>{
         this.idNumber = idNumber;
     }
 
-    public Date getHireDate() {
+    public LocalDate getHireDate() {
         return hireDate;
     }
 
-    public void setHireDate(Date hireDate) {
+    public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
 
-    public Date getCeaseDate() {
+    public LocalDate getCeaseDate() {
         return ceaseDate;
     }
 
-    public void setCeaseDate(Date ceaseDate) {
+    public void setCeaseDate(LocalDate ceaseDate) {
         this.ceaseDate = ceaseDate;
     }
 
@@ -134,13 +135,13 @@ public class Employee extends AbstractEntity implements IIdentifiable <Long>{
         this.userId = userId;
     }
 
-    public Agreements getAgreement() {
-        return agreement;
+    public Agreements getAgreements() {
+        return agreements;
     }
 
-    public void setAgreement(Agreements agreement) {
-        agreement.setEmployee(this);
-        this.agreement = agreement;
+    public void setAgreements(Agreements agreements) {
+        agreements.setEmployee(this);
+        this.agreements = agreements;
     }
 
     public Long getAgreementId() {

@@ -33,6 +33,15 @@ public class BasicMoney implements Comparable<BasicMoney> {
         this.amount = amount;
     }
 
+    public BasicMoney add(BigDecimal amount){
+        if(getAmount() != null) {
+            this.amount = getAmount().add(amount);
+        } else {
+            this.amount = new BigDecimal(amount.toString());
+        }
+        return this;
+    }
+
     public BasicCurrency getCurrency() {
         return currency;
     }

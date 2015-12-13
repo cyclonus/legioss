@@ -7,7 +7,6 @@ package com.faraya.legioss.core.entity.calendar;
 
 public enum Type {
     BUSINESS_DAY,
-    WEEKEND,
     NON_MANDATORY_HOLIDAY,
     MANDATORY_HOLIDAY
 }

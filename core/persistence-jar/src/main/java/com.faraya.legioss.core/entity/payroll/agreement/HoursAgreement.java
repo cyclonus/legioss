@@ -29,15 +29,21 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
     private Period validity;
 
     @Column(name = "active", nullable = true)
-    private Boolean active;
+    private boolean active;
 
     @Embedded
     private BasicMoney rate;
 
     //TODO: add a reference back to employee
 
+    @Enumerated(EnumType.STRING)
+    private PayType payType;
+
     @Embedded
     private DailyWorkSchedule schedule;
+
+    @Column(name = "hours_shift", nullable = false, length = 2)
+    private int hoursShift = 8;
 
     @Column(name = "project_ref", nullable = true, length = 50)
     private String projectRef;
@@ -69,11 +75,11 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
         this.validity = validity;
     }
 
-    public Boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
@@ -93,6 +99,22 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
         this.schedule = schedule;
     }
 
+    public PayType getPayType() {
+        return payType;
+    }
+
+    public void setPayType(PayType payType) {
+        this.payType = payType;
+    }
+
+    public int getHoursShift() {
+        return hoursShift;
+    }
+
+    public void setHoursShift(int hoursShift) {
+        this.hoursShift = hoursShift;
+    }
+
     public String getProjectRef() {
         return projectRef;
     }
@@ -106,12 +128,25 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
         return (id == null);
     }
 
+    /**
+     * if the validity is updated and  set with an end of agreement we deactivate this instance
+     */
+    @PrePersist
+    public void onPrePersist(){
+       boolean val = getValidity().isOpen();
+       setActive(val);
+    }
+
     @Override
     public String toString() {
         return "HoursAgreement{" +
                 "id=" + id +
                 ", validity=" + validity +
+                ", active=" + active +
                 ", rate=" + rate +
+                ", payType=" + payType +
+                ", schedule=" + schedule +
+                ", projectRef='" + projectRef + '\'' +
                 '}';
     }
 }

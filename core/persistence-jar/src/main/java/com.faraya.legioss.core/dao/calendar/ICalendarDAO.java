@@ -9,4 +9,7 @@ import com.faraya.legioss.core.entity.calendar.Calendar;
  */
 
 public interface ICalendarDAO extends IGenericDAO<Calendar,Long> {
+
+    Calendar findByBusinessId(Long businessId);
+
 }

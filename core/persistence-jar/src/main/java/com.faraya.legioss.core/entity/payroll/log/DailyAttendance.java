@@ -6,7 +6,7 @@ import com.faraya.legioss.core.entity.common.DailyWorkedHours;
 import com.faraya.legioss.core.entity.payroll.Employee;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  *
@@ -14,16 +14,19 @@ import java.time.LocalDateTime;
  */
 
 @Entity
-@Table(name = "attendance_log")
-public class AttendanceLog extends AbstractEntity implements IIdentifiable<Long> {
+@Table(name = "daily_attendance")
+public class DailyAttendance extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
+
     @Embedded
-    private DailyWorkedHours dailyWorkedHours;
+    private DailyWorkedHours workedHours;
 
     //absentDay, sickDay, ppt, holiday
 
@@ -44,12 +47,20 @@ public class AttendanceLog extends AbstractEntity implements IIdentifiable<Long>
         this.id = id;
     }
 
-    public DailyWorkedHours getDailyWorkedHours() {
-        return dailyWorkedHours;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDailyWorkedHours(DailyWorkedHours dailyWorkedHours) {
-        this.dailyWorkedHours = dailyWorkedHours;
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public DailyWorkedHours getWorkedHours() {
+        return workedHours;
+    }
+
+    public void setWorkedHours(DailyWorkedHours workedHours) {
+        this.workedHours = workedHours;
     }
 
     public Employee getEmployee() {

@@ -25,8 +25,6 @@ import java.util.List;
 @Component
 public class CalendarImportBeanImpl implements ICalendarImportBean {
 
-
-
     @Autowired
     ICalendarDAO calendarDAO;
 
@@ -45,7 +43,7 @@ public class CalendarImportBeanImpl implements ICalendarImportBean {
     @Override
     public CalendarModel importFromJson(InputStream inputStream) throws Exception{
         ObjectMapper objectMapper = new ObjectMapper();
-        CalendarModel model = objectMapper.readValue(inputStream,CalendarModel.class);
+        CalendarModel model = objectMapper.readValue(inputStream, CalendarModel.class);
         return model;
     }
 

@@ -15,11 +15,6 @@ public abstract class TimeInTimeOut {
         this.timeOut = timeOut;
     }
 
-    protected void verifyConsistency(){
-        if(timeIn.isAfter(timeOut))
-            throw new IllegalArgumentException("Time in must be earlier than time out.");
-    }
-
     @Column(name = "time_in", nullable = false)
     private LocalTime timeIn;
 
@@ -43,6 +38,7 @@ public abstract class TimeInTimeOut {
     }
 
     public int getHours() {
+        //TODO  Make an adjustment, subtract Lunch hours
         return  (timeOut.minusHours(timeIn.getHour()).getHour());
     }
 

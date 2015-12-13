@@ -28,6 +28,7 @@ import java.util.Date;
 import static org.junit.Assert.assertNotNull;
 
 /**
+ *
  * Created by fabrizzio on 10/5/15.
  */
 
@@ -71,7 +72,7 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
 
         Piecework pw1 = new Piecework("0001", "big-boxes-1");
         pieceworkDAO.save(pw1);
-        Employee ceo = new Employee(userCEO, new Date());
+        Employee ceo = new Employee(userCEO, LocalDate.now());
         Agreements agreements1 = new Agreements(DailyWorkSchedule.regularEightHoursWorkday(), BasicMoney.ofCRC(0));
         agreements1.addAgreement(new PieceworkAgreement(
                         new Period(),
@@ -80,7 +81,7 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
                 )
         );
 
-        ceo.setAgreement(agreements1);
+        ceo.setAgreements(agreements1);
 
         employeeDAO.save(ceo);
         assertNotNull("null", ceo.getId());
@@ -94,7 +95,7 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
         Piecework pw2 = new Piecework("0002", "big-boxes-2");
         pieceworkDAO.save(pw2);
 
-        Employee cfo = new Employee(userCFO, new Date());
+        Employee cfo = new Employee(userCFO, LocalDate.now());
         Agreements agreements2 = new Agreements(DailyWorkSchedule.regularEightHoursWorkday(), BasicMoney.ofCRC(0));
         agreements2.addAgreement(new PieceworkAgreement(
                         new Period(),
@@ -109,7 +110,7 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
                         BasicMoney.ofCRC(0))
         );
 
-        cfo.setAgreement(agreements2);
+        cfo.setAgreements(agreements2);
 
 
         employeeDAO.save(cfo);
@@ -120,7 +121,7 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
 
         User userCOO = new User("coo@legios.net", "fn", "ln");
         userDAO.save(userCEO);
-        Employee coo = new Employee(userCOO, new Date());
+        Employee coo = new Employee(userCOO, LocalDate.now());
 
         pieceworkDAO.save(pw2);
         Agreements agreement3 = new Agreements(DailyWorkSchedule.regularEightHoursWorkday(), BasicMoney.ofCRC(2));
@@ -136,7 +137,7 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
                         BasicMoney.ofCRC(2))
         );
 
-        coo.setAgreement(agreement3);
+        coo.setAgreements(agreement3);
         employeeDAO.save(coo);
         assertNotNull("null", coo.getId());
 
@@ -146,7 +147,7 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
         User userCIO = new User("cio@legios.net", "fn", "ln");
         userDAO.save(userCIO);
 
-        Employee cio = new Employee(userCIO, new Date());
+        Employee cio = new Employee(userCIO, LocalDate.now());
         Agreements agreement4 = new Agreements(DailyWorkSchedule.regularEightHoursWorkday(), BasicMoney.ofCRC(0));
         agreement4.addAgreement(new PieceworkAgreement(
                         new Period(),
@@ -154,7 +155,7 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
                 )
         );
 
-        cio.setAgreement(agreement4);
+        cio.setAgreements(agreement4);
         employeeDAO.save(cio);
         assertNotNull("null", cio.getId());
         ChartNode cioNode = new ChartNode(cio, "CFO", business);

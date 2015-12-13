@@ -1,5 +1,7 @@
 package com.faraya.legioss.core.model.payroll;
 
+import org.hibernate.annotations.Immutable;
+
 import java.util.Currency;
 import java.util.List;
 import java.util.Map;
@@ -9,16 +11,12 @@ import java.util.Map;
  * Created by fabrizzio on 11/19/15.
  */
 
-//@Immutable
+@Immutable
 public class EmployeePayment {
 
-    private Map<Currency,List<PaymentDetail>> attendance;
+    private List <DailySalary> dailySalaries;
 
-    private Map<Currency,List<PaymentDetail>> pieceWork;
-
-
-    //WarningsMap
-
-
-
+    public EmployeePayment(List<DailySalary> dailySalaries) {
+        this.dailySalaries = dailySalaries;
+    }
 }
