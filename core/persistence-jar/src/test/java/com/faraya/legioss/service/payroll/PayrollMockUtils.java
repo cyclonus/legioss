@@ -11,16 +11,16 @@ import com.faraya.legioss.core.entity.payroll.agreement.PayType;
 import com.faraya.legioss.core.entity.payroll.log.DailyAttendance;
 import com.faraya.legioss.core.entity.security.IUser;
 import com.faraya.legioss.core.entity.security.User;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -45,18 +45,6 @@ public class PayrollMockUtils {
         when(regularShift.getRate()).thenReturn(new BasicMoney(new BigDecimal("30"), BasicCurrency.usd()));
         when(regularShift.getSchedule()).thenReturn(new DailyWorkSchedule(LocalTime.of(8, 0),LocalTime.of(17,0)));
         hoursAgreements.add(regularShift);
-/*
-        HoursAgreement nightShift = mock(HoursAgreement.class);
-        when(nightShift.getId()).thenReturn(1L);
-        when(nightShift.isActive()).thenReturn(true);
-        when(nightShift.getHoursShift()).thenReturn(8);
-        when(nightShift.getPayType()).thenReturn(PayType.WEEKDAY);
-        when(nightShift.getProjectRef()).thenReturn("");
-        when(nightShift.getValidity()).thenReturn(new Period(LocalDate.now().minus(6,ChronoUnit.MONTHS)));
-        when(nightShift.getRate()).thenReturn(new BasicMoney(new BigDecimal("35"), BasicCurrency.usd()));
-        when(nightShift.getSchedule()).thenReturn(new DailyWorkSchedule(LocalTime.of(16,0),LocalTime.of(22,0)));
-        hoursAgreements.add(nightShift);
-*/
         return hoursAgreements;
     };
 
@@ -69,7 +57,36 @@ public class PayrollMockUtils {
         when(agreements.getEmployee()).thenReturn(employee);
         when(agreements.getHoursAgreements()).thenReturn(hoursAgreements);
         return agreements;
-    };
+    }
+
+    static Set<HoursAgreement> mockHoursAgreements(Set<HoursAgreement> hoursAgreements, HoursAgreementParam param){
+        HoursAgreement regularShift = mock(HoursAgreement.class);
+        when(regularShift.getId()).thenReturn(System.currentTimeMillis());
+        when(regularShift.isActive()).thenReturn(true);
+        when(regularShift.getHoursShift()).thenReturn((int)Duration.between(param.getTimeIn(),param.getTimeOut()).toHours());
+        when(regularShift.getPayType()).thenReturn(PayType.WEEKDAY);
+        when(regularShift.getProjectRef()).thenReturn(RandomStringUtils.randomAlphanumeric(10));
+        when(regularShift.getValidity()).thenReturn(new Period(LocalDate.now().minus(6, ChronoUnit.MONTHS)));
+        when(regularShift.getRate()).thenReturn(new BasicMoney(param.getRate(), BasicCurrency.of(param.getCurrency())));
+        when(regularShift.getSchedule()).thenReturn(new DailyWorkSchedule(param.getTimeIn(),param.getTimeOut()));
+        hoursAgreements.add(regularShift);
+        return hoursAgreements;
+    }
+
+    static Agreements mockAgreement(Employee employee, List<HoursAgreementParam> params){
+        Set<HoursAgreement> hoursAgreements = new HashSet<>();
+        for(HoursAgreementParam p:params){
+            hoursAgreements = mockHoursAgreements (hoursAgreements,p);
+        }
+        Agreements agreements = mock(Agreements.class);
+        when(agreements.getId()).thenReturn(1L);
+        when(agreements.getBaseSalary()).thenReturn(new BasicMoney(BigDecimal.TEN, BasicCurrency.usd()));
+        when(agreements.getEmployeeId()).thenReturn(1L);
+        when(agreements.getEmployee()).thenReturn(employee);
+        when(agreements.getHoursAgreements()).thenReturn(hoursAgreements);
+        return agreements;
+    }
+
 
     static User mockUser(){
         User user = mock(User.class);
@@ -82,7 +99,7 @@ public class PayrollMockUtils {
         return user;
     };
 
-    static Employee mockEmployee(User user){
+static Employee mockEmployee(User user){
         Employee employee = mock(Employee.class);
 
         when(employee.getId()).thenReturn(1L);
@@ -94,18 +111,26 @@ public class PayrollMockUtils {
         return employee;
     };
 
-    static Business mockBusiness(){
+        static Business mockBusiness(){
         Business b = mock(Business.class);
         when(b.getName()).thenReturn("Legioss soft Inc");
         when(b.getId()).thenReturn(1L);
         return b;
-    }
+    };
 
     static DailyWorkedHours mockDailyWorkedHoursRegularShift(){
         DailyWorkedHours dh = mock(DailyWorkedHours.class);
         when(dh.getHours()).thenReturn(8);
         when(dh.getTimeIn()).thenReturn(LocalTime.of(8,0));
         when(dh.getTimeOut()).thenReturn(LocalTime.of(17,0));
+        return dh;
+    }
+
+    static DailyWorkedHours mockDailyWorkedHours(LocalTime in, LocalTime out){
+        DailyWorkedHours dh = mock(DailyWorkedHours.class);
+        when(dh.getHours()).thenReturn((int)Duration.between(in,out).toHours());
+        when(dh.getTimeIn()).thenReturn(in);
+        when(dh.getTimeOut()).thenReturn(out);
         return dh;
     }
 
@@ -128,7 +153,21 @@ public class PayrollMockUtils {
         when(al.getWorkedHours()).thenReturn(dailyWorkedHours);
         when(al.getEmployeeId()).thenReturn(id);
         when(al.getEmployee()).thenReturn(employee);
-        when(al.getId()).thenReturn(1L);
+        when(al.getId()).thenReturn(System.currentTimeMillis());
+
+        return al;
+    }
+
+    static DailyAttendance mockAttendanceLog(Employee employee, LocalTime in, LocalTime out){
+        LocalDate weekday = weekDay();
+        Long id = employee.getId();
+        DailyWorkedHours dailyWorkedHours = mockDailyWorkedHours(in,out);
+        DailyAttendance al = mock(DailyAttendance.class);
+        when(al.getDate()).thenReturn(weekday);
+        when(al.getWorkedHours()).thenReturn(dailyWorkedHours);
+        when(al.getEmployeeId()).thenReturn(id);
+        when(al.getEmployee()).thenReturn(employee);
+        when(al.getId()).thenReturn(System.currentTimeMillis());
 
         return al;
     }
@@ -150,6 +189,17 @@ public class PayrollMockUtils {
         when(c.getBusinessId()).thenReturn(1L);
         when(c.getName()).thenReturn("Costa Rica - holidays");
         return c;
+    }
+
+    public  interface HoursAgreementParam{
+
+        LocalTime getTimeIn();
+
+        LocalTime getTimeOut();
+
+        BigDecimal getRate();
+
+        Currency getCurrency();
     }
 
 }

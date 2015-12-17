@@ -24,6 +24,10 @@ public class BasicCurrency {
         this.currencyCode = Currency.getInstance(currencyCode).getCurrencyCode();
     }
 
+    public BasicCurrency(Currency currency) {
+        this.currencyCode = currency.getCurrencyCode();
+    }
+
     public String getCurrencyCode() {
         return currencyCode;
     }
@@ -34,6 +38,15 @@ public class BasicCurrency {
 
     public Currency toCurrency(){
         return Currency.getInstance(currencyCode);
+    }
+
+    /**
+     *
+     * @param currency
+     * @return
+     */
+    public static BasicCurrency of(Currency currency){
+        return new BasicCurrency(currency);
     }
 
     /**

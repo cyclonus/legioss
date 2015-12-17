@@ -1,6 +1,7 @@
 package com.faraya.legioss.core.entity.common;
 
 import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalTime;
 
 /**
@@ -8,6 +9,7 @@ import java.time.LocalTime;
  * Created by fabrizzio on 11/18/15.
  */
 
+@MappedSuperclass
 public abstract class TimeInTimeOut {
 
     protected TimeInTimeOut(LocalTime timeIn, LocalTime timeOut) {

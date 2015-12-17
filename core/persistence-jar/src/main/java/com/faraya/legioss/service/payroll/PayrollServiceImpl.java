@@ -18,8 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -73,44 +75,25 @@ public class PayrollServiceImpl implements IPayrollService{
 
     /**
      * Given the workedHours extracted from the attendance log, we compute hours against the agreements passed
-     * @param agreements
+     * @param agreements sorted list by schedule
      * @param workedHours
      * @return
      */
     private Map<HoursAgreement,BigDecimal> getHoursPerRate(final List<HoursAgreement> agreements, final DailyWorkedHours workedHours){
         final LocalTime in = workedHours.getTimeIn();
         final LocalTime out = workedHours.getTimeOut();
-        BigDecimal checksum = new BigDecimal(0);
         Map<HoursAgreement,BigDecimal> result = new HashMap<>();
         // First iterate over the agreements trying to match the workedHours (a Day of work) occurrence passed
         for(HoursAgreement ha:agreements){
             final DailyWorkSchedule schedule = ha.getSchedule();
-            if(schedule.isWithinBoundaries(out)){ 
-                if(schedule.isWithinBoundaries(in) && schedule.isWithinBoundaries(out)){
-                    // difference between in & out, that's it
-                    TemporalDifference td = TemporalDifference.of(in, out);
-                    BigDecimal hours = BigDecimal.valueOf(td.getHours() + (td.getMinutes() / 60));
-                    result.put(ha,hours);
-                    checksum = checksum.add(hours);
-                } else {
-                    //TODO Review this logic here
-                    TemporalDifference td = TemporalDifference.of(workedHours.getTimeIn(), out);
-                    BigDecimal hours = BigDecimal.valueOf(td.getHours() + (td.getMinutes() / 60));
-                    result.put(ha,hours);
-                    checksum = checksum.add(hours);
-                }
-            } else {
-                //accumulate all this time
-                int h = workedHours.getHours();
-                BigDecimal hours = BigDecimal.valueOf(h);
-                result.put(ha,hours);
-                checksum = checksum.add(hours);
+            if(schedule.isBeforeBoundaries(out)){ //if the time the worked has walked out if before this shift we are analyzing, it does not apply
+                break;//we expect them to be sorted, so if time out is not within this schedule it won't be on the others (just break)
             }
-            //now validate results, they must match
-            // TemporalDifference td = new TemporalDifference(in, out);
-            // BigDecimal checksumExpectedResult = BigDecimal.valueOf(td.getHours() + (td.getMinutes() / 60));
-            // assert (checksumExpectedResult.compareTo(checksum) == 0);
-
+            final Duration duration = schedule.getTimeBetween(in, out);
+            if(!(duration.isZero() || duration.isNegative())){
+                final BigDecimal hoursDuration = BigDecimal.valueOf(duration.toMinutes() / 60);
+                result.compute(ha,(hoursAgreement, bigDecimal) -> hoursDuration);
+            }
         }
         return result;
     }
