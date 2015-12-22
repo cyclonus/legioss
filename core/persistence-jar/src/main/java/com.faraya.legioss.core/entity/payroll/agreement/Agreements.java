@@ -47,13 +47,13 @@ public class Agreements extends AbstractEntity implements IIdentifiable<Long> {
 
     //Jornada laboral (e.g. from 8 to 5)
     @Embedded
-    private DailyWorkSchedule workDailySchedule;
+    private DailyWorkSchedule dailyWorkSchedule;
 
     public Agreements() {
     }
 
-    public Agreements(DailyWorkSchedule workDailySchedule, BasicMoney baseSalary) {
-        this.workDailySchedule = workDailySchedule;
+    public Agreements(DailyWorkSchedule dailyWorkSchedule, BasicMoney baseSalary) {
+        this.dailyWorkSchedule = dailyWorkSchedule;
         this.baseSalary = baseSalary;
     }
 
@@ -83,12 +83,12 @@ public class Agreements extends AbstractEntity implements IIdentifiable<Long> {
         this.employeeId = employeeId;
     }
 
-    public DailyWorkSchedule getWorkDailySchedule() {
-        return workDailySchedule;
+    public DailyWorkSchedule getDailyWorkSchedule() {
+        return dailyWorkSchedule;
     }
 
-    public void setWorkDailySchedule(DailyWorkSchedule workDailySchedule) {
-        this.workDailySchedule = workDailySchedule;
+    public void setDailyWorkSchedule(DailyWorkSchedule dailyWorkSchedule) {
+        this.dailyWorkSchedule = dailyWorkSchedule;
     }
 
     public BasicMoney getBaseSalary() {
@@ -126,6 +126,7 @@ public class Agreements extends AbstractEntity implements IIdentifiable<Long> {
     }
 
     public void addAgreement(HoursAgreement hoursAgreement){
+       hoursAgreement.setEmployee(getEmployee());
        getHoursAgreements().add(hoursAgreement);
     }
 

@@ -1,4 +1,4 @@
-package com.faraya.legioss.util.jpa;
+package com.faraya.legioss.core.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

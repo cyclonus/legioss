@@ -107,6 +107,7 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
         agreements2.addAgreement(
                 new HoursAgreement(
                         new Period(),
+                        DailyWorkSchedule.regularEightHoursWorkday(),
                         BasicMoney.ofCRC(0))
         );
 
@@ -134,6 +135,7 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
         agreement3.addAgreement(
                 new HoursAgreement(
                         new Period(),
+                        DailyWorkSchedule.regularEightHoursWorkday(),
                         BasicMoney.ofCRC(2))
         );
 

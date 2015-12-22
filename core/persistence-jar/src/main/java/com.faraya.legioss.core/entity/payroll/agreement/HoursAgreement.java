@@ -5,6 +5,7 @@ import com.faraya.legioss.core.entity.AbstractEntity;
 import com.faraya.legioss.core.entity.common.BasicMoney;
 import com.faraya.legioss.core.entity.common.DailyWorkSchedule;
 import com.faraya.legioss.core.entity.common.Period;
+import com.faraya.legioss.core.entity.payroll.Employee;
 
 import javax.persistence.*;
 
@@ -14,6 +15,7 @@ import javax.persistence.*;
  */
 
 @Entity
+@Table(name = "payroll_hours_agreement")
 public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id
@@ -34,7 +36,11 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
     @Embedded
     private BasicMoney rate;
 
-    //TODO: add a reference back to employee
+    @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Employee employee;
+
+    @Column(name = "employee_id", updatable = false, insertable = false)
+    private Long employeeId;
 
     @Enumerated(EnumType.STRING)
     private PayType payType;
@@ -42,17 +48,19 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
     @Embedded
     private DailyWorkSchedule schedule;
 
-    @Column(name = "hours_shift", nullable = false, length = 2)
-    private int hoursShift = 8;
-
     @Column(name = "project_ref", nullable = true, length = 50)
     private String projectRef;
 
     public HoursAgreement() {
     }
 
-    public HoursAgreement(Period validity, BasicMoney rate) {
+    public HoursAgreement(Period validity, DailyWorkSchedule schedule) {
+        this(validity, schedule, BasicMoney.ofUSD(0));
+    }
+
+    public HoursAgreement(Period validity, DailyWorkSchedule schedule, BasicMoney rate) {
         this.validity = validity;
+        this.schedule = schedule;
         this.rate = rate;
         this.active = validity.isOpen();
     }
@@ -107,12 +115,20 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
         this.payType = payType;
     }
 
-    public int getHoursShift() {
-        return hoursShift;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setHoursShift(int hoursShift) {
-        this.hoursShift = hoursShift;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getProjectRef() {

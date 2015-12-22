@@ -14,7 +14,7 @@ import java.time.LocalDate;
  */
 
 @Entity
-@Table(name = "daily_attendance")
+@Table(name = "payroll_daily_attendance")
 public class DailyAttendance extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id
@@ -29,6 +29,9 @@ public class DailyAttendance extends AbstractEntity implements IIdentifiable<Lon
     private DailyWorkedHours workedHours;
 
     //absentDay, sickDay, ppt, holiday
+
+    public DailyAttendance() {
+    }
 
     @JoinColumn(name = "employee_id", nullable = false)
     @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)

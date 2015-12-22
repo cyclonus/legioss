@@ -9,13 +9,22 @@ import java.time.LocalTime;
  * Created by fabrizzio on 11/18/15.
  */
 
-@MappedSuperclass
-public abstract class TimeInTimeOut {
+public abstract class AbstractLocalTimeSpan {
 
-    protected TimeInTimeOut(LocalTime timeIn, LocalTime timeOut) {
+    protected AbstractLocalTimeSpan(LocalTime timeIn, LocalTime timeOut) {
         this.timeIn = timeIn;
         this.timeOut = timeOut;
     }
+
+    public AbstractLocalTimeSpan(LocalTime timeIn, LocalTime timeOut, int hoursAdjustment) {
+        this(timeIn,timeOut);
+        this.hoursAdjustment = hoursAdjustment;
+    }
+    
+
+    //Hours adjustment (e.g lunch hour)
+    @Column(name = "adjustment", nullable = false, length = 1)
+    private int hoursAdjustment = 0;
 
     @Column(name = "time_in", nullable = false)
     private LocalTime timeIn;
@@ -40,8 +49,10 @@ public abstract class TimeInTimeOut {
     }
 
     public int getHours() {
-        //TODO  Make an adjustment, subtract Lunch hours
         return  (timeOut.minusHours(timeIn.getHour()).getHour());
     }
 
+    public int getAdjustedHours(){
+        return (getHours() - hoursAdjustment);
+    }
 }

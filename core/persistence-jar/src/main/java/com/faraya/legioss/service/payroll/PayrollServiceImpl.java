@@ -75,16 +75,16 @@ public class PayrollServiceImpl implements IPayrollService{
 
     /**
      * Given the workedHours extracted from the attendance log, we compute hours against the agreements passed
-     * @param agreements sorted list by schedule
+     * @param hourAgreements sorted list by schedule
      * @param workedHours
      * @return
      */
-    private Map<HoursAgreement,BigDecimal> getHoursPerRate(final List<HoursAgreement> agreements, final DailyWorkedHours workedHours){
+    private Map<HoursAgreement,BigDecimal> getHoursPerRate(final List<HoursAgreement> hourAgreements, final DailyWorkedHours workedHours){
         final LocalTime in = workedHours.getTimeIn();
         final LocalTime out = workedHours.getTimeOut();
         Map<HoursAgreement,BigDecimal> result = new HashMap<>();
         // First iterate over the agreements trying to match the workedHours (a Day of work) occurrence passed
-        for(HoursAgreement ha:agreements){
+        for(HoursAgreement ha:hourAgreements){
             final DailyWorkSchedule schedule = ha.getSchedule();
             if(schedule.isBeforeBoundaries(out)){ //if the time the worked has walked out if before this shift we are analyzing, it does not apply
                 break;//we expect them to be sorted, so if time out is not within this schedule it won't be on the others (just break)
@@ -123,9 +123,9 @@ public class PayrollServiceImpl implements IPayrollService{
         final boolean holidayOverride = (calendarDate != null && (calendarDate.getType() == Type.MANDATORY_HOLIDAY));
         final LocalDate date = dailyAttendance.getDate();
         final PayType payType = PayType.from(date);
-        final List<HoursAgreement> agreements = hoursAgreements.get(payType);
+        final List<HoursAgreement> hourAgreements = hoursAgreements.get(payType);
         final DailyWorkedHours workedHours = dailyAttendance.getWorkedHours();
-        final Map<HoursAgreement,BigDecimal> hoursPerRate = getHoursPerRate(agreements, workedHours);
+        final Map<HoursAgreement,BigDecimal> hoursPerRate = getHoursPerRate(hourAgreements, workedHours);
         Map<Currency,BigDecimal> attendanceTotals = computeDailyTotals(hoursPerRate);
         // Compute piecework part
         return new DailySalary(attendanceTotals);

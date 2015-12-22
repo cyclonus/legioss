@@ -38,7 +38,6 @@ public class PayrollMockUtils {
         HoursAgreement regularShift = mock(HoursAgreement.class);
         when(regularShift.getId()).thenReturn(1L);
         when(regularShift.isActive()).thenReturn(true);
-        when(regularShift.getHoursShift()).thenReturn(8);
         when(regularShift.getPayType()).thenReturn(PayType.WEEKDAY);
         when(regularShift.getProjectRef()).thenReturn("");
         when(regularShift.getValidity()).thenReturn(new Period(LocalDate.now().minus(6, ChronoUnit.MONTHS)));
@@ -63,7 +62,6 @@ public class PayrollMockUtils {
         HoursAgreement regularShift = mock(HoursAgreement.class);
         when(regularShift.getId()).thenReturn(System.currentTimeMillis());
         when(regularShift.isActive()).thenReturn(true);
-        when(regularShift.getHoursShift()).thenReturn((int)Duration.between(param.getTimeIn(),param.getTimeOut()).toHours());
         when(regularShift.getPayType()).thenReturn(PayType.WEEKDAY);
         when(regularShift.getProjectRef()).thenReturn(RandomStringUtils.randomAlphanumeric(10));
         when(regularShift.getValidity()).thenReturn(new Period(LocalDate.now().minus(6, ChronoUnit.MONTHS)));
