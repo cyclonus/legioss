@@ -14,7 +14,12 @@ import java.time.LocalDate;
  */
 
 @Entity
-@Table(name = "payroll_daily_attendance")
+@Table(name = "payroll_daily_attendance",
+        indexes =  {
+                @Index(name = "date", columnList = "date"),
+                @Index(name = "employee", columnList = "employee_id")
+        }
+)
 public class DailyAttendance extends AbstractEntity implements IIdentifiable<Long> {
 
     @Id

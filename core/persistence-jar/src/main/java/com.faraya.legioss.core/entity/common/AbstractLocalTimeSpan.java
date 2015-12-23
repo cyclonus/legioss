@@ -20,7 +20,7 @@ public abstract class AbstractLocalTimeSpan {
         this(timeIn,timeOut);
         this.hoursAdjustment = hoursAdjustment;
     }
-    
+
 
     //Hours adjustment (e.g lunch hour)
     @Column(name = "adjustment", nullable = false, length = 1)
