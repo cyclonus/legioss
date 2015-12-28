@@ -10,7 +10,7 @@ import com.faraya.legioss.core.entity.payroll.Employee;
 import com.faraya.legioss.core.entity.payroll.agreement.Agreements;
 import com.faraya.legioss.core.entity.payroll.log.DailyAttendance;
 import com.faraya.legioss.core.entity.security.User;
-import com.faraya.legioss.core.model.payroll.DailySalary;
+import com.faraya.legioss.core.model.payroll.attendance.DailyAttendanceSalary;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,10 +57,10 @@ public class PayrollServiceTest {
         when(attendanceLogDAO.findAttendance(anyLong(), any(Period.class))).thenReturn(dailyAttendances);
         CalendarDate calendarDate = mockCalendarDate(Type.MANDATORY_HOLIDAY);
 
-        DailySalary dailySalary = payrollService.computeDailySalary(dailyAttendance, calendarDate);
-        assertNotNull(dailySalary);
-        assertEquals(dailySalary.getAttendanceTotals().size(), 1);
-        BigDecimal bd = dailySalary.getAttendanceTotals().get(Currency.getInstance("USD"));
+        DailyAttendanceSalary dailyAttendanceSalary = payrollService.computeDailySalary(dailyAttendance, calendarDate);
+        assertNotNull(dailyAttendanceSalary);
+        assertEquals(dailyAttendanceSalary.getAttendanceTotals().size(), 1);
+        BigDecimal bd = dailyAttendanceSalary.getAttendanceTotals().get(Currency.getInstance("USD"));
         assertEquals(bd.compareTo(BigDecimal.valueOf(270)), 0);
     }
 
@@ -128,10 +128,10 @@ public class PayrollServiceTest {
         when(attendanceLogDAO.findAttendance(anyLong(), any(Period.class))).thenReturn(dailyAttendances);
         CalendarDate calendarDate = mockCalendarDate(Type.MANDATORY_HOLIDAY);
 
-        DailySalary dailySalary = payrollService.computeDailySalary(dailyAttendance, calendarDate);
-        assertNotNull(dailySalary);
-        assertEquals(dailySalary.getAttendanceTotals().size(), 1);
-        BigDecimal bd = dailySalary.getAttendanceTotals().get(Currency.getInstance("USD"));
+        DailyAttendanceSalary dailyAttendanceSalary = payrollService.computeDailySalary(dailyAttendance, calendarDate);
+        assertNotNull(dailyAttendanceSalary);
+        assertEquals(dailyAttendanceSalary.getAttendanceTotals().size(), 1);
+        BigDecimal bd = dailyAttendanceSalary.getAttendanceTotals().get(Currency.getInstance("USD"));
         assertEquals(bd.compareTo(BigDecimal.valueOf(275)), 0);
     }
 

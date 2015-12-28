@@ -35,6 +35,9 @@ public class DailyAttendance extends AbstractEntity implements IIdentifiable<Lon
 
     //absentDay, sickDay, ppt, holiday
 
+    @Column(name = "project_ref", nullable = true, length = 50)
+    private String projectRef;
+
     public DailyAttendance() {
     }
 
@@ -69,6 +72,14 @@ public class DailyAttendance extends AbstractEntity implements IIdentifiable<Lon
 
     public void setWorkedHours(DailyWorkedHours workedHours) {
         this.workedHours = workedHours;
+    }
+
+    public String getProjectRef() {
+        return projectRef;
+    }
+
+    public void setProjectRef(String projectRef) {
+        this.projectRef = projectRef;
     }
 
     public Employee getEmployee() {

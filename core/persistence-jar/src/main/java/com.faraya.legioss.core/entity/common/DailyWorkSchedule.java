@@ -12,8 +12,6 @@ import java.time.LocalTime;
 @Embeddable
 public class DailyWorkSchedule extends AbstractLocalTimeSpan {
 
-
-
     public DailyWorkSchedule(LocalTime timeIn, LocalTime timeOut) {
         super(timeIn, timeOut);
     }

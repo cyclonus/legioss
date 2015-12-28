@@ -1,10 +1,9 @@
 package com.faraya.legioss.core.model.payroll;
 
+import com.faraya.legioss.core.model.payroll.attendance.DailyAttendanceSalary;
 import org.hibernate.annotations.Immutable;
 
-import java.util.Currency;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -14,9 +13,9 @@ import java.util.Map;
 @Immutable
 public class EmployeePayment {
 
-    private List <DailySalary> dailySalaries;
+    private List <DailyAttendanceSalary> dailySalaries;
 
-    public EmployeePayment(List<DailySalary> dailySalaries) {
+    public EmployeePayment(List<DailyAttendanceSalary> dailySalaries) {
         this.dailySalaries = dailySalaries;
     }
 }

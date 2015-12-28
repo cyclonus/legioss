@@ -48,9 +48,6 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
     @Embedded
     private DailyWorkSchedule schedule;
 
-    @Column(name = "project_ref", nullable = true, length = 50)
-    private String projectRef;
-
     public HoursAgreement() {
     }
 
@@ -131,14 +128,6 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
         this.employeeId = employeeId;
     }
 
-    public String getProjectRef() {
-        return projectRef;
-    }
-
-    public void setProjectRef(String projectRef) {
-        this.projectRef = projectRef;
-    }
-
     @Override
     public boolean isTransient() {
         return (id == null);
@@ -162,7 +151,6 @@ public class HoursAgreement extends AbstractEntity implements IIdentifiable<Long
                 ", rate=" + rate +
                 ", payType=" + payType +
                 ", schedule=" + schedule +
-                ", projectRef='" + projectRef + '\'' +
                 '}';
     }
 }

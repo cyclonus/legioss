@@ -5,7 +5,7 @@ import com.faraya.legioss.core.entity.common.Business;
 import com.faraya.legioss.core.entity.common.Period;
 import com.faraya.legioss.core.entity.payroll.Employee;
 import com.faraya.legioss.core.entity.payroll.log.DailyAttendance;
-import com.faraya.legioss.core.model.payroll.DailySalary;
+import com.faraya.legioss.core.model.payroll.attendance.DailyAttendanceSalary;
 import com.faraya.legioss.core.model.payroll.EmployeePayment;
 
 /**
@@ -16,7 +16,7 @@ import com.faraya.legioss.core.model.payroll.EmployeePayment;
 public interface IPayrollService {
 
 
-    DailySalary computeDailySalary(DailyAttendance dailyAttendance, CalendarDate calendarDate);
+    DailyAttendanceSalary computeDailySalary(DailyAttendance dailyAttendance, CalendarDate calendarDate);
 
     EmployeePayment computePayroll(Employee employee, Period period, Business business);
 

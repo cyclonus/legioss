@@ -16,16 +16,6 @@ public abstract class AbstractLocalTimeSpan {
         this.timeOut = timeOut;
     }
 
-    public AbstractLocalTimeSpan(LocalTime timeIn, LocalTime timeOut, int hoursAdjustment) {
-        this(timeIn,timeOut);
-        this.hoursAdjustment = hoursAdjustment;
-    }
-
-
-    //Hours adjustment (e.g lunch hour)
-    @Column(name = "adjustment", nullable = false, length = 1)
-    private int hoursAdjustment = 0;
-
     @Column(name = "time_in", nullable = false)
     private LocalTime timeIn;
 
@@ -52,7 +42,4 @@ public abstract class AbstractLocalTimeSpan {
         return  (timeOut.minusHours(timeIn.getHour()).getHour());
     }
 
-    public int getAdjustedHours(){
-        return (getHours() - hoursAdjustment);
-    }
 }

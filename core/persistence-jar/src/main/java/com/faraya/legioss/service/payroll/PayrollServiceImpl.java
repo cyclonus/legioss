@@ -11,9 +11,9 @@ import com.faraya.legioss.core.entity.payroll.agreement.Agreements;
 import com.faraya.legioss.core.entity.payroll.agreement.HoursAgreement;
 import com.faraya.legioss.core.entity.payroll.agreement.PayType;
 import com.faraya.legioss.core.entity.payroll.log.DailyAttendance;
-import com.faraya.legioss.core.model.payroll.DailySalary;
+import com.faraya.legioss.core.model.payroll.attendance.DailyAttendanceSalary;
 import com.faraya.legioss.core.model.payroll.EmployeePayment;
-import com.faraya.legioss.util.TemporalDifference;
+import com.faraya.legioss.core.model.payroll.attendance.HoursDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -75,24 +74,29 @@ public class PayrollServiceImpl implements IPayrollService{
 
     /**
      * Given the workedHours extracted from the attendance log, we compute hours against the agreements passed
-     * @param hourAgreements sorted list by schedule
-     * @param workedHours
-     * @return
+     * @param dailyAttendance
+     * @param hourAgreements
+     * @param holidayOverride
      */
-    private Map<HoursAgreement,BigDecimal> getHoursPerRate(final List<HoursAgreement> hourAgreements, final DailyWorkedHours workedHours){
+
+    private Set<HoursDetail> getHoursDetail(final List<HoursAgreement> hourAgreements, final DailyAttendance dailyAttendance, boolean holidayOverride){
+        final String projectRef = dailyAttendance.getProjectRef();
+        final DailyWorkedHours workedHours = dailyAttendance.getWorkedHours();
         final LocalTime in = workedHours.getTimeIn();
         final LocalTime out = workedHours.getTimeOut();
-        Map<HoursAgreement,BigDecimal> result = new HashMap<>();
+        Set<HoursDetail> result = new HashSet<>();
         // First iterate over the agreements trying to match the workedHours (a Day of work) occurrence passed
         for(HoursAgreement ha:hourAgreements){
             final DailyWorkSchedule schedule = ha.getSchedule();
             if(schedule.isBeforeBoundaries(out)){ //if the time the worked has walked out if before this shift we are analyzing, it does not apply
                 break;//we expect them to be sorted, so if time out is not within this schedule it won't be on the others (just break)
             }
-            final Duration duration = schedule.getTimeBetween(in, out);
+            final Duration duration = schedule.getTimeBetween(in, out); //TODO Apply lunch hour adjustment here!!
             if(!(duration.isZero() || duration.isNegative())){
                 final BigDecimal hoursDuration = BigDecimal.valueOf(duration.toMinutes() / 60);
-                result.compute(ha,(hoursAgreement, bigDecimal) -> hoursDuration);
+                BasicMoney rate = ha.getRate();
+                BasicCurrency currency = rate.getCurrency();
+                result.add(new HoursDetail(hoursDuration, rate.getAmount(), currency.toCurrency(), projectRef));
             }
         }
         return result;
@@ -103,12 +107,12 @@ public class PayrollServiceImpl implements IPayrollService{
      * @param hoursPerRate
      * @return
      */
-    private Map<Currency,BigDecimal>computeDailyTotals(final Map<HoursAgreement,BigDecimal> hoursPerRate){
+    private Map<Currency,BigDecimal> computeDailyTotals(final Set<HoursDetail>  hoursPerRate){
         Map<Currency,BigDecimal> result = new HashMap<>();
-        hoursPerRate.forEach((hoursAgreement, hours) -> {
-            BasicMoney rate = hoursAgreement.getRate();
-            Currency currency = rate.getCurrency().toCurrency();
-            result.compute(currency,(k, v) -> v == null ? rate.getAmount().multiply(hours) : v.add(rate.getAmount().multiply(hours)));
+        hoursPerRate.forEach(hoursDetail -> {
+            BigDecimal rate = hoursDetail.getRate();
+            Currency currency = hoursDetail.getCurrency();
+            result.compute(currency, (k, v) -> v == null ? rate.multiply(hoursDetail.getHours()) : v.add(rate.multiply(hoursDetail.getHours())));
         });
         return result;
     }
@@ -119,16 +123,15 @@ public class PayrollServiceImpl implements IPayrollService{
      * @param hoursAgreements
      * @return
      */
-    private DailySalary computeDailySalary(DailyAttendance dailyAttendance, Map<PayType,List<HoursAgreement>> hoursAgreements, CalendarDate calendarDate){
+    //TODO Move the calendar to the context
+    private DailyAttendanceSalary computeDailySalary(DailyAttendance dailyAttendance, Map<PayType,List<HoursAgreement>> hoursAgreements, CalendarDate calendarDate){
         final boolean holidayOverride = (calendarDate != null && (calendarDate.getType() == Type.MANDATORY_HOLIDAY));
         final LocalDate date = dailyAttendance.getDate();
         final PayType payType = PayType.from(date);
         final List<HoursAgreement> hourAgreements = hoursAgreements.get(payType);
-        final DailyWorkedHours workedHours = dailyAttendance.getWorkedHours();
-        final Map<HoursAgreement,BigDecimal> hoursPerRate = getHoursPerRate(hourAgreements, workedHours);
-        Map<Currency,BigDecimal> attendanceTotals = computeDailyTotals(hoursPerRate);
-        // Compute piecework part
-        return new DailySalary(attendanceTotals);
+        final Set<HoursDetail> hourDetails = getHoursDetail(hourAgreements, dailyAttendance, holidayOverride);
+        Map<Currency,BigDecimal> attendanceTotals = computeDailyTotals(hourDetails);
+        return new DailyAttendanceSalary(date, holidayOverride, attendanceTotals, hourDetails);
     }
 
     /**
@@ -137,10 +140,10 @@ public class PayrollServiceImpl implements IPayrollService{
      * @param calendarDate
      * @return
      */
-    public DailySalary computeDailySalary(DailyAttendance dailyAttendance, CalendarDate calendarDate){
+    public DailyAttendanceSalary computeDailySalary(DailyAttendance dailyAttendance, CalendarDate calendarDate){
         Employee employee = dailyAttendance.getEmployee();
         Map<PayType,List<HoursAgreement>> hoursAgreementsByPayType = getActiveHourAgreementsByPayType(employee);
-        return this.computeDailySalary(dailyAttendance, hoursAgreementsByPayType, calendarDate);
+        return computeDailySalary(dailyAttendance, hoursAgreementsByPayType, calendarDate);
     }
 
     /**
@@ -151,7 +154,7 @@ public class PayrollServiceImpl implements IPayrollService{
      * @return
      */
     public EmployeePayment computePayroll(Employee employee, Period period, Business business){
-       List<DailySalary> dailySalaries = new ArrayList<>();
+       List<DailyAttendanceSalary> dailySalaries = new ArrayList<>();
        // Lets get the global calendar, for the current company
        Map<LocalDate,CalendarDate> calendarDates = getCalendar(business.getId(), period);
        // Get all attendance for a given period, Lets say a month
@@ -160,8 +163,8 @@ public class PayrollServiceImpl implements IPayrollService{
        for(DailyAttendance dailyAttendance:attendances) {
            CalendarDate calendarDate = calendarDates.get(dailyAttendance.getDate());
            //compute salary for the current entry
-           DailySalary dailySalary = computeDailySalary(dailyAttendance, calendarDate);
-           dailySalaries.add(dailySalary);
+           DailyAttendanceSalary dailyAttendanceSalary = computeDailySalary(dailyAttendance, calendarDate);
+           dailySalaries.add(dailyAttendanceSalary);
        }
 
        return new EmployeePayment(dailySalaries);

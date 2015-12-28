@@ -8,7 +8,7 @@ import java.util.Map;
  *
  * Created by fabrizzio on 11/19/15.
  */
-//Immutable
+
 public class Payroll {
 
     LocalDate from;

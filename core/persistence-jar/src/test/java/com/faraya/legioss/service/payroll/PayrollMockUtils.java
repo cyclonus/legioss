@@ -39,7 +39,6 @@ public class PayrollMockUtils {
         when(regularShift.getId()).thenReturn(1L);
         when(regularShift.isActive()).thenReturn(true);
         when(regularShift.getPayType()).thenReturn(PayType.WEEKDAY);
-        when(regularShift.getProjectRef()).thenReturn("");
         when(regularShift.getValidity()).thenReturn(new Period(LocalDate.now().minus(6, ChronoUnit.MONTHS)));
         when(regularShift.getRate()).thenReturn(new BasicMoney(new BigDecimal("30"), BasicCurrency.usd()));
         when(regularShift.getSchedule()).thenReturn(new DailyWorkSchedule(LocalTime.of(8, 0),LocalTime.of(17,0)));
@@ -63,7 +62,6 @@ public class PayrollMockUtils {
         when(regularShift.getId()).thenReturn(System.currentTimeMillis());
         when(regularShift.isActive()).thenReturn(true);
         when(regularShift.getPayType()).thenReturn(PayType.WEEKDAY);
-        when(regularShift.getProjectRef()).thenReturn(RandomStringUtils.randomAlphanumeric(10));
         when(regularShift.getValidity()).thenReturn(new Period(LocalDate.now().minus(6, ChronoUnit.MONTHS)));
         when(regularShift.getRate()).thenReturn(new BasicMoney(param.getRate(), BasicCurrency.of(param.getCurrency())));
         when(regularShift.getSchedule()).thenReturn(new DailyWorkSchedule(param.getTimeIn(),param.getTimeOut()));
