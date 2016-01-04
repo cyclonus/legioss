@@ -11,8 +11,9 @@ import com.faraya.legioss.core.entity.payroll.agreement.PayType;
 import com.faraya.legioss.core.entity.payroll.log.DailyAttendance;
 import com.faraya.legioss.core.entity.security.IUser;
 import com.faraya.legioss.core.entity.security.User;
+import com.faraya.legioss.core.model.payroll.PayrollContext;
 import org.apache.commons.lang3.RandomStringUtils;
-
+import static org.mockito.Mockito.*;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -186,6 +188,32 @@ static Employee mockEmployee(User user){
         when(c.getName()).thenReturn("Costa Rica - holidays");
         return c;
     }
+
+   static Period mockPeriod(LocalDate start, LocalDate end){
+        Period period = mock(Period.class);
+        when(period.getStart()).thenReturn(start);
+        when(period.getEnd()).thenReturn(end);
+        when(period.isWithinPeriod(any(LocalDate.class))).thenReturn(true);
+        return period;
+    }
+
+    static Map<LocalDate,CalendarDate> mockCalendarDates(){
+        Calendar calendar = mockCalendar();
+        Set<CalendarDate> calendarDates = calendar.getCalendarDates();
+        return calendarDates.stream().collect(Collectors.toMap(CalendarDate::getDate, calendarDate -> calendarDate));
+    }
+
+
+    static PayrollContext mockPayrollContext(){
+        Business business = mockBusiness();
+        Map<LocalDate, CalendarDate>  calendarDateMap = mockCalendarDates();
+        PayrollContext context = mock(PayrollContext.class);
+        when(context.getBusiness()).thenReturn(business);
+        when(context.getCalendarDates()).thenReturn(calendarDateMap);
+        when(context.getHoursStandardShift()).thenReturn(8);
+        return context;
+    }
+
 
     public  interface HoursAgreementParam{
 

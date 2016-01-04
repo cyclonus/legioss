@@ -14,6 +14,8 @@ public interface IGlobalParamDAO extends IGenericDAO<GlobalParam,Long> {
 
     List<GlobalParam> findAllByGroup(String group);
 
-    GlobalParam findByGroupAndName(String group,String name);
+    GlobalParam findByGroupAndName(String group, String name);
+
+    Integer getHoursStandardShift();
 
 }

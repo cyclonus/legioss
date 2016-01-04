@@ -2,6 +2,7 @@ package com.faraya.legioss.core.dao.common;
 
 import com.faraya.legioss.core.dao.AbstractJPAGenericDAO;
 import com.faraya.legioss.core.entity.common.GlobalParam;
+import com.faraya.legioss.core.entity.common.GlobalParams;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -61,4 +62,14 @@ public class GlobalParamDAO extends AbstractJPAGenericDAO<GlobalParam, Long> imp
         return result;
     }
 
+    public void setHoursStandardShift(Integer val){
+        GlobalParam gp = findByGroupAndName("",GlobalParams.HOURS_STANDARD_SHIFT.name());
+        gp.setValue(val + "");
+        save(gp);
+    }
+
+    public Integer getHoursStandardShift(){
+        GlobalParam gp = findByGroupAndName("",GlobalParams.HOURS_STANDARD_SHIFT.name());
+        return Integer.valueOf(gp.getValue());
+    }
 }
