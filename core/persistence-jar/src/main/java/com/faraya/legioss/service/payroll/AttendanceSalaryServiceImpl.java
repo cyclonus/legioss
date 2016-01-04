@@ -108,9 +108,12 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
      *
      * @param dailyAttendance
      * @param hoursAgreements
+     * @param context
      * @return
      */
-    private DailyAttendanceSalary computeDailySalary(DailyAttendance dailyAttendance, Map<PayType,List<HoursAgreement>> hoursAgreements, CalendarDate calendarDate){
+    private DailyAttendanceSalary computeDailySalary(DailyAttendance dailyAttendance, Map<PayType,List<HoursAgreement>> hoursAgreements, PayrollContext context){
+        Map<LocalDate, CalendarDate>  calendarDates = context.getCalendarDates();
+        CalendarDate calendarDate = calendarDates.get(dailyAttendance.getDate());
         final boolean holidayOverride = (calendarDate != null && (calendarDate.getType() == Type.MANDATORY_HOLIDAY));
         final LocalDate date = dailyAttendance.getDate();
         final PayType payType = PayType.from(date);
@@ -123,13 +126,13 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
     /**
      * Computes daily salary for a given attendance day
      * @param dailyAttendance
-     * @param calendarDate
+     * @param context
      * @return
      */
-    private DailyAttendanceSalary computeDailySalary(DailyAttendance dailyAttendance, CalendarDate calendarDate){
+    private DailyAttendanceSalary computeDailySalary(DailyAttendance dailyAttendance, PayrollContext context){
         Employee employee = dailyAttendance.getEmployee();
         Map<PayType,List<HoursAgreement>> hoursAgreementsByPayType = getActiveHourAgreementsByPayType(employee);
-        return computeDailySalary(dailyAttendance, hoursAgreementsByPayType, calendarDate);
+        return computeDailySalary(dailyAttendance, hoursAgreementsByPayType, context);
     }
 
     /**
@@ -141,12 +144,12 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
      */
     public List<DailyAttendanceSalary> computeDailySalary(Employee employee, Period period, PayrollContext context){
         List<DailyAttendanceSalary> dailySalaries = new ArrayList<>();
-        Map<LocalDate,CalendarDate> calendarDates = context.getCalendarDates();
+        //Map<LocalDate,CalendarDate> calendarDates = context.getCalendarDates();
         List<DailyAttendance> attendances = getAttendanceLog(employee, period);
         for(DailyAttendance dailyAttendance:attendances) {
-            CalendarDate calendarDate = calendarDates.get(dailyAttendance.getDate());
+            //CalendarDate calendarDate = calendarDates.get(dailyAttendance.getDate());
             //compute salary for the current entry
-            DailyAttendanceSalary dailyAttendanceSalary = computeDailySalary(dailyAttendance, calendarDate);
+            DailyAttendanceSalary dailyAttendanceSalary = computeDailySalary(dailyAttendance, context);
             dailySalaries.add(dailyAttendanceSalary);
         }
         return dailySalaries;
