@@ -35,11 +35,11 @@ public class GlobalParam extends AbstractEntity implements IIdentifiable<Long> {
     @Column(name = "suite", nullable = false, length=50)
     private String suite;
 
-    @JoinColumn(name = "business_id", nullable = false)
+    @JoinColumn(name = "business_id", nullable = false, insertable = false, updatable = false)
     @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public Business business;
 
-    @Column(name = "business_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "business_id", nullable = true)
     private Long businessId;
 
     public GlobalParam() {

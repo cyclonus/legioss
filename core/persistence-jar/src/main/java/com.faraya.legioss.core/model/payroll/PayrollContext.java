@@ -4,7 +4,6 @@ import com.faraya.legioss.core.entity.calendar.CalendarDate;
 import com.faraya.legioss.core.entity.common.Business;
 import org.hibernate.annotations.Immutable;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,20 +15,20 @@ import java.util.Map;
 @Immutable
 public class PayrollContext {
 
-    private int hoursStandardShift;
+    private int regularShiftHours = 8;//horas
 
     private Map<LocalDate,CalendarDate> calendarDates;
 
     private Business business;
 
-    PayrollContext(Business business, int hoursStandardShift, Map<LocalDate, CalendarDate> calendarDates) {
+    PayrollContext(Business business, int regularShiftHours, Map<LocalDate, CalendarDate> calendarDates) {
         this.business = business;
-        this.hoursStandardShift = hoursStandardShift;
+        this.regularShiftHours = regularShiftHours;
         this.calendarDates = calendarDates;
     }
 
-    public int getHoursStandardShift() {
-        return hoursStandardShift;
+    public int getRegularShiftHours() {
+        return regularShiftHours;
     }
 
     public Business getBusiness() {
@@ -42,8 +41,10 @@ public class PayrollContext {
 
     //Predicate<HoursAdjustment> hoursAdjustment;
 
-    //private BigDecimal holidayRate;
+    //private Predicate<Rule> holidayRate;
 
-    //boolean ignoreAbsenceDays;
+    //boolean absenceGraceDays; // numero maximo de dias de ausencia sin rebaja
+
+    //private int standardDaysPerPeriod = 30; // todos los meses se va a calcular de 30 dias (asi sea un mes de 29 o de 31)
 
 }

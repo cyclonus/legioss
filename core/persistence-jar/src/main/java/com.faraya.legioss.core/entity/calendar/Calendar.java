@@ -30,11 +30,11 @@ public class Calendar extends AbstractEntity implements IIdentifiable<Long> {
     @Column(name = "name", nullable = false, unique = true, length = 50)
     private String name;
 
-    @JoinColumn(name = "business_id", nullable = false)
+    @JoinColumn(name = "business_id", nullable = false, insertable = false, updatable = false)
     @OneToOne(optional = true, fetch = FetchType.EAGER)
     private Business business;
 
-    @Column(name = "business_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "business_id", nullable = true)
     private Long businessId;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

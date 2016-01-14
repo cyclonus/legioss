@@ -1,8 +1,10 @@
 package com.faraya.legioss.core.model.payroll;
 
 import com.faraya.legioss.core.model.payroll.attendance.DailyAttendanceSalary;
+import com.faraya.legioss.core.model.payroll.piecework.DailyPieceworkSalary;
 import org.hibernate.annotations.Immutable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,9 +15,20 @@ import java.util.List;
 @Immutable
 public class EmployeePayment {
 
-    private List <DailyAttendanceSalary> dailySalaries;
+    private List <DailyAttendanceSalary> attendanceSalaries;
 
-    public EmployeePayment(List<DailyAttendanceSalary> dailySalaries) {
-        this.dailySalaries = dailySalaries;
+    private List<DailyPieceworkSalary> pieceworkSalaries;
+
+    public EmployeePayment(List<DailyAttendanceSalary> attendanceSalaries, List<DailyPieceworkSalary> pieceworkSalaries) {
+        this.attendanceSalaries = attendanceSalaries;
+        this.pieceworkSalaries = pieceworkSalaries;
+    }
+
+    public List<DailyAttendanceSalary> getAttendanceSalaries() {
+        return new ArrayList<>(attendanceSalaries);
+    }
+
+    public List<DailyPieceworkSalary> getPieceworkSalaries() {
+        return new ArrayList<>(pieceworkSalaries);
     }
 }

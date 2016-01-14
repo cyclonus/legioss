@@ -42,11 +42,11 @@ public class ChartNode extends NestedSetNode <OrgChart> {
     /**
      * Can be Nullable because of Parent nodes
      */
-    @JoinColumn(name = "employee_id" )
+    @JoinColumn(name = "employee_id", insertable = false, updatable = false )
     @OneToOne(optional = true, fetch = FetchType.EAGER)
     private Employee employee;
 
-    @Column(name = "employee_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "employee_id", nullable = true)
     private Long employeeId;
 
     @JoinColumn(name = "business_id" )

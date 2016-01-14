@@ -8,6 +8,7 @@ import com.faraya.legioss.core.entity.payroll.Employee;
 import com.faraya.legioss.core.entity.payroll.agreement.Agreements;
 import com.faraya.legioss.core.entity.payroll.agreement.HoursAgreement;
 import com.faraya.legioss.core.entity.payroll.agreement.PayType;
+import com.faraya.legioss.core.entity.payroll.log.AttendanceType;
 import com.faraya.legioss.core.entity.payroll.log.DailyAttendance;
 import com.faraya.legioss.core.model.payroll.PayrollContext;
 import com.faraya.legioss.core.model.payroll.attendance.DailyAttendanceSalary;
@@ -33,16 +34,31 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
     @Autowired
     IAttendanceLogDAO attendanceLogDAO;
 
+    DailyAttendance createDailyAttendance(Long employeeId, LocalDate date, LocalTime timeIn, LocalTime timeOut, AttendanceType attendanceType, String projectRef){
+        DailyAttendance attendance = new DailyAttendance(employeeId, date, timeIn, timeOut, attendanceType, projectRef);
+        attendanceLogDAO.save(attendance);
+        return attendance;
+    }
+
     /**
      *
      * @param employee
      * @param period
      * @return
      */
-    private List<DailyAttendance> getAttendanceLog(Employee employee, Period period){
+    List<DailyAttendance> getAttendanceLog(Employee employee, Period period){
         List<DailyAttendance> dailyAttendances = attendanceLogDAO.findAttendance(employee.getId(),period);
         //dailyAttendances.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         return dailyAttendances;
+    }
+
+    /**
+     * For now it'll just multiply rate by two
+     * @param baseRate
+     * @return
+     */
+    BigDecimal getHolidayRate(BigDecimal baseRate){
+      return baseRate.multiply(BigDecimal.valueOf(2));
     }
 
     /**
@@ -50,10 +66,12 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
      * @param dailyAttendance
      * @param hourAgreements
      * @param holidayOverride
+     * @param regularShiftHours
      */
 
-    private Set<HoursDetail> getHoursDetail(final List<HoursAgreement> hourAgreements, final DailyAttendance dailyAttendance, boolean holidayOverride){
+    Set<HoursDetail> getHoursDetail(final List<HoursAgreement> hourAgreements, final DailyAttendance dailyAttendance, final boolean holidayOverride, final int regularShiftHours){
         final String projectRef = dailyAttendance.getProjectRef();
+        //dailyAttendance.getAttendanceType();
         final DailyWorkedHours workedHours = dailyAttendance.getWorkedHours();
         final LocalTime in = workedHours.getTimeIn();
         final LocalTime out = workedHours.getTimeOut();
@@ -64,12 +82,13 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
             if(schedule.isBeforeBoundaries(out)){ //if the time the worked has walked out if before this shift we are analyzing, it does not apply
                 break;//we expect them to be sorted, so if time out is not within this schedule it won't be on the others (just break)
             }
-            final Duration duration = schedule.getTimeBetween(in, out); //TODO Apply lunch hour adjustment here!!
+            final Duration duration = schedule.getAdjustedTimeBetween(in, out, regularShiftHours); // Applies lunch hour adjustment
             if(!(duration.isZero() || duration.isNegative())){
                 final BigDecimal hoursDuration = BigDecimal.valueOf(duration.toMinutes() / 60);
-                BasicMoney rate = ha.getRate();
-                BasicCurrency currency = rate.getCurrency();
-                result.add(new HoursDetail(hoursDuration, rate.getAmount(), currency.toCurrency(), projectRef));//TODO: add the hour agreement id to the 'HoursDetail' here??
+                BasicMoney basicRate = ha.getRate();
+                BasicCurrency currency = basicRate.getCurrency();
+                BigDecimal rateAmount = (holidayOverride ? getHolidayRate(basicRate.getAmount()) : basicRate.getAmount());
+                result.add(new HoursDetail(hoursDuration, rateAmount, currency.toCurrency(), projectRef));//TODO: add the hour agreement id to the 'HoursDetail' here??
             }
         }
         return result;
@@ -80,7 +99,7 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
      * @param hoursPerRate
      * @return
      */
-    private Map<Currency,BigDecimal> computeDailyTotals(final Set<HoursDetail>  hoursPerRate){
+    Map<Currency,BigDecimal> computeDailyTotals(final Set<HoursDetail>  hoursPerRate){
         Map<Currency,BigDecimal> result = new HashMap<>();
         hoursPerRate.forEach(hoursDetail -> {
             BigDecimal rate = hoursDetail.getRate();
@@ -95,13 +114,19 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
      * @param employee
      * @return
      */
-    private Map<PayType,List<HoursAgreement>> getActiveHourAgreementsByPayType(Employee employee){
+    Map<PayType,List<HoursAgreement>> getActiveHourAgreementsByPayType(Employee employee){
         Agreements agreements = employee.getAgreements();
         Set<HoursAgreement> hoursAgreements = agreements.getHoursAgreements();
         return hoursAgreements.stream().filter(
                 hoursAgreement -> hoursAgreement.isActive()
         ).sorted((o1, o2) -> o1.getSchedule().getTimeIn().compareTo(o2.getSchedule().getTimeIn()))
                 .collect(Collectors.groupingBy(HoursAgreement::getPayType));
+    }
+
+    boolean isHolidayOverride(final LocalDate date, PayrollContext context){
+         Map<LocalDate, CalendarDate> calendarDates = context.getCalendarDates();
+         CalendarDate calendarDate = calendarDates.get(date);
+         return (calendarDate != null && (calendarDate.getType() == Type.MANDATORY_HOLIDAY));
     }
 
     /**
@@ -111,14 +136,13 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
      * @param context
      * @return
      */
-    private DailyAttendanceSalary computeDailySalary(DailyAttendance dailyAttendance, Map<PayType,List<HoursAgreement>> hoursAgreements, PayrollContext context){
-        Map<LocalDate, CalendarDate>  calendarDates = context.getCalendarDates();
-        CalendarDate calendarDate = calendarDates.get(dailyAttendance.getDate());
-        final boolean holidayOverride = (calendarDate != null && (calendarDate.getType() == Type.MANDATORY_HOLIDAY));
+     DailyAttendanceSalary computeDailySalary(DailyAttendance dailyAttendance, Map<PayType,List<HoursAgreement>> hoursAgreements, PayrollContext context){
+        final boolean holidayOverride = isHolidayOverride(dailyAttendance.getDate(), context);
+        final int regularShiftHours = context.getRegularShiftHours();
         final LocalDate date = dailyAttendance.getDate();
         final PayType payType = PayType.from(date);
         final List<HoursAgreement> hourAgreements = hoursAgreements.get(payType);
-        final Set<HoursDetail> hourDetails = getHoursDetail(hourAgreements, dailyAttendance, holidayOverride);
+        final Set<HoursDetail> hourDetails = getHoursDetail(hourAgreements, dailyAttendance, holidayOverride, regularShiftHours);
         Map<Currency,BigDecimal> attendanceTotals = computeDailyTotals(hourDetails);
         return new DailyAttendanceSalary(date, holidayOverride, attendanceTotals, hourDetails);
     }
@@ -129,7 +153,7 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
      * @param context
      * @return
      */
-    private DailyAttendanceSalary computeDailySalary(DailyAttendance dailyAttendance, PayrollContext context){
+     DailyAttendanceSalary computeDailySalary(DailyAttendance dailyAttendance, PayrollContext context){
         Employee employee = dailyAttendance.getEmployee();
         Map<PayType,List<HoursAgreement>> hoursAgreementsByPayType = getActiveHourAgreementsByPayType(employee);
         return computeDailySalary(dailyAttendance, hoursAgreementsByPayType, context);
@@ -144,10 +168,8 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
      */
     public List<DailyAttendanceSalary> computeDailySalary(Employee employee, Period period, PayrollContext context){
         List<DailyAttendanceSalary> dailySalaries = new ArrayList<>();
-        //Map<LocalDate,CalendarDate> calendarDates = context.getCalendarDates();
         List<DailyAttendance> attendances = getAttendanceLog(employee, period);
         for(DailyAttendance dailyAttendance:attendances) {
-            //CalendarDate calendarDate = calendarDates.get(dailyAttendance.getDate());
             //compute salary for the current entry
             DailyAttendanceSalary dailyAttendanceSalary = computeDailySalary(dailyAttendance, context);
             dailySalaries.add(dailyAttendanceSalary);

@@ -69,7 +69,28 @@ public class DailyWorkSchedule extends AbstractLocalTimeSpan {
             high = getTimeOut();
         }
 
-        return Duration.between(low,high);
+        return Duration.between(low, high);
+    }
+
+    /**
+     * will do the same as getTimeBetween
+     * but also determines if one hour (lunch) must be subtracted
+     * @param in
+     * @param out
+     * @param regularShiftHours
+     * @return
+     */
+    public Duration getAdjustedTimeBetween(LocalTime in, LocalTime out, final int regularShiftHours){
+        Duration duration = getTimeBetween(in, out);
+        if(!(duration.isZero() || duration.isNegative())){
+            long hours = (duration.toMinutes() / 60);
+            long n = (hours / regularShiftHours);
+            for(int i=0; i < n; i++){
+               duration = duration.minusHours(1);
+            }
+            return duration;
+        }
+        return duration;
     }
 
     @Override

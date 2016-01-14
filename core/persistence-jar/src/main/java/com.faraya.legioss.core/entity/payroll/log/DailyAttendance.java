@@ -7,6 +7,7 @@ import com.faraya.legioss.core.entity.payroll.Employee;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  *
@@ -33,10 +34,28 @@ public class DailyAttendance extends AbstractEntity implements IIdentifiable<Lon
     @Embedded
     private DailyWorkedHours workedHours;
 
-    //absentDay, sickDay, ppt, holiday
+    @Enumerated(EnumType.STRING)
+    @Column(name = "attendance_type", nullable = false, length = 10)
+    private AttendanceType attendanceType;
 
     @Column(name = "project_ref", nullable = true, length = 50)
     private String projectRef;
+
+    public DailyAttendance(Long employeeId, LocalDate date, LocalTime timeIn, LocalTime timeOut, AttendanceType attendanceType, String projectRef) {
+        this.employeeId = employeeId;
+        this.date = date;
+        this.workedHours = new DailyWorkedHours(timeIn, timeOut);
+        this.attendanceType = attendanceType;
+        this.projectRef = projectRef;
+    }
+
+    public DailyAttendance(Long employeeId, LocalDate date, LocalTime timeIn, LocalTime timeOut, AttendanceType attendanceType) {
+        this(employeeId, date, timeIn, timeOut, attendanceType, null);
+    }
+
+    public DailyAttendance(Long employeeId, LocalDate date, LocalTime timeIn, LocalTime timeOut) {
+        this(employeeId, date, timeIn, timeOut, AttendanceType.EFFECTIVE, null);
+    }
 
     public DailyAttendance() {
     }
@@ -72,6 +91,14 @@ public class DailyAttendance extends AbstractEntity implements IIdentifiable<Lon
 
     public void setWorkedHours(DailyWorkedHours workedHours) {
         this.workedHours = workedHours;
+    }
+
+    public AttendanceType getAttendanceType() {
+        return attendanceType;
+    }
+
+    public void setAttendanceType(AttendanceType attendanceType) {
+        this.attendanceType = attendanceType;
     }
 
     public String getProjectRef() {

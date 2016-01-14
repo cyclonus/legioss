@@ -25,11 +25,11 @@ public class OrgChart extends NestedSetTree<ChartNode> {
         this.business = business;
     }
 
-    @JoinColumn(name = "business_id" )
+    @JoinColumn(name = "business_id", nullable = false, insertable = false, updatable = false )
     @OneToOne(optional = false, fetch = FetchType.EAGER)
     private Business business;
 
-    @Column(name = "business_id", nullable = false, insertable = false, updatable = false)
+    @Column(name = "business_id")
     private Long businessId;
 
     public Business getBusiness() {

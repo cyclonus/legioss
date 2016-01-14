@@ -6,6 +6,7 @@ import com.faraya.legioss.core.entity.costing.Piecework;
 import com.faraya.legioss.core.entity.payroll.Employee;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -29,7 +30,7 @@ public class PieceworkLog extends AbstractEntity implements IIdentifiable<Long> 
     private Long pieceworkId;
 
     @Column(name = "date", nullable = false)
-    private Date date;
+    private LocalDate date;
 
     @JoinColumn(name = "employee_id", nullable = false)
     @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -41,11 +42,11 @@ public class PieceworkLog extends AbstractEntity implements IIdentifiable<Long> 
     @Column(name = "unit_count", nullable = false)
     private Integer unitCount;
 
-    @JoinColumn(name = "signedby_id", nullable = false)
+    @JoinColumn(name = "signedby_id", nullable = false, updatable = false, insertable = false)
     @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Employee signedBy;
 
-    @Column(name = "signedby_id", nullable = true, updatable = false, insertable = false)
+    @Column(name = "signedby_id", nullable = true)
     private Long signedById;
 
 
@@ -75,11 +76,11 @@ public class PieceworkLog extends AbstractEntity implements IIdentifiable<Long> 
         this.pieceworkId = pieceworkId;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

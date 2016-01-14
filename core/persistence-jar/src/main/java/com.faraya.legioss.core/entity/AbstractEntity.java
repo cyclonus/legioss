@@ -3,6 +3,7 @@ package com.faraya.legioss.core.entity;
 
 import com.faraya.legioss.core.IIdentifiable;
 
+import java.time.LocalDate;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;

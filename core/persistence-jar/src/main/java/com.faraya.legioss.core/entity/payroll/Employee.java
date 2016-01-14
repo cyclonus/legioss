@@ -44,11 +44,11 @@ public class Employee extends AbstractEntity implements IIdentifiable <Long>{
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Contact> contacts;
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", updatable = false, insertable = false)
     @OneToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private User user;
 
-    @Column(name = "user_id", nullable = true, updatable = false, insertable = false)
+    @Column(name = "user_id", nullable = true)
     public Long userId;
 
     @JoinColumn(name = "agreement_id")

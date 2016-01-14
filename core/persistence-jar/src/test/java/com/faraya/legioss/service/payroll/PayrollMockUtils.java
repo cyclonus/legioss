@@ -210,7 +210,7 @@ static Employee mockEmployee(User user){
         PayrollContext context = mock(PayrollContext.class);
         when(context.getBusiness()).thenReturn(business);
         when(context.getCalendarDates()).thenReturn(calendarDateMap);
-        when(context.getHoursStandardShift()).thenReturn(8);
+        when(context.getRegularShiftHours()).thenReturn(8);
         return context;
     }
 

@@ -72,12 +72,14 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
 
         Piecework pw1 = new Piecework("0001", "big-boxes-1");
         pieceworkDAO.save(pw1);
+        assertNotNull("null", pw1.getId());
+
         Employee ceo = new Employee(userCEO, LocalDate.now());
         Agreements agreements1 = new Agreements(DailyWorkSchedule.regularEightHoursWorkday(), BasicMoney.ofCRC(0));
         agreements1.addAgreement(new PieceworkAgreement(
                         new Period(),
                         BasicMoney.ofCRC(2),
-                        pw1
+                        pw1.getId()
                 )
         );
 
@@ -94,13 +96,14 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
 
         Piecework pw2 = new Piecework("0002", "big-boxes-2");
         pieceworkDAO.save(pw2);
+        assertNotNull("null", pw2.getId());
 
         Employee cfo = new Employee(userCFO, LocalDate.now());
         Agreements agreements2 = new Agreements(DailyWorkSchedule.regularEightHoursWorkday(), BasicMoney.ofCRC(0));
         agreements2.addAgreement(new PieceworkAgreement(
                         new Period(),
                         BasicMoney.ofCRC(2),
-                        pw2
+                        pw2.getId()
                 )
         );
 
@@ -125,10 +128,13 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
         Employee coo = new Employee(userCOO, LocalDate.now());
 
         pieceworkDAO.save(pw2);
+        assertNotNull("null", pw2.getId());
+
         Agreements agreement3 = new Agreements(DailyWorkSchedule.regularEightHoursWorkday(), BasicMoney.ofCRC(2));
         agreement3.addAgreement(new PieceworkAgreement(
                         new Period(),
-                        BasicMoney.ofCRC(2), pw2
+                        BasicMoney.ofCRC(2),
+                        pw2.getId()
                 )
         );
 
@@ -153,7 +159,8 @@ public class OrgChartIT extends TransactionalSpringJUnit4RunnerTest {
         Agreements agreement4 = new Agreements(DailyWorkSchedule.regularEightHoursWorkday(), BasicMoney.ofCRC(0));
         agreement4.addAgreement(new PieceworkAgreement(
                         new Period(),
-                        BasicMoney.ofCRC(2), pw2
+                        BasicMoney.ofCRC(2),
+                        pw2.getId()
                 )
         );
 

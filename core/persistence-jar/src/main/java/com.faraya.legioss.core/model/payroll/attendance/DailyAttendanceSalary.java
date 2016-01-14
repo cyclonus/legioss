@@ -22,7 +22,7 @@ public class DailyAttendanceSalary {
 
     private Map<Currency,BigDecimal> attendanceTotals;
 
-    public DailyAttendanceSalary(LocalDate date, boolean holiday,Map<Currency, BigDecimal> attendanceTotals, Set<HoursDetail> hoursDetails) {
+    public DailyAttendanceSalary(LocalDate date, boolean holiday, Map<Currency, BigDecimal> attendanceTotals, Set<HoursDetail> hoursDetails) {
         this.date = date;
         this.holiday = holiday;
         this.attendanceTotals = attendanceTotals;

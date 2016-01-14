@@ -36,6 +36,9 @@ public class PayrollServiceImpl implements IPayrollService{
     @Autowired
     IAttendanceSalaryCalculatorService attendanceSalaryCalculatorService;
 
+    @Autowired
+    IPieceworkSalaryService pieceworkSalaryService;
+
     /**
      *
      * @param employee
@@ -45,9 +48,9 @@ public class PayrollServiceImpl implements IPayrollService{
      */
     public EmployeePayment computePayroll(Employee employee, Period period, PayrollContext context){
 
-       List<DailyAttendanceSalary> attendances = attendanceSalaryCalculatorService.computeDailySalary(employee,period,context);
+       List<DailyAttendanceSalary> attendances = attendanceSalaryCalculatorService.computeDailySalary(employee, period, context);
 
-       return new EmployeePayment(attendances);
+       return new EmployeePayment(attendances,null);
     }
 
 }

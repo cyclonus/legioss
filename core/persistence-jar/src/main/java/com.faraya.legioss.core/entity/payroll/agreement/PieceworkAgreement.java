@@ -31,14 +31,17 @@ public class PieceworkAgreement extends AbstractEntity implements IIdentifiable<
     @Embedded
     private BasicMoney rate;
 
-    @JoinColumn(name = "piecework_id", nullable = false)
+    @JoinColumn(name = "piecework_id", nullable = false, updatable = false, insertable = false)
     @OneToOne(fetch = FetchType.EAGER)
     Piecework piecework;
 
-    public PieceworkAgreement(Period validity, BasicMoney rate, Piecework piecework) {
+    @Column(name = "piecework_id", nullable = true )
+    private Long pieceworkId;
+
+    public PieceworkAgreement(Period validity, BasicMoney rate, Long pieceworkId) {
         this.validity = validity;
         this.rate = rate;
-        this.piecework = piecework;
+        this.pieceworkId = pieceworkId;
     }
 
     @Override
@@ -76,6 +79,14 @@ public class PieceworkAgreement extends AbstractEntity implements IIdentifiable<
         this.piecework = piecework;
     }
 
+    public Long getPieceworkId() {
+        return pieceworkId;
+    }
+
+    public void setPieceworkId(Long pieceworkId) {
+        this.pieceworkId = pieceworkId;
+    }
+
     @Override
     public boolean isTransient() {
         return (id == null);
@@ -100,7 +111,7 @@ public class PieceworkAgreement extends AbstractEntity implements IIdentifiable<
         int result = ( id == null ? 1 : id.hashCode());
         result = 31 * result + validity.hashCode();
         result = 31 * result + rate.hashCode();
-        result = 31 * result + piecework.hashCode();
+        result = 31 * result + pieceworkId.hashCode();
         return result;
     }
 }

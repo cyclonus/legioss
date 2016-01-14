@@ -34,11 +34,11 @@ public class ActivityNode extends NestedSetNode<ActivityTree> {
     @OneToOne(optional = true, fetch = FetchType.EAGER)
     private Activity activity;
 
-    @JoinColumn(name = "business_id" )
+    @JoinColumn(name = "business_id", insertable = false, updatable = false )
     @OneToOne(optional = true, fetch = FetchType.EAGER)
     private Business business;
 
-    @Column(name = "business_id", nullable = true, insertable = false, updatable = false)
+    @Column(name = "business_id", nullable = true)
     private Long businessId;
 
     public Activity getActivity() {
