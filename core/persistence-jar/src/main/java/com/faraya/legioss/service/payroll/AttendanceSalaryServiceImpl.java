@@ -42,12 +42,12 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
 
     /**
      *
-     * @param employee
+     * @param employeeId
      * @param period
      * @return
      */
-    List<DailyAttendance> getAttendanceLog(Employee employee, Period period){
-        List<DailyAttendance> dailyAttendances = attendanceLogDAO.findAttendance(employee.getId(),period);
+    List<DailyAttendance> getAttendanceLog(Long employeeId, Period period){
+        List<DailyAttendance> dailyAttendances = attendanceLogDAO.findAttendance(employeeId,period);
         //dailyAttendances.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         return dailyAttendances;
     }
@@ -161,14 +161,14 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
 
     /**
      *
-     * @param employee
+     * @param employeeId
      * @param period
      * @param context
      * @return
      */
-    public List<DailyAttendanceSalary> computeDailySalary(Employee employee, Period period, PayrollContext context){
+    public List<DailyAttendanceSalary> computeDailySalary(Long employeeId, Period period, PayrollContext context){
         List<DailyAttendanceSalary> dailySalaries = new ArrayList<>();
-        List<DailyAttendance> attendances = getAttendanceLog(employee, period);
+        List<DailyAttendance> attendances = getAttendanceLog(employeeId, period);
         for(DailyAttendance dailyAttendance:attendances) {
             //compute salary for the current entry
             DailyAttendanceSalary dailyAttendanceSalary = computeDailySalary(dailyAttendance, context);

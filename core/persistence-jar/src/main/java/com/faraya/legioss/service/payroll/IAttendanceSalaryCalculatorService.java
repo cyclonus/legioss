@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface IAttendanceSalaryCalculatorService {
 
-    List<DailyAttendanceSalary> computeDailySalary(Employee employee, Period period, PayrollContext context);
+    List<DailyAttendanceSalary> computeDailySalary(Long employeeId, Period period, PayrollContext context);
 
 }

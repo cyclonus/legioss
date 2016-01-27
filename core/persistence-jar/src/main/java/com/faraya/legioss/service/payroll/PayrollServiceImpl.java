@@ -41,14 +41,14 @@ public class PayrollServiceImpl implements IPayrollService{
 
     /**
      *
-     * @param employee
+     * @param employeeId
      * @param period
      * @param context
      * @return
      */
-    public EmployeePayment computePayroll(Employee employee, Period period, PayrollContext context){
+    public EmployeePayment computePayroll(Long employeeId, Period period, PayrollContext context){
 
-       List<DailyAttendanceSalary> attendances = attendanceSalaryCalculatorService.computeDailySalary(employee, period, context);
+       List<DailyAttendanceSalary> attendances = attendanceSalaryCalculatorService.computeDailySalary(employeeId, period, context);
 
        return new EmployeePayment(attendances,null);
     }

@@ -28,6 +28,9 @@ public class PieceworkAgreement extends AbstractEntity implements IIdentifiable<
     @Embedded
     private Period validity;
 
+    @Column(name = "active", nullable = true)
+    private boolean active;
+
     @Embedded
     private BasicMoney rate;
 
@@ -61,6 +64,14 @@ public class PieceworkAgreement extends AbstractEntity implements IIdentifiable<
 
     public void setValidity(Period validity) {
         this.validity = validity;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public BasicMoney getRate() {

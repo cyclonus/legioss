@@ -49,6 +49,18 @@ public class PieceworkLog extends AbstractEntity implements IIdentifiable<Long> 
     @Column(name = "signedby_id", nullable = true)
     private Long signedById;
 
+    public PieceworkLog() {
+    }
+
+    public PieceworkLog(Long pieceworkId, LocalDate date, Long employeeId, Integer unitCount, Long signedById) {
+        this.pieceworkId = pieceworkId;
+        this.date = date;
+        this.employeeId = employeeId;
+        this.unitCount = unitCount;
+        this.signedById = signedById;
+    }
+
+
 
     @Override
     public void setId(Long id) {

@@ -16,6 +16,6 @@ import com.faraya.legioss.core.model.payroll.EmployeePayment;
 
 public interface IPayrollService {
 
-    EmployeePayment computePayroll(Employee employee, Period period, PayrollContext context);
+    EmployeePayment computePayroll(Long employeeId, Period period, PayrollContext context);
 
 }

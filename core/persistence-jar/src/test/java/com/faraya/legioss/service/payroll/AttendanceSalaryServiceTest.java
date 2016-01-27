@@ -64,7 +64,9 @@ public class AttendanceSalaryServiceTest {
         Period period = mockPeriod(LocalDate.now().minusDays(10),LocalDate.now().plusDays(10));
         PayrollContext context = mockPayrollContext();
 
-        List<DailyAttendanceSalary> dailyAttendanceSalary = attendanceSalaryService.computeDailySalary(employee, period, context);
+        final Long employeeId = employee.getId();
+
+        List<DailyAttendanceSalary> dailyAttendanceSalary = attendanceSalaryService.computeDailySalary(employeeId, period, context);
         assertNotNull(dailyAttendanceSalary);
         assertEquals(dailyAttendanceSalary.size(), 1);
         //BigDecimal bd = dailyAttendanceSalary.getAttendanceTotals().get(Currency.getInstance("USD"));
@@ -138,7 +140,9 @@ public class AttendanceSalaryServiceTest {
         Period period = mockPeriod(LocalDate.now().minusDays(10),LocalDate.now().plusDays(10));
         PayrollContext context = mockPayrollContext();
 
-        List<DailyAttendanceSalary> dailyAttendanceSalary = attendanceSalaryService.computeDailySalary(employee, period, context);
+        final Long employeeId = employee.getId();
+
+        List<DailyAttendanceSalary> dailyAttendanceSalary = attendanceSalaryService.computeDailySalary(employeeId, period, context);
         assertNotNull(dailyAttendanceSalary);
         assertEquals(dailyAttendanceSalary.size(), 1);
         //BigDecimal bd = dailyAttendanceSalary.getAttendanceTotals().get(Currency.getInstance("USD"));
