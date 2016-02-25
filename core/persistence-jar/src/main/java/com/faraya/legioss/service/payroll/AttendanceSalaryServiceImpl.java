@@ -156,6 +156,9 @@ public class AttendanceSalaryServiceImpl implements IAttendanceSalaryCalculatorS
      DailyAttendanceSalary computeDailySalary(DailyAttendance dailyAttendance, PayrollContext context){
         Employee employee = dailyAttendance.getEmployee();
         Map<PayType,List<HoursAgreement>> hoursAgreementsByPayType = getActiveHourAgreementsByPayType(employee);
+         if(hoursAgreementsByPayType == null || hoursAgreementsByPayType.isEmpty()){
+           throw new RuntimeException("");
+         }
         return computeDailySalary(dailyAttendance, hoursAgreementsByPayType, context);
     }
 

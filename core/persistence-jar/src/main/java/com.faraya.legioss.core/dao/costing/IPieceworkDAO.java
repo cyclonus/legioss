@@ -9,4 +9,9 @@ import com.faraya.legioss.core.entity.costing.Piecework;
  */
 
 public interface IPieceworkDAO extends IGenericDAO<Piecework,Long> {
+
+    Piecework findByCode(String code);
+
+    Piecework findByName(String name);
+
 }

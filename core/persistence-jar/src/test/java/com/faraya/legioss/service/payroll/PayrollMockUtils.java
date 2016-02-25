@@ -4,11 +4,14 @@ import com.faraya.legioss.core.entity.calendar.Calendar;
 import com.faraya.legioss.core.entity.calendar.CalendarDate;
 import com.faraya.legioss.core.entity.calendar.Type;
 import com.faraya.legioss.core.entity.common.*;
+import com.faraya.legioss.core.entity.costing.Piecework;
 import com.faraya.legioss.core.entity.payroll.Employee;
 import com.faraya.legioss.core.entity.payroll.agreement.Agreements;
 import com.faraya.legioss.core.entity.payroll.agreement.HoursAgreement;
 import com.faraya.legioss.core.entity.payroll.agreement.PayType;
+import com.faraya.legioss.core.entity.payroll.agreement.PieceworkAgreement;
 import com.faraya.legioss.core.entity.payroll.log.DailyAttendance;
+import com.faraya.legioss.core.entity.payroll.log.PieceworkLog;
 import com.faraya.legioss.core.entity.security.IUser;
 import com.faraya.legioss.core.entity.security.User;
 import com.faraya.legioss.core.model.payroll.PayrollContext;
@@ -34,6 +37,41 @@ import static org.mockito.Mockito.when;
 
 public class PayrollMockUtils {
 
+    static PieceworkLog mockPieceworkLog(Piecework piecework, Employee employee, int count){
+        PieceworkLog log = mock(PieceworkLog.class);
+        when(log.getId()).thenReturn(System.currentTimeMillis());
+        when(log.getEmployee()).thenReturn(employee);
+        Long employeeId = employee.getId();
+        when(log.getEmployeeId()).thenReturn(employeeId);
+        when(log.getPiecework()).thenReturn(piecework);
+        Long pieceworkId = piecework.getId();
+        when(log.getPieceworkId()).thenReturn(pieceworkId);
+        when(log.getUnitCount()).thenReturn(count);// ????? Integer???
+        when(log.getDate()).thenReturn(LocalDate.now());
+        return log;
+    }
+
+    static Set<PieceworkAgreement> mockPieceworkAgreements(Set<PieceworkParam> pieceworkParams){
+        final Set<PieceworkAgreement> pieceworkAgreements = new HashSet<>();
+        for(PieceworkParam pieceworkParam:pieceworkParams){
+            double amount = pieceworkParam.getRate();
+            PieceworkAgreement agreement = mockPieceworkAgreement(pieceworkParam.getPiecework(), BasicMoney.ofUSD(amount));
+            pieceworkAgreements.add(agreement);
+        }
+        return pieceworkAgreements;
+    }
+
+    public static PieceworkAgreement mockPieceworkAgreement(Piecework piecework, BasicMoney rate){
+        PieceworkAgreement agreement = mock(PieceworkAgreement.class);
+        final Long id = piecework.getId();
+        when(agreement.getPieceworkId()).thenReturn(id);
+        when(agreement.getPiecework()).thenReturn(piecework);
+        when(agreement.isActive()).thenReturn(true);
+        when(agreement.getRate()).thenReturn(rate);
+        when(agreement.getValidity()).thenReturn(new Period(LocalDate.now().minus(6, ChronoUnit.MONTHS)));
+        return agreement;
+    }
+
     static Set<HoursAgreement> mockHoursAgreements(){
         Set<HoursAgreement> hoursAgreements = new HashSet<>();
 
@@ -43,7 +81,7 @@ public class PayrollMockUtils {
         when(regularShift.getPayType()).thenReturn(PayType.WEEKDAY);
         when(regularShift.getValidity()).thenReturn(new Period(LocalDate.now().minus(6, ChronoUnit.MONTHS)));
         when(regularShift.getRate()).thenReturn(new BasicMoney(new BigDecimal("30"), BasicCurrency.usd()));
-        when(regularShift.getSchedule()).thenReturn(new DailyWorkSchedule(LocalTime.of(8, 0),LocalTime.of(17,0)));
+        when(regularShift.getSchedule()).thenReturn(new DailyWorkSchedule(LocalTime.of(8, 0), LocalTime.of(17, 0)));
         hoursAgreements.add(regularShift);
         return hoursAgreements;
     };
@@ -97,7 +135,7 @@ public class PayrollMockUtils {
         return user;
     };
 
-static Employee mockEmployee(User user){
+    static Employee mockEmployee(User user){
         Employee employee = mock(Employee.class);
 
         when(employee.getId()).thenReturn(1L);
@@ -214,6 +252,13 @@ static Employee mockEmployee(User user){
         return context;
     }
 
+    public interface PieceworkParam{
+
+        Piecework getPiecework();
+
+        double getRate();
+
+    }
 
     public  interface HoursAgreementParam{
 

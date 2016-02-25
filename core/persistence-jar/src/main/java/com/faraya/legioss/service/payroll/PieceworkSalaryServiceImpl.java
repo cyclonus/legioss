@@ -45,6 +45,14 @@ public class PieceworkSalaryServiceImpl implements IPieceworkSalaryService{
         return piecework;
     }
 
+    public Piecework findPieceworkByCode(String code){
+       return pieceworkDAO.findByCode(code);
+    }
+
+    public Piecework findPieceworkByName(String name){
+        return pieceworkDAO.findByName(name);
+    }
+
     public PieceworkLog addPieceworkLogEntry(Long pieceworkId, LocalDate date, Long employeeId, Integer unitCount, Long signedById){
         PieceworkLog pieceworkLog = new PieceworkLog(pieceworkId, date, employeeId, unitCount, signedById);
         pieceworkLogDAO.save(pieceworkLog);
@@ -57,6 +65,10 @@ public class PieceworkSalaryServiceImpl implements IPieceworkSalaryService{
         LocalDate endDate = period.getEnd();
         //TODO: filter agreements by validity and period
         Map<Piecework,PieceworkAgreement> agreements = getActivePieceworkAgreementByType(employee);
+        // throw exception if no agreements are set
+        if(agreements == null || agreements.isEmpty()){
+           throw new RuntimeException("");
+        }
         List<PieceworkLog> pieceworkLogEntries = pieceworkLogDAO.findPieceworkLogBetween(employeeId, startDate, endDate);
         Set<PieceworkDetail> details = getPieceWorkDetails(pieceworkLogEntries, agreements);
         Map<Currency,BigDecimal> totals = computeDailyTotals(details);
